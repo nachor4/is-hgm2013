@@ -1,0 +1,8 @@
+"number","summary","milestone_id","assigned_to_id","ticket_status_id"
+"1","Como jugador, quiero ingresar al juego con el objetivo de ser un usuario registrado.","Backlog","","New"
+"2","Como jugador, quiero hacer el registro de mi cuenta como usuiario para poder ingresar al juego como usuario registrado","Backlog","","New"
+"3","Como jugador, quiero poder iniciar un nuevo juego","Backlog","","New"
+"4","Como jugador, quiero reiniciar o continuar un juego iniciado previamente","Backlog","","New"
+"5","Como jugador, quiero guardar mi juego actual para poder continuarlo luego","Backlog","","New"
+"6","Como jugador, quiero tener permisos para configurar las características de un juego nuevo.","Backlog","","New"
+"7","Como jugador, tener dos vistas de usuarios.","Backlog","","New"
