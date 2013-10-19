@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" font-family="Arial" font-size="13" width="1175" height="1037">
+	<desc>UML class diagram reversihgm</desc>
+	<g id="uml-class-model-online-image">
+		<defs>
+			<linearGradient id="greyGradient" x1="0%" y1="0%" x2="0%" y2="100%" spreadMethod="pad">
+				<stop offset="0%" stop-color="#FFFFFF" stop-opacity="1" />
+				<stop offset="100%" stop-color="#E5E5E5" stop-opacity="1" />
+				
+			</linearGradient>
+			<linearGradient id="packageGradient" x1="0%" y1="0%" x2="0%" y2="100%" spreadMethod="pad">
+				<stop offset="0%" stop-color="#FFFFFF" stop-opacity="1" />
+				<stop offset="100%" stop-color="#EFE9DE" stop-opacity="1" />
+				
+			</linearGradient>
+			
+		</defs>
+		<g>
+			<rect x="36" y="31" width="70" height="29" rx="5" ry="5" fill="url(#packageGradient)" stroke="#c2b79f" stroke-width="1" />
+			<text x="45" y="47" font-weight="bold" fill="#806221">usuario</text>
+			<rect x="36" y="55" width="561" height="373" rx="0" ry="0" fill="url(#packageGradient)" stroke="#c2b79f" stroke-width="1" />
+			
+		</g>
+		<g>
+			<rect x="754" y="46" width="70" height="29" rx="5" ry="5" fill="url(#packageGradient)" stroke="#c2b79f" stroke-width="1" />
+			<text x="763" y="62" font-weight="bold" fill="#806221">reversi</text>
+			<rect x="754" y="70" width="401" height="366" rx="0" ry="0" fill="url(#packageGradient)" stroke="#c2b79f" stroke-width="1" />
+			
+		</g>
+		<g>
+			<rect x="633" y="784" width="50" height="29" rx="5" ry="5" fill="url(#packageGradient)" stroke="#c2b79f" stroke-width="1" />
+			<text x="642" y="800" font-weight="bold" fill="#806221">javax</text>
+			<rect x="633" y="808" width="456" height="209" rx="0" ry="0" fill="url(#packageGradient)" stroke="#c2b79f" stroke-width="1" />
+			
+		</g>
+		<g>
+			<rect x="578" y="482" width="90" height="29" rx="5" ry="5" fill="url(#packageGradient)" stroke="#c2b79f" stroke-width="1" />
+			<text x="587" y="498" font-weight="bold" fill="#806221">glassfish</text>
+			<rect x="578" y="506" width="547" height="249" rx="0" ry="0" fill="url(#packageGradient)" stroke="#c2b79f" stroke-width="1" />
+			
+		</g>
+		<g>
+			<rect x="435" y="66" width="79" height="82" rx="5" ry="5" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1" />
+			<text x="475" y="84" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">Usuario</text>
+			<line x1="435" y1="90" x2="514" y2="90" stroke-width="1.0" stroke="#CCCCCC" />
+			<g>
+				<image x="431" y="91" width="16" height="16" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAD1BMVEVldC3IHSzJRz71fHz////Ix9P2AAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfdBAwGLAjuRSMHAAAAIklEQVQI12NgoClwAQIww0lJSQnMcDQ2NoQwBAUFUdWAAAB7QgQV08716QAAAABJRU5ErkJggg==" />
+				<text x="452" y="108" fill="#000000">id: String</text>
+				
+			</g>
+			
+		</g>
+		<g>
+			<rect x="51" y="139" width="307" height="116" rx="5" ry="5" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1" />
+			<text x="205" y="157" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">Login</text>
+			<line x1="51" y1="163" x2="358" y2="163" stroke-width="1.0" stroke="#CCCCCC" />
+			<g>
+				<image x="52" y="169" width="16" height="16" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAG1BMVEUxAAAAAIA/P18/X39ff59/n7+myvD/+/AAAAB3vJe3AAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfdBAwGJgQdHIemAAAAN0lEQVQI12NgwAuYhSE0o0aGIpjBFJaaBGZYpLREGIAYYhkVoQJgkRCoCFNqqBNUV4QiqjkEAQB2Xgg51LzWfQAAAABJRU5ErkJggg==" />
+				<text x="68" y="181" font-style="normal" fill="#000000">check(String, String): Boolean</text>
+				
+			</g>
+			<g>
+				<image x="52" y="187" width="16" height="16" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAG1BMVEUxAAAAAIA/P18/X39ff59/n7+myvD/+/AAAAB3vJe3AAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfdBAwGJgQdHIemAAAAN0lEQVQI12NgwAuYhSE0o0aGIpjBFJaaBGZYpLREGIAYYhkVoQJgkRCoCFNqqBNUV4QiqjkEAQB2Xgg51LzWfQAAAABJRU5ErkJggg==" />
+				<text x="68" y="199" font-style="normal" fill="#000000">newUsuario(String, String, String, String): Integer</text>
+				
+			</g>
+			<g>
+				<image x="52" y="205" width="16" height="16" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAG1BMVEUxAAAAAIA/P18/X39ff59/n7+myvD/+/AAAAB3vJe3AAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfdBAwGJgQdHIemAAAAN0lEQVQI12NgwAuYhSE0o0aGIpjBFJaaBGZYpLREGIAYYhkVoQJgkRCoCFNqqBNUV4QiqjkEAQB2Xgg51LzWfQAAAABJRU5ErkJggg==" />
+				<text x="68" y="217" font-style="normal" fill="#000000">reset(String, String): Integer</text>
+				
+			</g>
+			<g>
+				<image x="52" y="223" width="16" height="16" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAG1BMVEUxAAAAAIA/P18/X39ff59/n7+myvD/+/AAAAB3vJe3AAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfdBAwGJgQdHIemAAAAN0lEQVQI12NgwAuYhSE0o0aGIpjBFJaaBGZYpLREGIAYYhkVoQJgkRCoCFNqqBNUV4QiqjkEAQB2Xgg51LzWfQAAAABJRU5ErkJggg==" />
+				<text x="68" y="235" font-style="normal" fill="#000000">getID(): String</text>
+				
+			</g>
+			
+		</g>
+		<g>
+			<rect x="389" y="205" width="192" height="212" rx="5" ry="5" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1" />
+			<text x="485" y="223" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">UsuarioApp</text>
+			<line x1="389" y1="229" x2="581" y2="229" stroke-width="1.0" stroke="#CCCCCC" />
+			<g>
+				<image x="385" y="230" width="16" height="16" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAD1BMVEVldC0FgUlDnGxxsXX///8X5YuEAAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfdBAwGLCo7JWLjAAAALElEQVQI12NgoCZwcXGAMBwFIQwXR0MXqIChIIRhbGwIFVEUhKpRdIHpcgEAx7wFxaXc9JUAAAAASUVORK5CYII=" />
+				<text x="406" y="247" fill="#000000">nombre: String</text>
+				
+			</g>
+			<line x1="389" y1="253" x2="581" y2="253" stroke-width="1.0" stroke="#CCCCCC" />
+			<g>
+				<image x="390" y="259" width="16" height="16" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAG1BMVEUxAAAAAIA/P18/X39ff59/n7+myvD/+/AAAAB3vJe3AAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfdBAwGJgQdHIemAAAAN0lEQVQI12NgwAuYhSE0o0aGIpjBFJaaBGZYpLREGIAYYhkVoQJgkRCoCFNqqBNUV4QiqjkEAQB2Xgg51LzWfQAAAABJRU5ErkJggg==" />
+				<text x="406" y="271" font-style="normal" fill="#000000">getName(): Void</text>
+				
+			</g>
+			<g>
+				<image x="390" y="277" width="16" height="16" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAG1BMVEUxAAAAAIA/P18/X39ff59/n7+myvD/+/AAAAB3vJe3AAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfdBAwGJgQdHIemAAAAN0lEQVQI12NgwAuYhSE0o0aGIpjBFJaaBGZYpLREGIAYYhkVoQJgkRCoCFNqqBNUV4QiqjkEAQB2Xgg51LzWfQAAAABJRU5ErkJggg==" />
+				<text x="406" y="289" font-style="normal" fill="#000000">getScore(): Void</text>
+				
+			</g>
+			<g>
+				<image x="390" y="295" width="16" height="16" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAG1BMVEUxAAAAAIA/P18/X39ff59/n7+myvD/+/AAAAB3vJe3AAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfdBAwGJgQdHIemAAAAN0lEQVQI12NgwAuYhSE0o0aGIpjBFJaaBGZYpLREGIAYYhkVoQJgkRCoCFNqqBNUV4QiqjkEAQB2Xgg51LzWfQAAAABJRU5ErkJggg==" />
+				<text x="406" y="307" font-style="normal" fill="#000000">savePerdida(): Boolean</text>
+				
+			</g>
+			<g>
+				<image x="390" y="313" width="16" height="16" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAG1BMVEUxAAAAAIA/P18/X39ff59/n7+myvD/+/AAAAB3vJe3AAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfdBAwGJgQdHIemAAAAN0lEQVQI12NgwAuYhSE0o0aGIpjBFJaaBGZYpLREGIAYYhkVoQJgkRCoCFNqqBNUV4QiqjkEAQB2Xgg51LzWfQAAAABJRU5ErkJggg==" />
+				<text x="406" y="325" font-style="normal" fill="#000000">saveGanada(): Boolean</text>
+				
+			</g>
+			<g>
+				<image x="390" y="331" width="16" height="16" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAG1BMVEUxAAAAAIA/P18/X39ff59/n7+myvD/+/AAAAB3vJe3AAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfdBAwGJgQdHIemAAAAN0lEQVQI12NgwAuYhSE0o0aGIpjBFJaaBGZYpLREGIAYYhkVoQJgkRCoCFNqqBNUV4QiqjkEAQB2Xgg51LzWfQAAAABJRU5ErkJggg==" />
+				<text x="406" y="343" font-style="normal" fill="#000000">saveAbandonada(): Boolean</text>
+				
+			</g>
+			<g>
+				<image x="390" y="349" width="16" height="16" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAG1BMVEUxAAAAAIA/P18/X39ff59/n7+myvD/+/AAAAB3vJe3AAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfdBAwGJgQdHIemAAAAN0lEQVQI12NgwAuYhSE0o0aGIpjBFJaaBGZYpLREGIAYYhkVoQJgkRCoCFNqqBNUV4QiqjkEAQB2Xgg51LzWfQAAAABJRU5ErkJggg==" />
+				<text x="406" y="361" font-style="normal" fill="#000000">saveResult(): Boolean</text>
+				
+			</g>
+			<g>
+				<image x="390" y="367" width="16" height="16" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAG1BMVEUxAAAAAIA/P18/X39ff59/n7+myvD/+/AAAAB3vJe3AAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfdBAwGJgQdHIemAAAAN0lEQVQI12NgwAuYhSE0o0aGIpjBFJaaBGZYpLREGIAYYhkVoQJgkRCoCFNqqBNUV4QiqjkEAQB2Xgg51LzWfQAAAABJRU5ErkJggg==" />
+				<text x="406" y="379" font-style="normal" fill="#000000">UsuarioApp(String): Void</text>
+				
+			</g>
+			<g>
+				<image x="390" y="385" width="16" height="16" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAG1BMVEUxAAAAAIA/P18/X39ff59/n7+myvD/+/AAAAB3vJe3AAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfdBAwGJgQdHIemAAAAN0lEQVQI12NgwAuYhSE0o0aGIpjBFJaaBGZYpLREGIAYYhkVoQJgkRCoCFNqqBNUV4QiqjkEAQB2Xgg51LzWfQAAAABJRU5ErkJggg==" />
+				<text x="406" y="397" font-style="normal" fill="#000000">operation(): Void</text>
+				
+			</g>
+			
+		</g>
+		<g>
+			<rect x="94" y="280" width="173" height="115" rx="5" ry="5" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1" />
+			<text x="181" y="298" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">Score</text>
+			<line x1="94" y1="304" x2="267" y2="304" stroke-width="1.0" stroke="#CCCCCC" />
+			<g>
+				<image x="90" y="305" width="16" height="16" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAD1BMVEVldC0FgUlDnGxxsXX///8X5YuEAAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfdBAwGLCo7JWLjAAAALElEQVQI12NgoCZwcXGAMBwFIQwXR0MXqIChIIRhbGwIFVEUhKpRdIHpcgEAx7wFxaXc9JUAAAAASUVORK5CYII=" />
+				<text x="111" y="322" fill="#000000">ganadas: Integer</text>
+				
+			</g>
+			<g>
+				<image x="90" y="323" width="16" height="16" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAD1BMVEVldC0FgUlDnGxxsXX///8X5YuEAAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfdBAwGLCo7JWLjAAAALElEQVQI12NgoCZwcXGAMBwFIQwXR0MXqIChIIRhbGwIFVEUhKpRdIHpcgEAx7wFxaXc9JUAAAAASUVORK5CYII=" />
+				<text x="111" y="340" fill="#000000">perdidas: Integer</text>
+				
+			</g>
+			<g>
+				<image x="90" y="341" width="16" height="16" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAD1BMVEVldC0FgUlDnGxxsXX///8X5YuEAAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfdBAwGLCo7JWLjAAAALElEQVQI12NgoCZwcXGAMBwFIQwXR0MXqIChIIRhbGwIFVEUhKpRdIHpcgEAx7wFxaXc9JUAAAAASUVORK5CYII=" />
+				<text x="111" y="358" fill="#000000">abandonadas: Integer</text>
+				
+			</g>
+			<line x1="94" y1="364" x2="267" y2="364" stroke-width="1.0" stroke="#CCCCCC" />
+			<g>
+				<image x="95" y="370" width="16" height="16" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAG1BMVEUxAAAAAIA/P18/X39ff59/n7+myvD/+/AAAAB3vJe3AAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfdBAwGJgQdHIemAAAAN0lEQVQI12NgwAuYhSE0o0aGIpjBFJaaBGZYpLREGIAYYhkVoQJgkRCoCFNqqBNUV4QiqjkEAQB2Xgg51LzWfQAAAABJRU5ErkJggg==" />
+				<text x="111" y="382" font-style="normal" fill="#000000">calcularPuntaje(): Integer</text>
+				
+			</g>
+			
+		</g>
+		<g>
+			<rect x="847" y="90" width="200" height="175" rx="5" ry="5" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1" />
+			<text x="947" y="108" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">Partida</text>
+			<line x1="847" y1="114" x2="1047" y2="114" stroke-width="1.0" stroke="#CCCCCC" />
+			<g>
+				<image x="843" y="115" width="16" height="16" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAD1BMVEVldC3IHSzJRz71fHz////Ix9P2AAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfdBAwGLAjuRSMHAAAAIklEQVQI12NgoClwAQIww0lJSQnMcDQ2NoQwBAUFUdWAAAB7QgQV08716QAAAABJRU5ErkJggg==" />
+				<text x="864" y="132" fill="#000000">ID: String</text>
+				
+			</g>
+			<g>
+				<image x="843" y="133" width="16" height="16" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAD1BMVEVldC3IHSzJRz71fHz////Ix9P2AAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfdBAwGLAjuRSMHAAAAIklEQVQI12NgoClwAQIww0lJSQnMcDQ2NoQwBAUFUdWAAAB7QgQV08716QAAAABJRU5ErkJggg==" />
+				<text x="864" y="150" fill="#000000">timeUltMov: Real</text>
+				
+			</g>
+			<g>
+				<image x="843" y="151" width="16" height="16" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAD1BMVEVldC3IHSzJRz71fHz////Ix9P2AAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfdBAwGLAjuRSMHAAAAIklEQVQI12NgoClwAQIww0lJSQnMcDQ2NoQwBAUFUdWAAAB7QgQV08716QAAAABJRU5ErkJggg==" />
+				<text x="864" y="168" fill="#000000">tablero: ByteArray</text>
+				
+			</g>
+			<line x1="847" y1="174" x2="1047" y2="174" stroke-width="1.0" stroke="#CCCCCC" />
+			<g>
+				<image x="848" y="180" width="16" height="16" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAG1BMVEUxAAAAAIA/P18/X39ff59/n7+myvD/+/AAAAB3vJe3AAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfdBAwGJgQdHIemAAAAN0lEQVQI12NgwAuYhSE0o0aGIpjBFJaaBGZYpLREGIAYYhkVoQJgkRCoCFNqqBNUV4QiqjkEAQB2Xgg51LzWfQAAAABJRU5ErkJggg==" />
+				<text x="864" y="192" font-style="normal" fill="#000000">checkMov(): Boolean</text>
+				
+			</g>
+			<g>
+				<image x="848" y="198" width="16" height="16" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAG1BMVEUxAAAAAIA/P18/X39ff59/n7+myvD/+/AAAAB3vJe3AAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfdBAwGJgQdHIemAAAAN0lEQVQI12NgwAuYhSE0o0aGIpjBFJaaBGZYpLREGIAYYhkVoQJgkRCoCFNqqBNUV4QiqjkEAQB2Xgg51LzWfQAAAABJRU5ErkJggg==" />
+				<text x="864" y="210" font-style="normal" fill="#000000">jugadorActual(): UsuarioApp</text>
+				
+			</g>
+			<g>
+				<image x="848" y="216" width="16" height="16" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAG1BMVEUxAAAAAIA/P18/X39ff59/n7+myvD/+/AAAAB3vJe3AAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfdBAwGJgQdHIemAAAAN0lEQVQI12NgwAuYhSE0o0aGIpjBFJaaBGZYpLREGIAYYhkVoQJgkRCoCFNqqBNUV4QiqjkEAQB2Xgg51LzWfQAAAABJRU5ErkJggg==" />
+				<text x="864" y="228" font-style="normal" fill="#000000">estadoJuego(): Integer</text>
+				
+			</g>
+			<g>
+				<image x="848" y="234" width="16" height="16" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAG1BMVEUxAAAAAIA/P18/X39ff59/n7+myvD/+/AAAAB3vJe3AAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfdBAwGJgQdHIemAAAAN0lEQVQI12NgwAuYhSE0o0aGIpjBFJaaBGZYpLREGIAYYhkVoQJgkRCoCFNqqBNUV4QiqjkEAQB2Xgg51LzWfQAAAABJRU5ErkJggg==" />
+				<text x="864" y="246" font-style="normal" fill="#000000">getId(): String</text>
+				
+			</g>
+			
+		</g>
+		<g>
+			<rect x="1009" y="313" width="118" height="84" rx="5" ry="5" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1" />
+			<text x="1068" y="331" text-anchor="middle" font-style="italic" font-weight="bold" fill="#033656">ReversiObserver</text>
+			<line x1="1009" y1="337" x2="1127" y2="337" stroke-width="1.0" stroke="#CCCCCC" />
+			<g>
+				<image x="1010" y="343" width="16" height="16" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAG1BMVEUxAAAAAIA/P18/X39ff59/n7+myvD/+/AAAAB3vJe3AAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfdBAwGJgQdHIemAAAAN0lEQVQI12NgwAuYhSE0o0aGIpjBFJaaBGZYpLREGIAYYhkVoQJgkRCoCFNqqBNUV4QiqjkEAQB2Xgg51LzWfQAAAABJRU5ErkJggg==" />
+				<text x="1026" y="355" font-style="italic" fill="#000000">notify(): Void</text>
+				
+			</g>
+			
+		</g>
+		<g>
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="210,139 213,106" />
+			
+		</g>
+		<g>
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="480,205 477,148" />
+			<g transform="translate(477,148)">
+				<g transform="rotate(-3)">
+					<polygon fill="#FFFFFF" stroke-width="1" stroke="#000000" points="-6,10 0,0 6,10 -6,10" />
+					
+				</g>
+				
+			</g>
+			
+		</g>
+		<g>
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="268,330 389,320" />
+			<g transform="translate(268,330)">
+				<g transform="rotate(-95)">
+					<polyline fill="none" stroke-width="1" stroke="#000000" points="-4,8 0,0 4,8" />
+					
+				</g>
+				
+			</g>
+			
+		</g>
+		<g>
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="213,106 435,107" />
+			<g transform="translate(435,107)">
+				<g transform="rotate(90)">
+					<polygon fill="#FFFFFF" stroke-width="1" stroke="#000000" points="-6,10 0,0 6,10 -6,10" />
+					
+				</g>
+				
+			</g>
+			
+		</g>
+		<g>
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="581,309 713,307" />
+			<g transform="translate(581,309)">
+				<g transform="rotate(-91)">
+					<polyline fill="none" stroke-width="1" stroke="#000000" points="-4,8 0,0 4,8" />
+					
+				</g>
+				
+			</g>
+			
+		</g>
+		<g>
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="581,283 847,207" />
+			<g transform="translate(581,283)">
+				<g transform="rotate(-106)">
+					<polyline fill="none" stroke-width="1" stroke="#000000" points="-4,8 0,0 4,8" />
+					
+				</g>
+				
+			</g>
+			
+		</g>
+		<g>
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="713,307 847,233" />
+			
+		</g>
+		<g>
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="1039,313 1007,266" />
+			<g transform="translate(1039,313)">
+				<g transform="rotate(146)">
+					<polyline fill="none" stroke-width="1" stroke="#000000" points="-4,8 0,0 4,8" />
+					
+				</g>
+				
+			</g>
+			
+		</g>
+		<text x="276" y="354" fill="#000000">score</text>
+		<text x="279" y="311" fill="#000000">1</text>
+		<text x="585" y="328" fill="#000000">usuarioApp</text>
+		<text x="586" y="298" fill="#000000">1</text>
+		<text x="612" y="259" fill="#000000">usuarioApp</text>
+		<text x="582" y="268" fill="#000000">0..1</text>
+		<text x="993" y="286" fill="#000000">reversiObserver</text>
+		<text x="1001" y="309" fill="#000000">0..1</text>
+		<g>
+			<rect x="605" y="534" width="90" height="29" rx="5" ry="5" fill="url(#packageGradient)" stroke="#c2b79f" stroke-width="1" />
+			<text x="614" y="550" font-weight="bold" fill="#806221">websocket</text>
+			<rect x="605" y="558" width="420" height="170" rx="0" ry="0" fill="url(#packageGradient)" stroke="#c2b79f" stroke-width="1" />
+			
+		</g>
+		<g>
+			<rect x="730" y="853" width="90" height="29" rx="5" ry="5" fill="url(#packageGradient)" stroke="#c2b79f" stroke-width="1" />
+			<text x="739" y="869" font-weight="bold" fill="#806221">websocket</text>
+			<rect x="730" y="877" width="308" height="130" rx="0" ry="0" fill="url(#packageGradient)" stroke="#c2b79f" stroke-width="1" />
+			
+		</g>
+		<g>
+			<rect x="873" y="614" width="132" height="95" rx="5" ry="5" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1" />
+			<text x="939" y="632" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">WSreversi</text>
+			<line x1="873" y1="638" x2="1005" y2="638" stroke-width="1.0" stroke="#CCCCCC" />
+			<g>
+				<image x="874" y="644" width="16" height="16" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAG1BMVEUxAAAAAIA/P18/X39ff59/n7+myvD/+/AAAAB3vJe3AAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfdBAwGJgQdHIemAAAAN0lEQVQI12NgwAuYhSE0o0aGIpjBFJaaBGZYpLREGIAYYhkVoQJgkRCoCFNqqBNUV4QiqjkEAQB2Xgg51LzWfQAAAABJRU5ErkJggg==" />
+				<text x="890" y="656" font-style="normal" fill="#000000">onMessage(): Void</text>
+				
+			</g>
+			<g>
+				<image x="874" y="662" width="16" height="16" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAG1BMVEUxAAAAAIA/P18/X39ff59/n7+myvD/+/AAAAB3vJe3AAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfdBAwGJgQdHIemAAAAN0lEQVQI12NgwAuYhSE0o0aGIpjBFJaaBGZYpLREGIAYYhkVoQJgkRCoCFNqqBNUV4QiqjkEAQB2Xgg51LzWfQAAAABJRU5ErkJggg==" />
+				<text x="890" y="674" font-style="normal" fill="#000000">onOpen(): Void</text>
+				
+			</g>
+			<g>
+				<image x="874" y="680" width="16" height="16" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAG1BMVEUxAAAAAIA/P18/X39ff59/n7+myvD/+/AAAAB3vJe3AAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfdBAwGJgQdHIemAAAAN0lEQVQI12NgwAuYhSE0o0aGIpjBFJaaBGZYpLREGIAYYhkVoQJgkRCoCFNqqBNUV4QiqjkEAQB2Xgg51LzWfQAAAABJRU5ErkJggg==" />
+				<text x="890" y="692" font-style="normal" fill="#000000">onClose(): Void</text>
+				
+			</g>
+			
+		</g>
+		<g>
+			<rect x="750" y="902" width="60" height="80" rx="5" ry="5" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1" />
+			<text x="780" y="920" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">Session</text>
+			<line x1="750" y1="926" x2="810" y2="926" stroke-width="1.0" stroke="#CCCCCC" />
+			
+		</g>
+		<g>
+			<rect x="633" y="615" width="62" height="82" rx="5" ry="5" fill="url(#greyGradient)" stroke="#CCCCCC" stroke-width="1" />
+			<text x="664" y="633" text-anchor="middle" font-style="normal" font-weight="bold" fill="#033656">Juego</text>
+			<line x1="633" y1="639" x2="695" y2="639" stroke-width="1.0" stroke="#CCCCCC" />
+			
+		</g>
+		<g>
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="1005,616 1071,570" />
+			
+		</g>
+		<g>
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="940,614 946,266" stroke-dasharray="10, 5" />
+			<g transform="translate(946,266)">
+				<g transform="rotate(1)">
+					<polyline fill="none" stroke-width="1" stroke="#000000" points="-4,8 0,0 4,8" />
+					
+				</g>
+				
+			</g>
+			
+		</g>
+		<g>
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="695,644 783,610" />
+			<g transform="translate(695,644)">
+				<g transform="rotate(-111)">
+					<polyline fill="none" stroke-width="1" stroke="#000000" points="-4,8 0,0 4,8" />
+					
+				</g>
+				
+			</g>
+			
+		</g>
+		<g>
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="895,266 688,615" />
+			<g transform="translate(895,266)">
+				<g transform="rotate(31)">
+					<polyline fill="none" stroke-width="1" stroke="#000000" points="-4,8 0,0 4,8" />
+					
+				</g>
+				
+			</g>
+			
+		</g>
+		<g>
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="750,944 662,949" />
+			<g transform="translate(750,944)">
+				<g transform="rotate(87)">
+					<polyline fill="none" stroke-width="1" stroke="#000000" points="-4,8 0,0 4,8" />
+					
+				</g>
+				
+			</g>
+			
+		</g>
+		<g>
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="750,932 691,912" />
+			<g transform="translate(750,932)">
+				<g transform="rotate(109)">
+					<polyline fill="none" stroke-width="1" stroke="#000000" points="-4,8 0,0 4,8" />
+					
+				</g>
+				
+			</g>
+			
+		</g>
+		<g>
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="691,912 668,697" />
+			
+		</g>
+		<g>
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="947,710 966,825" stroke-dasharray="10, 5" />
+			
+		</g>
+		<g>
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="966,825 810,923" stroke-dasharray="10, 5" />
+			<g transform="translate(810,923)">
+				<g transform="rotate(-122)">
+					<polyline fill="none" stroke-width="1" stroke="#000000" points="-4,8 0,0 4,8" />
+					
+				</g>
+				
+			</g>
+			
+		</g>
+		<g>
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="1071,570 1069,397" />
+			<g transform="translate(1069,397)">
+				<g transform="rotate(-1)">
+					<polygon fill="#FFFFFF" stroke-width="1" stroke="#000000" points="-6,10 0,0 6,10 -6,10" />
+					
+				</g>
+				
+			</g>
+			
+		</g>
+		<g>
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="783,610 873,640" />
+			
+		</g>
+		<g>
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="873,680 811,697" />
+			
+		</g>
+		<g>
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="811,697 695,665" />
+			<g transform="translate(695,665)">
+				<g transform="rotate(-75)">
+					<polyline fill="none" stroke-width="1" stroke="#000000" points="-4,8 0,0 4,8" />
+					
+				</g>
+				
+			</g>
+			
+		</g>
+		<g>
+			<polyline fill="none" stroke-width="1" stroke="#000000" points="662,949 664,697" />
+			
+		</g>
+		<text x="698" y="649" fill="#000000">indiceSesiones</text>
+		<text x="694" y="627" fill="#000000">*</text>
+		<text x="813" y="344" fill="#000000">partida</text>
+		<text x="819" y="366" fill="#000000">1</text>
+		<text x="646" y="974" fill="#000000">blancas</text>
+		<text x="672" y="965" fill="#000000">1</text>
+		<text x="664" y="895" fill="#000000">negras</text>
+		<text x="686" y="899" fill="#000000">1</text>
+		<text x="750" y="678" fill="#000000">indicePartida</text>
+		<text x="711" y="672" fill="#000000">*</text>
+		<text x="897" y="460" fill="#000000">« dependency »</text>
+		<text x="977" y="766" fill="#000000">« dependency »</text>
+		
+	</g>
+	
+</svg>
