@@ -1,0 +1,13 @@
+# Output Directory #
+target/*
+
+# Compiled Files #
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# System Files #
+*.sh~
