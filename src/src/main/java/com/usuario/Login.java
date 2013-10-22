@@ -17,10 +17,8 @@ public class Login extends User
 		Login login = new Login();
 		
         login.set("id", id);	
-        
-        DigestUtils digest = new DigestUtils();
         	
-        login.set("password", DigestUtils.sha1(password));        
+        login.set("password", DigestUtils.md5(password));        
         login.set("name", name);
 		login.set("email",email);		
 		
@@ -35,19 +33,22 @@ public class Login extends User
 		
 		Login login = new Login();
 		
-		if (id == login.id)		
+		login = login.findById(id);
+
+		if (login == null){
+			
+			return false;		
 		
-           DigestUtils digest = new DigestUtils();
-        
-           String utils = digest.sha1(password);
-           
-           if (login.password == utils)
+		} else 
+		
+			if (login.get("password") == DigestUtils.md5(password)) {
         		
-		       return true;	
-		   
-		   else return false;
-		   
-		else return false;   
+				return true;
+				
+		   } else {
+		    
+		        return false;
+		}  
 	}
 
 	
@@ -59,7 +60,7 @@ public class Login extends User
 	
 	
 	public String getID() {
-		// TODO : to implement
+		// Retorna el ID del Usuario
 		
 		return "id";	
 	}
