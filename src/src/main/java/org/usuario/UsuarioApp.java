@@ -1,27 +1,35 @@
 package java.org.usuario;
 
+import java.util.*;
+import java.io.*;
+
 import java.org.usuario.models.User;
 
+import java.org.usuario.Resultado;
 
-public class UsuarioApp extends User
+import java.lang.String;
+
+
+public class UsuarioApp extends User 
 {
-
 	
 	private String id;
 	
-
-	
+		
 	public UsuarioApp(String id) {
-		super();
-		// TODO : construct me	
+		//super();
+		
+		UsuarioApp usuarioapp = new UsuarioApp(id);
 	}
 	
-    public static int add(
+
+	
+    public static String add(
         String id,
 		String name, 
 		String email)
     {
-		UsuarioApp usuarioapp = new UsuarioApp();
+		UsuarioApp usuarioapp = new UsuarioApp(id);
 		
         usuarioapp.set("id", id);		
         usuarioapp.set("name", name);
@@ -79,41 +87,41 @@ public class UsuarioApp extends User
 	private boolean saveResult(Resultado resultado) {
 		// Guardo el resultado de una partida
 		
-        UsuarioApp u = new UsuarioApp();		
+        UsuarioApp u = new UsuarioApp(id);		
 		
-		if (resultado == ganadas)
+		if (resultado == Resultado.ganadas) {
 		
-			ganadas = new Integer(ganadas.intValue() + 1);
+//			ganadas = new Integer(u.ganadas.intValue() + 1);
 			
-			u.set("ganadas", ganadas)
+			u.set("ganadas", ganadas);
 			
 			u.saveIt();
 			
-			return true;
+			return true; 
 		
-		else
-		
-			if (resultado == perdidas)
+		} else if (resultado == Resultado.perdidas) {
 			
-				perdidas = new Integer(perdidas.intValue() + 1);
+//					perdidas = new Integer(u.perdidas.intValue() + 1);
 				
-				u.set("perdidas", perdidas)
+					u.set("perdidas", perdidas);
 				
-				u.saveIt();
+					u.saveIt();
 				
-				return true;
+					return true; 
 				
-			else
-			
-				if (resultado == abandonadas)
+		} else if (resultado == Resultado.abandonadas) {
 				
-					abandonadas = new Integer(abandonadas.intValue() + 1);
+//					abandonadas = new Integer(u.abandonadas.intValue() + 1);
 					
-					u.set("abandonadas", abandonadas)
+					u.set("abandonadas", abandonadas);
 					
 					u.saveIt();
 					
-					return true;
+					return true; 
+		} else {
+			
+			System.out.println( "\n" + "el resultado ingresado no es correcto ");
+		}
 					
 	}
 	

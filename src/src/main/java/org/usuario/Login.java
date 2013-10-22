@@ -1,5 +1,7 @@
 package java.org.usuario;
 
+import java.org.usuario.models.User;
+
 
 public class Login extends User
 {
