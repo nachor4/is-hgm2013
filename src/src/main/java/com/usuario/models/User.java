@@ -1,4 +1,4 @@
-package java.com.usuario.models;
+package com.usuario.models;
 
 import org.javalite.activejdbc.Model;
 

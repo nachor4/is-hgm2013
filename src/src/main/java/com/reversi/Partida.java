@@ -1,5 +1,5 @@
-package java.com.reversi;
-import java.com.usuario.UsuarioApp;
+package com.reversi;
+import com.usuario.UsuarioApp;
 
 
 /**

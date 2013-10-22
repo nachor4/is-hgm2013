@@ -1,6 +1,6 @@
 package com.usuario;
 
-import java.com.usuario.Login;
+import com.usuario.Login;
 
 import org.javalite.activejdbc.Base;
 
@@ -17,7 +17,7 @@ public class GeneralTest {
 
     @Before
     public void before(){
-        Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/", "root", "neg13588");
+        Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/", "reversi", "123");
         Base.openTransaction();
     }
 

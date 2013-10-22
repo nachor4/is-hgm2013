@@ -1,6 +1,6 @@
 package com.usuario;
 
-import java.com.usuario.models.User;
+import com.usuario.models.User;
 //import java.com.usuario.Login;
 
 import org.javalite.activejdbc.Base;
@@ -18,7 +18,7 @@ public class LoginSpec{
 
     @Before
     public void before(){
-        Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/", "root", "neg13588");
+        Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/", "reversi", "123");
         Base.openTransaction();
     }
 

@@ -1,6 +1,7 @@
-package java.com.wsreversi;
-import java.com.wsreversi.Juego;
-import java.com.reversi.ReversiObserver;
+package com.wsreversi;
+import com.wsreversi.Juego;
+import com.reversi.ReversiObserver;
+
 import java.util.Set;
 import java.util.HashSet;
 

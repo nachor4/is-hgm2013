@@ -1,6 +1,6 @@
-package java.com.usuario;
+package com.usuario;
 
-import java.com.usuario.models.User;
+import com.usuario.models.User;
 
 
 public class Login extends User
@@ -8,8 +8,6 @@ public class Login extends User
 
 	public Login(){
 		//super();
-		
-		Login login = new Login();		
 	}		
 
 	

@@ -1,11 +1,10 @@
-package java.com.usuario;
+package com.usuario;
 
 import java.util.*;
 import java.io.*;
 
-import java.com.usuario.models.User;
-
-import java.com.usuario.Resultado;
+import com.usuario.models.User;
+import com.usuario.Resultado;
 
 import java.lang.String;
 
