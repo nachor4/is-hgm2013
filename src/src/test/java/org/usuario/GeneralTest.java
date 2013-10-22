@@ -1,8 +1,9 @@
 package org.usuario;
 
-import java.org.usuario.models.User;
+import java.org.usuario.Login;
 
 import org.javalite.activejdbc.Base;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -11,9 +12,8 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-import static org.javalite.test.jspec.JSpec.the;
 
-public class UserSpec{
+public class GeneralTest {
 
     @Before
     public void before(){
@@ -26,22 +26,29 @@ public class UserSpec{
         Base.rollbackTransaction();
         Base.close();
     }
-
+    
     @Test
     public void testTest(){
-
-        User user = new User();
-
-        //check errors
-        the(user).shouldNotBe("valid");
-        the(user.errors().get("name")).shouldBeEqual("value is missing");
-        the(user.errors().get("email")).shouldBeEqual("value is missing");
-
-        //set missing values
-        user.set("name", "John");
-		user.set("email","algo@algo.com");
 		
-        //all is good:
-        the(user).shouldBe("valid");
+//AUX Vars
+        String id;
+
+//TEST User  
+		System.out.println("\n\nTEST Login");
+
+/*		
+		* id = Login.newUsuario("J", "12345", "John2","algo@algo.com");
+		* System.out.println("Agregar LOGIN: ID->" + "id");
+		* 
+*/ 
+
+		try{
+			Login.newUsuario("J", "12345", "John2","algo@algo.com");
+		}catch(Exception e){
+			System.out.println("Agregar LOGIN invalido: Genero Excepcion OK");
+		}
+		
+		System.out.println("\n\n-> END Test General\n\n");
     }
+
 }

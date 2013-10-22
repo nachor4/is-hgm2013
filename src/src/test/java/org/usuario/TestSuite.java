@@ -9,7 +9,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 
 @Suite.SuiteClasses({
-	UserSpec.class, 
+	LoginSpec.class, 
 	Ejemplo.class
 })
 

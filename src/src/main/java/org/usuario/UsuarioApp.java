@@ -21,66 +21,12 @@ public class UsuarioApp extends User
 		
 		UsuarioApp usuarioapp = new UsuarioApp(id);
 	}
-	
 
-	
-    public static String add(
-        String id,
-		String name, 
-		String email)
-    {
-		UsuarioApp usuarioapp = new UsuarioApp(id);
-		
-        usuarioapp.set("id", id);		
-        usuarioapp.set("name", name);
-		usuarioapp.set("email",email);		
-		
-		usuarioapp.saveIt();
-		
-		return usuarioapp.getString("id");
-
-    }	
-    
-/* PREGUNTAR A NACHO!!!
-     
-    public static void delete(String id){
-		UsuarioApp usuarioapp = new UsuarioApp();
-		usuarioapp = usuarioapp.findById(id);
-
-		if (usuarioapp == null){
-			throw new IllegalArgumentException("Ingreso un ID de USER no válido.");
-		}		
-		
-		usuarioapp.deleteCascade();
-    }  
-    
-     
-    public static boolean modify (
-        String id,
-		String name, 
-		String email)
-	{
-		Usuarioapp usuarioapp = new Usuarioapp();
-		usuarioapp = usuarioapp.findById(id);
-		
-		if (usuarioapp == null){
-			throw new IllegalArgumentException("Ingreso un ID de USER no válido.");
-		}		
-		
-        usuarioapp.set("name", name);
-		usuarioapp.set("email",email);		
-		
-		usuarioapp.saveIt();		
-		
-		return usuarioapp.saveIt();
-    }   
-	
-*/
 	
 	public String getName() {
 		//Busco el usuario
 		
-        return id;
+        return "name";
 	}
 	
 	

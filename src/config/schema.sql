@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS users;
 
 CREATE TABLE users(
   id  VARCHAR(20) PRIMARY KEY,
+  password VARCHAR(20) NOT NULL,
   name VARCHAR(60) NOT NULL,
   email VARCHAR(60) NOT NULL,
   ganadas int(6) NOT NULL, 

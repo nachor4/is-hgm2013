@@ -7,8 +7,10 @@ public class Login extends User
 {
 
 	public Login(){
-		super();
-	}
+		//super();
+		
+		Login login = new Login();		
+	}		
 
 	
 	public boolean check(String usuario, String password) {
@@ -17,9 +19,19 @@ public class Login extends User
 	}
 	
 
-	public int newUsuario(String usuario, String password, String nombre, String email) {
-		// TODO : to implement
-		return 0;	
+	public static String newUsuario(String id, String password, String name, String email) {
+		// Agrega un Usuario
+		
+		Login login = new Login();
+		
+        login.set("id", id);		
+        login.set("password", password);        
+        login.set("name", name);
+		login.set("email",email);		
+		
+		login.saveIt();
+		
+		return login.getString("id");
 	}
 	
 	
@@ -31,7 +43,8 @@ public class Login extends User
 	
 	public String getID() {
 		// TODO : to implement
-		return "";	
+		
+		return "id";	
 	}
 	
 }
