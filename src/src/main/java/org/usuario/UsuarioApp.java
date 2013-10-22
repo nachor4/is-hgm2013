@@ -91,9 +91,13 @@ public class UsuarioApp extends User
 		
 		if (resultado == Resultado.ganadas) {
 		
-//			ganadas = new Integer(u.ganadas.intValue() + 1);
+//			int g = u.ganadas;
+
+			int g = 1;
 			
-			u.set("ganadas", ganadas);
+			g++;
+			
+			u.set("ganadas", g);
 			
 			u.saveIt();
 			
@@ -101,9 +105,13 @@ public class UsuarioApp extends User
 		
 		} else if (resultado == Resultado.perdidas) {
 			
-//					perdidas = new Integer(u.perdidas.intValue() + 1);
-				
-					u.set("perdidas", perdidas);
+//					int p = u.perdidas;
+
+					int p = 1;
+			
+					p++;
+			
+					u.set("perdidas", p);
 				
 					u.saveIt();
 				
@@ -111,9 +119,13 @@ public class UsuarioApp extends User
 				
 		} else if (resultado == Resultado.abandonadas) {
 				
-//					abandonadas = new Integer(u.abandonadas.intValue() + 1);
-					
-					u.set("abandonadas", abandonadas);
+//					int a = u.abandonadas;
+
+					int a = 1;
+			
+					a++;
+			
+					u.set("abandonadas", a);
 					
 					u.saveIt();
 					
@@ -121,6 +133,8 @@ public class UsuarioApp extends User
 		} else {
 			
 			System.out.println( "\n" + "el resultado ingresado no es correcto ");
+			
+			return false;
 		}
 					
 	}

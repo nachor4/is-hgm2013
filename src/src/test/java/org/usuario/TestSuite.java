@@ -9,13 +9,9 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 
 @Suite.SuiteClasses({
-	/*
-	 * Aqui se deben agregar las clases atestear
-	 * Ej: InmoTest.class,
-	 */
+	UserSpec.class, 
 	Ejemplo.class
 })
 
 public class TestSuite {
-	//Test General
 }
