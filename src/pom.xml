@@ -48,10 +48,24 @@
 		</dependency>
 		
 		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>1.6.4</version>
+		</dependency>
+		
+		<dependency>
 			<groupId>org.javalite</groupId>
 			<artifactId>activejdbc</artifactId>
 			<version>1.4.8</version>
 		</dependency>        
+		
+		<!--Funcionalidades generidas - SHA1 -->
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.4</version>
+		</dependency>
+							
     </dependencies>
 
     <build>
