@@ -1,60 +1,120 @@
 package java.org.usuario;
 
+import java.org.usuario.models.User;
 
-/**
- * <!-- begin-user-doc -->
- * <!--  end-user-doc  -->
- * @generated
- */
 
 public class UsuarioApp extends User
 {
-	/**
-	 * <br>
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
+
 	
 	private String id;
 	
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
 	
 	public UsuarioApp(String id) {
 		super();
 		// TODO : construct me	
 	}
 	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
+    public static int add(
+        String id,
+		String name, 
+		String email)
+    {
+		UsuarioApp usuarioapp = new UsuarioApp();
+		
+        usuarioapp.set("id", id);		
+        usuarioapp.set("name", name);
+		usuarioapp.set("email",email);		
+		
+		usuarioapp.saveIt();
+		
+		return usuarioapp.getString("id");
+
+    }	
+    
+/* PREGUNTAR A NACHO!!!
+     
+    public static void delete(String id){
+		UsuarioApp usuarioapp = new UsuarioApp();
+		usuarioapp = usuarioapp.findById(id);
+
+		if (usuarioapp == null){
+			throw new IllegalArgumentException("Ingreso un ID de USER no válido.");
+		}		
+		
+		usuarioapp.deleteCascade();
+    }  
+    
+     
+    public static boolean modify (
+        String id,
+		String name, 
+		String email)
+	{
+		Usuarioapp usuarioapp = new Usuarioapp();
+		usuarioapp = usuarioapp.findById(id);
+		
+		if (usuarioapp == null){
+			throw new IllegalArgumentException("Ingreso un ID de USER no válido.");
+		}		
+		
+        usuarioapp.set("name", name);
+		usuarioapp.set("email",email);		
+		
+		usuarioapp.saveIt();		
+		
+		return usuarioapp.saveIt();
+    }   
+	
+*/
 	
 	public String getName() {
-		// TODO : to implement
-		return "";	
+		//Busco el usuario
+		
+        return id;
 	}
 	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
 	
 	private boolean saveResult(Resultado resultado) {
-		// TODO : to implement
-		return false;	
+		// Guardo el resultado de una partida
+		
+        UsuarioApp u = new UsuarioApp();		
+		
+		if (resultado == ganadas)
+		
+			ganadas = new Integer(ganadas.intValue() + 1);
+			
+			u.set("ganadas", ganadas)
+			
+			u.saveIt();
+			
+			return true;
+		
+		else
+		
+			if (resultado == perdidas)
+			
+				perdidas = new Integer(perdidas.intValue() + 1);
+				
+				u.set("perdidas", perdidas)
+				
+				u.saveIt();
+				
+				return true;
+				
+			else
+			
+				if (resultado == abandonadas)
+				
+					abandonadas = new Integer(abandonadas.intValue() + 1);
+					
+					u.set("abandonadas", abandonadas)
+					
+					u.saveIt();
+					
+					return true;
+					
 	}
 	
 }
-

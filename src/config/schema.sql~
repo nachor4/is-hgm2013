@@ -1,0 +1,43 @@
+DROP TABLE IF EXISTS users;
+CREATE TABLE users(
+  id  int(11) NOT NULL  auto_increment PRIMARY KEY,
+  email VARCHAR(60),
+  first_name VARCHAR(56),
+  last_name VARCHAR(56)
+);
+
+DROP TABLE IF EXISTS real_estates;
+CREATE TABLE real_estates(
+  id  int(11) NOT NULL  auto_increment PRIMARY KEY,
+  name VARCHAR(60),
+  city VARCHAR(56),
+  street VARCHAR(56),
+  neighborhood varchar(50),
+  email varchar(60),
+  website varchar(30),
+);
+
+DROP TABLE IF EXISTS owners;
+CREATE TABLE owner(
+  id  int(11) NOT NULL  auto_increment PRIMARY KEY,
+  first_name VARCHAR(56),
+  last_name VARCHAR(56)
+  city VARCHAR(56),
+  street VARCHAR(56),
+  neighborhood varchar(50),
+  email varchar(60),
+);
+
+
+DROP TABLE IF EXISTS buildings;
+CREATE TABLE buildings(
+  id  int(11) NOT NULL  auto_increment PRIMARY KEY,
+  type VARCHAR(60),
+  city VARCHAR(56),
+  street VARCHAR(56),
+  neighborhood varchar(50),
+  description varchar(500),
+  price int(6),
+  
+  owner_id int(11)
+);
