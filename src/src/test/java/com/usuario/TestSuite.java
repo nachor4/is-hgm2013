@@ -1,4 +1,4 @@
-package org.usuario;
+package com.usuario;
 
 import org.junit.ClassRule;
 import org.junit.rules.ExternalResource;

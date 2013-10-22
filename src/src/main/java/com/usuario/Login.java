@@ -1,6 +1,6 @@
-package java.org.usuario;
+package java.com.usuario;
 
-import java.org.usuario.models.User;
+import java.com.usuario.models.User;
 
 
 public class Login extends User
@@ -14,7 +14,7 @@ public class Login extends User
 
 	
 	public boolean check(String usuario, String password) {
-		// TODO : to implement
+		// Chequea el password del usuario
 		return false;	
 	}
 	
@@ -36,7 +36,7 @@ public class Login extends User
 	
 	
 	public int reset(String usuario, String email) {
-		// TODO : to implement
+		// Resetea el password
 		return 0;	
 	}
 	

@@ -1,4 +1,4 @@
-package org.wsreversi;
+package com.wsreversi;
 
 import org.junit.ClassRule;
 import org.junit.rules.ExternalResource;

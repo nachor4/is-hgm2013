@@ -1,6 +1,6 @@
-package org.reversi;
+package com.usuario;
 
-//import org.reversi.ClaseATestear;
+//import org.usuario.ClaseATestear;
 
 import org.junit.After;
 import org.junit.Assert;

@@ -1,6 +1,6 @@
-package org.usuario;
+package com.wsreversi;
 
-//import org.usuario.ClaseATestear;
+//import com.wsreversi.ClaseATestear;
 
 import org.junit.After;
 import org.junit.Assert;

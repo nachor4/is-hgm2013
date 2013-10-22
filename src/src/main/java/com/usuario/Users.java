@@ -1,4 +1,4 @@
-package java.org.usuario;
+package java.com.usuario;
 
 
 public class Users

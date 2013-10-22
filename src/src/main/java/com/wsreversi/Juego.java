@@ -1,5 +1,5 @@
-package java.org.wsreversi;
-import java.org.reversi.Partida;
+package java.com.wsreversi;
+import java.com.reversi.Partida;
 import javax.websocket.Session;
 
 

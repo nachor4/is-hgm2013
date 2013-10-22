@@ -1,4 +1,4 @@
-package java.org.reversi;
+package java.com.reversi;
 
 
 /**

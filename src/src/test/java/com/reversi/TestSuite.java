@@ -1,4 +1,4 @@
-package org.reversi;
+package com.reversi;
 
 import org.junit.ClassRule;
 import org.junit.rules.ExternalResource;
