@@ -17,6 +17,9 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
+//Para realizar las comunicaciones con el browser
+import com.google.gson.Gson;
+
 
 /**
  * Para acceder a los juegos cuando el websocket recibe un mensaje, los busca mediante el ID de la sesssion que origino el evento en el hashmap de juegos
