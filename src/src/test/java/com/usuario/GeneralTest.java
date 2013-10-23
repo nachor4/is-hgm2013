@@ -43,7 +43,7 @@ public class GeneralTest {
 */ 
 
 		try{
-			Login.newUsuario("J", "12345", "John2","algo@algo.com");
+			Login.newUsuario("J", "12345", "John2", "algo@algo.com", 0, 0, 0);
 		}catch(Exception e){
 			System.out.println("Agregar LOGIN invalido: Genero Excepcion OK");
 		}

@@ -1,5 +1,8 @@
 package com.reversi;
+
 import com.usuario.UsuarioApp;
+
+import com.usuario.models.User;
 
 
 /**

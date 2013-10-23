@@ -8,9 +8,9 @@ CREATE TABLE users(
   password VARCHAR(60) NOT NULL,
   name VARCHAR(60) NOT NULL,
   email VARCHAR(60) NOT NULL,
-  ganadas int(6) NOT NULL, 
-  perdidas int(6) NOT NULL,
-  abandonadas int(6) NOT NULL  
+  won int(6) NOT NULL, 
+  lost int(6) NOT NULL,
+  abandoned int(6) NOT NULL
 );
 
 COMMIT;
