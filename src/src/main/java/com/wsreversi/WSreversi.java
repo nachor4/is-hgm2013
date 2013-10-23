@@ -5,6 +5,21 @@ import com.reversi.ReversiObserver;
 import java.util.Set;
 import java.util.HashSet;
 
+//Dependencias para el servidor
+import java.io.IOException;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.websocket.OnClose;
+import javax.websocket.OnMessage;
+import javax.websocket.OnOpen;
+import javax.websocket.Session;
+import javax.websocket.server.ServerEndpoint;
+
+//Para realizar las comunicaciones con el browser
+import com.google.gson.Gson;
+
 
 /**
  * Para acceder a los juegos cuando el websocket recibe un mensaje, los busca mediante el ID de la sesssion que origino el evento en el hashmap de juegos
@@ -13,24 +28,10 @@ import java.util.HashSet;
  * @generated
  */
 
+@ServerEndpoint("/wsreversi")
 public class WSreversi extends ReversiObserver
 {
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
 	public Set<Juego> indiceSesiones;
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
 	public Set<Juego> indicePartida;
 	
 	/**
@@ -48,8 +49,8 @@ public class WSreversi extends ReversiObserver
 	 * @generated
 	 * @ordered
 	 */
-	
-	public void onMessage() {
+	@OnMessage
+	public void onMessage(String message, Session session) {
 		// TODO : to implement	
 	}
 	
@@ -59,8 +60,8 @@ public class WSreversi extends ReversiObserver
 	 * @generated
 	 * @ordered
 	 */
-	
-	public void onOpen() {
+	@OnOpen
+	public void onOpen(Session session) {
 		// TODO : to implement	
 	}
 	
@@ -70,8 +71,8 @@ public class WSreversi extends ReversiObserver
 	 * @generated
 	 * @ordered
 	 */
-	
-	public void onClose() {
+	@OnClose
+	public void onClose(Session session) {
 		// TODO : to implement	
 	}
 	
