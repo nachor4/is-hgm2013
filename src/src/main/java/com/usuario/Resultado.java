@@ -3,5 +3,5 @@ package com.usuario;
 
 public enum Resultado
 {
-	ganadas, perdidas, abandonadas;
+	GANADAS, PERDIDAS, ABANDONADAS;
 }

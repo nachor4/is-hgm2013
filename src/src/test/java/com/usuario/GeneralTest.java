@@ -1,6 +1,8 @@
 package com.usuario;
 
 import com.usuario.Login;
+import com.usuario.UsuarioApp;
+import com.usuario.Resultado;
 
 import org.javalite.activejdbc.Base;
 
@@ -17,7 +19,7 @@ public class GeneralTest {
 
     @Before
     public void before(){
-        Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/", "reversi", "123");
+        Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/Ingenieria", "reversi", "123");
         Base.openTransaction();
     }
 
@@ -32,23 +34,82 @@ public class GeneralTest {
 		
 //AUX Vars
         String id;
+        Resultado result;
+        
+////////TEST UsuarioApp
+		System.out.println("\n\nTEST UsuarioApp");
+		
+		//Usuario valido
+        UsuarioApp usu = new UsuarioApp("nico");
+        
+		//Usuario invalido
+        //UsuarioApp usu1 = new UsuarioApp("zzz");        
+        
+        //getID
+        usu.getID();
+        
+        //getID
+        usu.getName();        
+        
+        
+/*        		
 
-//TEST User  
+		//saveResult GANADAS
+		result = Resultado.GANADAS;
+		
+		try{
+			this.saveResult(result);
+		}catch(Exception e){
+			System.out.println("saveResult GANADAS invalido");
+		}	
+		
+		//saveResult PERDIDAS
+		result = Resultado.PERDIDAS;		
+		
+		try{
+			UsuarioApp.saveResult(result);
+		}catch(Exception e){
+			System.out.println("saveResult PERDIDAS invalido");
+		}			
+		
+		//saveResult ABANDONADAS
+		result = Resultado.ABANDONADAS;		
+		
+		try{
+			UsuarioApp.saveResult(result);
+		}catch(Exception e){
+			System.out.println("saveResult ABANDONADAS invalido");
+		}
+		   
+
+////////TEST Login  
 		System.out.println("\n\nTEST Login");
 
-/*		
-		* id = Login.newUsuario("J", "12345", "John2","algo@algo.com");
-		* System.out.println("Agregar LOGIN: ID->" + "id");
-		* 
-*/ 
-
+		//newUsuario
 		try{
 			Login.newUsuario("J", "12345", "John2", "algo@algo.com", 0, 0, 0);
 		}catch(Exception e){
 			System.out.println("Agregar LOGIN invalido: Genero Excepcion OK");
 		}
 		
-		System.out.println("\n\n-> END Test General\n\n");
+		//check valido
+		try{
+			Login.check("J", "12345");
+		}catch(Exception e){
+			System.out.println("Chequear PASSWORD invalido");
+		}
+		
+		//check invalido
+		try{
+			Login.check("J", "12348");
+		}catch(Exception e){
+			System.out.println("Chequear PASSWORD valido");
+		}		
+		
+		System.out.println("\n\n-> END Test Login\n\n");		
+		
+	
+*/
     }
 
 }

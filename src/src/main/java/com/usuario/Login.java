@@ -4,9 +4,10 @@ import com.usuario.models.User;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
-public class Login extends User
+public class Login extends Users
 {
-	
+
+/*	
 	private String id;
 
 	public Login(){
@@ -32,7 +33,7 @@ public class Login extends User
 	}	
 
 	
-	public boolean check(String id, String password) {
+	public static boolean check(String id, String password) {
 		// Chequea el password del Usuario
 		
 		Login login = new Login();
@@ -40,6 +41,8 @@ public class Login extends User
 		login = login.findById(id);
 
 		if (login == null){
+			
+            System.out.println("Ingreso un ID de Usuario invalido");			
 			
 			return false;		
 		
@@ -50,6 +53,8 @@ public class Login extends User
 				return true;
 				
 		   } else {
+			   
+				System.out.println("El PASSWORD ingresado es invalido");			   
 		    
 		        return false;
 		}  
@@ -57,7 +62,7 @@ public class Login extends User
 
 	
 	
-	public int reset(String usuario, String email) {
+	public static int reset(String usuario, String email) {
 		// Resetea el password
 		
 		return 0;	
@@ -69,5 +74,7 @@ public class Login extends User
 		
 		return id;	
 	}
+	* 
+*/
 	
 }

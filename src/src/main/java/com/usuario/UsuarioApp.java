@@ -9,36 +9,64 @@ import com.usuario.Resultado;
 import java.lang.String;
 
 
-public class UsuarioApp extends User
+public class UsuarioApp extends Users
 {
 
     private String id;
-    private String password;
-    public String name;
-    public String email;
-    public int won;
-    public int lost;
-    public int abandoned;
-
 
     public UsuarioApp(String id) {
-        //super();
-
-        // Si no coloco esto salta error en la clase Partida!!!
-        UsuarioApp usuarioapp = new UsuarioApp(id);
-    }
+		connect();
+		
+		User user = new User();
+		
+		try{
+			user = user.findById(id);
+			System.out.println("Usuario encontrado!");
+		}catch(Exception e){
+			throw new IllegalArgumentException("Ingreso un ID de USUARIO invalido.");
+		}
+		
+		this.id = id;
+    }  
+    
+	public String getID() {
+		// Retorna el ID del Usuario
+		
+        connect();
+        
+		User user = new User();	
+		user = user.findById(id);
+		
+		if (user == null){
+			throw new IllegalArgumentException("Ingreso un ID de USUARIO no válido.");
+		}else 
+		    System.out.println("El ID del Usuario es: "+id);
+		    return user.getString("id");
+	}  
 
 
     public String getName() {
         //Retorno el nombre del Usuario
-
-        return name;
+        connect();
+        
+		User user = new User();	
+		
+		user = user.findById(id);
+		
+		if (user == null){
+			throw new IllegalArgumentException("Ingreso un ID de USUARIO no válido.");
+		}else 
+		    //System.out.println("El NOMBRE del Usuario es: "+name);
+		    return user.getString("name");
     }
+    
+/*    
     
     public int getGan() {
         //Retorno las partidas Ganadas
-
-        return won;
+		User user = new User();	
+		user = user.findById(id);
+        return use.get("won");
     }    
     
     public int getPer() {
@@ -54,44 +82,50 @@ public class UsuarioApp extends User
     }            
 
 
-    private boolean saveResult(Resultado resultado) {
+    public boolean saveResult(Resultado resultado) {
         // Guardo el resultado de una partida
 
         UsuarioApp u = new UsuarioApp(id);
 
-        if (resultado == Resultado.ganadas) {
+        if (resultado == Resultado.GANADAS) {
 
             int g = u.getGan();
 
             g++;
 
-            u.set("ganadas", g);
+            u.set("won", g);
 
             u.saveIt();
+            
+            System.out.println("Se han actualizado las partidas GANADAS");
 
             return true;
 
-        } else if (resultado == Resultado.perdidas) {
+        } else if (resultado == Resultado.PERDIDAS) {
 
                     int p = u.getPer();
 
                     p++;
 
-                    u.set("perdidas", p);
+                    u.set("lost", p);
 
                     u.saveIt();
+                    
+                    System.out.println("Se han actualizado las partidas PERDIDAS");                    
 
                     return true;
 
-        } else if (resultado == Resultado.abandonadas) {
+        } else if (resultado == Resultado.ABANDONADAS) {
 
                     int a = u.getAba();
 
                     a++;
 
-                    u.set("abandonadas", a);
+                    u.set("abandoned", a);
 
                     u.saveIt();
+                    
+                    System.out.println("Se han actualizado las partidas ABANDONADAS");                    
 
                     return true;
         } else {
@@ -102,5 +136,6 @@ public class UsuarioApp extends User
         }
 
     }
+*/
 
 }
