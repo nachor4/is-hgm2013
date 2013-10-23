@@ -13,4 +13,8 @@ CREATE TABLE users(
   abandoned int(6) NOT NULL
 );
 
+--Usuario de ejemplo
+INSERT INTO users (id, password, name, email,won, lost, abandoned) 
+VALUES ('nico', MD5('13588'),'nicolas','nico@reversi.com',0,0,0);
+
 COMMIT;
