@@ -14,16 +14,18 @@ public class Partida
 {
 	private String id;
 	
+	private int dificultad;
+	
 	private double timeUltMov;
 	
 	private byte[] tablero;
 	
 	public UsuarioApp elNegro;
 	
-	public ReversiObserver reversiObserver;
-	
 	public UsuarioApp elBlanco;
 	
+	public ReversiObserver reversiObserver;
+		
 	public Partida(string idNegro, string idBlanco, int dificultRec, ReversiObserver observerRecibido){
 		try {
 	    if(idNegro != null) {
@@ -34,8 +36,7 @@ public class Partida
 	}
 	catch(Execption e){
 	    throw new IllegalArgumentException ("El idNegro recibido no existe\n");
-	    //throw new Exception;
-	    //throw new IllegalArgumentException("Ingreso un ID de USUARIO invalido.");
+	    
 	}
 	
 	//Aqui controlo que el idBlanco no sea null
@@ -47,37 +48,28 @@ public class Partida
 	}
 	catch (Exception e){
 	    throw new IllegalArgumentException ("El idBlanco recibido no existe\n");
-	    //throw new Exception;
+	    
 	}
 	
 	//Aqui controlo que el nivel de dificultad sea un valor valido (0, 1 o 2)
 	try{
 		// Que dificultad sea igual a cero significa que el jugador tendra 30 seg para realizar su movimiento
-	    if(dificultRec == 0 || dificultRec == 1 || dificultRec == 2) {
-		   dificultad = dificultRec;  
+	    if(dificultRec == 0 || dificultRec == 1 || dificultRec == 2) 
+		  dificultad.setDificultad(dificultRec);  
 		}
-	}
 	catch (Exception e){
 	    throw new IllegalArgumentException ("El nivel de dificultad recibido no es válido\n");
-	    //throw new Exception;
+	    }
 	}
-	/*
-	try{
-	    //crear el objeto UserApp
-	}
-	catch (Exception e){
-	    //sucedio un errero.
-	   //throw new Exception;
-	} */
-
+	
 	public boolean checkMov() {
 		// TODO : to implement
 		return false;	
 	}
 		
-	public UsuarioApp jugadorActual() {
+	public String jugadorActual() {
 		// TODO : to implement
-		return new UsuarioApp("id");	
+		return UsuarioApp.getId();	
 	}
 	
 	public int estadoJuego() {
@@ -89,6 +81,11 @@ public class Partida
 		// TODO : to implement
 		return "";	
 	}
+	
+	public void setDificultad (int difRec) {
+		 int dificultad = new difRec;
+		//return dificultad;
+		}
 	
 }
 
