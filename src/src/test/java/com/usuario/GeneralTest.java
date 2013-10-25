@@ -58,7 +58,10 @@ public class GeneralTest {
         usu.getPer();    
         
         //getAba
-        usu.getAba();                                    
+        usu.getAba();    
+        
+        //getAba
+        usu.saveResult(GANADAS);  
         
 /*        		
 

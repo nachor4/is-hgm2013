@@ -120,33 +120,40 @@ public class UsuarioApp extends Users
 		    abandonadas = user.getInteger("abandoned");
 		    System.out.println("La cantidad de partidas ABANDONADAS es: "+abandonadas);
 		    return user.getInteger("abandoned");
-    }     
-    
-/*              
+    }                  
 
 
     public boolean saveResult(Resultado resultado) {
         // Guardo el resultado de una partida
 
-        UsuarioApp u = new UsuarioApp(id);
+        connect();
+        
+		User u = new User();	
+		
+		u = u.findById(id);
+		
+		if (u == null){
+			throw new IllegalArgumentException("Ingreso un ID de USUARIO invalido.");
+			
+	    } else
 
-        if (resultado == Resultado.GANADAS) {
+          if (resultado == Resultado.GANADAS) {
 
-            int g = u.getGan();
+              int g = u.getInteger("won");
 
-            g++;
+              g++;
 
-            u.set("won", g);
+              u.set("won", g);
 
-            u.saveIt();
+              u.saveIt();
             
-            System.out.println("Se han actualizado las partidas GANADAS");
+              System.out.println("Se han actualizado las partidas GANADAS");
 
             return true;
 
         } else if (resultado == Resultado.PERDIDAS) {
 
-                    int p = u.getPer();
+                    int p = u.getInteger("lost");
 
                     p++;
 
@@ -160,7 +167,7 @@ public class UsuarioApp extends Users
 
         } else if (resultado == Resultado.ABANDONADAS) {
 
-                    int a = u.getAba();
+                    int a = u.getInteger("abandoned");
 
                     a++;
 
@@ -173,12 +180,11 @@ public class UsuarioApp extends Users
                     return true;
         } else {
 
-            System.out.println( "\n" + "el resultado ingresado no es correcto ");
+            throw new IllegalArgumentException("El RESULTADO ingresado no es correcto.");
 
             return false;
         }
 
     }
-*/
 
 }
