@@ -53,20 +53,34 @@ public class UsuarioApp extends Users
 		
 		user = user.findById(id);
 		
+		String nombre;
+		
 		if (user == null){
 			throw new IllegalArgumentException("Ingreso un ID de USUARIO no válido.");
 		}else 
-		    //System.out.println("El NOMBRE del Usuario es: "+name);
+		    nombre = user.getString("name");
+		    System.out.println("El NOMBRE del Usuario es: "+nombre);
 		    return user.getString("name");
     }
     
 /*    
     
     public int getGan() {
-        //Retorno las partidas Ganadas
+        //Retorno las partidas ganadas
+        connect();
+        
 		User user = new User();	
+		
 		user = user.findById(id);
-        return use.get("won");
+		
+		String nombre;
+		
+		if (user == null){
+			throw new IllegalArgumentException("Ingreso un ID de USUARIO no válido.");
+		}else 
+		    nombre = user.getString("name");
+		    System.out.println("El NOMBRE del Usuario es: "+nombre);
+		    return user.getString("name");
     }    
     
     public int getPer() {
