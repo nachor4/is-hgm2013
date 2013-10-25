@@ -38,7 +38,7 @@ public class UsuarioApp extends Users
 		user = user.findById(id);
 		
 		if (user == null){
-			throw new IllegalArgumentException("Ingreso un ID de USUARIO no válido.");
+			throw new IllegalArgumentException("Ingreso un ID de USUARIO invalido.");
 		}else 
 		    System.out.println("El ID del Usuario es: "+id);
 		    return user.getString("id");
@@ -56,14 +56,13 @@ public class UsuarioApp extends Users
 		String nombre;
 		
 		if (user == null){
-			throw new IllegalArgumentException("Ingreso un ID de USUARIO no válido.");
+			throw new IllegalArgumentException("Ingreso un ID de USUARIO invalido.");
 		}else 
 		    nombre = user.getString("name");
 		    System.out.println("El NOMBRE del Usuario es: "+nombre);
 		    return user.getString("name");
     }
-    
-/*    
+   
     
     public int getGan() {
         //Retorno las partidas ganadas
@@ -73,27 +72,57 @@ public class UsuarioApp extends Users
 		
 		user = user.findById(id);
 		
-		String nombre;
+		int ganadas;
 		
 		if (user == null){
-			throw new IllegalArgumentException("Ingreso un ID de USUARIO no válido.");
+			throw new IllegalArgumentException("Ingreso un ID de USUARIO invalido.");
 		}else 
-		    nombre = user.getString("name");
-		    System.out.println("El NOMBRE del Usuario es: "+nombre);
-		    return user.getString("name");
-    }    
+		    ganadas = user.getInteger("won");
+		    System.out.println("La cantidad de partidas GANADAS es: "+ganadas);
+		    return user.getInteger("won");
+    }  
+    
     
     public int getPer() {
         //Retorno las partidas Perdidas
-
-        return lost;
-    }  
+        
+        connect();
+        
+		User user = new User();	
+		
+		user = user.findById(id);
+		
+		int perdidas;
+		
+		if (user == null){
+			throw new IllegalArgumentException("Ingreso un ID de USUARIO invalido.");
+		}else 
+		    perdidas = user.getInteger("lost");
+		    System.out.println("La cantidad de partidas PERDIDAS es: "+perdidas);
+		    return user.getInteger("lost");
+    }      
+       
     
     public int getAba() {
         //Retorno las partidas Abandonadas
 
-        return abandoned;
-    }            
+        connect();
+        
+		User user = new User();	
+		
+		user = user.findById(id);
+		
+		int abandonadas;
+		
+		if (user == null){
+			throw new IllegalArgumentException("Ingreso un ID de USUARIO invalido.");
+		}else 
+		    abandonadas = user.getInteger("abandoned");
+		    System.out.println("La cantidad de partidas ABANDONADAS es: "+abandonadas);
+		    return user.getInteger("abandoned");
+    }     
+    
+/*              
 
 
     public boolean saveResult(Resultado resultado) {

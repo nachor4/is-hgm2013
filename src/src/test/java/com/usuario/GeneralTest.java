@@ -48,9 +48,17 @@ public class GeneralTest {
         //getID
         usu.getID();
         
-        //getID
+        //getName
         usu.getName();        
         
+        //getGan
+        usu.getGan();  
+        
+        //getPer
+        usu.getPer();    
+        
+        //getAba
+        usu.getAba();                                    
         
 /*        		
 
