@@ -4,6 +4,8 @@ import com.usuario.UsuarioApp;
 
 import com.usuario.models.User;
 
+import com.reversi.EstadoJuego;
+
 import javax.swing.*;
 
 import java.sql.Timestamp;
@@ -16,51 +18,60 @@ public class Partida
 	
 	private int dificultad;
 	
-	private double timeUltMov;
+	private int tiempoUltMov;
+	
+	private String elNegro;
+	
+	private String elBlanco;
 	
 	private byte[] tablero;
 	
-	public UsuarioApp elNegro;
+	private int cantMovimientos;
 	
-	public UsuarioApp elBlanco;
+//	private EstadoJuego estadoJuego; 
 	
 	public ReversiObserver reversiObserver;
 		
-	public Partida(string idNegro, string idBlanco, int dificultRec, ReversiObserver observerRecibido){
+	public Partida (String idNegro, String idBlanco, int dificultRec, ReversiObserver observerRecibido){
+		
 		try {
-	    if(idNegro != null) {
-	     UsuarioApp jugadorNegro = new UsuarioApp();
-	     jugadorNegro = jugadorNegro.findById(idNegro); }
-	     if (jugadorNegro != null)
-			System.out.println ("Jugador encontrado\n");
-	}
-	catch(Execption e){
-	    throw new IllegalArgumentException ("El idNegro recibido no existe\n");
+			if(idNegro != " ") {
+				UsuarioApp jugadorNegro = new UsuarioApp();
+				jugadorNegro = jugadorNegro.findById(idNegro); }
+			if ( jugadorNegro != null) {
+				System.out.println ("Jugador encontrado\n"); }
+			}	
+		catch(Exception e){
+			throw new IllegalArgumentException ("El idNegro recibido no existe\n");
 	    
-	}
+			}
 	
 	//Aqui controlo que el idBlanco no sea null
-	try { if(idBlanco != null) {
+	try { if(idBlanco != " ") {
 		    UsuarioApp jugadorBlanco = new UsuarioApp();	
-		    jugadorBlanco = jugadorBlanco.findById(idBlanco); }
-		    if (jugadorBlanco != null)
-				System.out.println ("Jugador encontrado\n");
-	}
-	catch (Exception e){
-	    throw new IllegalArgumentException ("El idBlanco recibido no existe\n");
+		    jugadorBlanco = jugadorBlanco.findById(idBlanco); 
+			}
+		  if ( jugadorBlanco != null) {
+			System.out.println ("Jugador encontrado\n"); }
+		}
+		catch (Exception e){
+			throw new IllegalArgumentException ("El idBlanco recibido no existe\n");
 	    
-	}
+		}
 	
 	//Aqui controlo que el nivel de dificultad sea un valor valido (0, 1 o 2)
 	try{
 		// Que dificultad sea igual a cero significa que el jugador tendra 30 seg para realizar su movimiento
-	    if(dificultRec == 0 || dificultRec == 1 || dificultRec == 2) 
-		  dificultad.setDificultad(dificultRec);  
+	    if(dificultRec == 0 || dificultRec == 1 || dificultRec == 2){ 
+		 // dificultad.setDificultad(dificultRec);  }
+		 dificultad = dificultRec;
+	  }
 		}
 	catch (Exception e){
 	    throw new IllegalArgumentException ("El nivel de dificultad recibido no es válido\n");
 	    }
-	}
+
+} // Cierra el constructor
 	
 	public boolean checkMov() {
 		// TODO : to implement
@@ -69,7 +80,7 @@ public class Partida
 		
 	public String jugadorActual() {
 		// TODO : to implement
-		return UsuarioApp.getId();	
+		return "";	
 	}
 	
 	public int estadoJuego() {
@@ -77,15 +88,14 @@ public class Partida
 		return 0;	
 	}
 	
-	public String getId() {
-		// TODO : to implement
-		return "";	
-	}
+/*	public String getId() {
+		return UsuarioApp.getId();	
+	} */
 	
-	public void setDificultad (int difRec) {
+/*	public void setDificultad (int difRec) {
 		 int dificultad = new difRec;
 		//return dificultad;
-		}
-	
+		} 
+	*/
 }
 
