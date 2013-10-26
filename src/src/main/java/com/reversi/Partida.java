@@ -4,7 +4,9 @@ import com.usuario.UsuarioApp;
 
 import com.usuario.models.User;
 
-import com.reversi.EstadoJuego;
+import java.util.*;
+
+import java.io.*;
 
 import javax.swing.*;
 
@@ -12,8 +14,10 @@ import java.sql.Timestamp;
 
 import java.util.Date;
 
-public class Partida
-{
+public class Partida {
+	
+	enum EstadoJuego { INICIADO , CANCELADO, JUGANDO, FINALIZADO; }
+	
 	private String id;
 	
 	private int dificultad;
@@ -28,30 +32,34 @@ public class Partida
 	
 	private int cantMovimientos;
 	
-//	private EstadoJuego estadoJuego; 
+	private EstadoJuego estadoJuego; 
 	
 	public ReversiObserver reversiObserver;
+	
+	private String turnoActual;
 		
 	public Partida (String idNegro, String idBlanco, int dificultRec, ReversiObserver observerRecibido){
 		
 		try {
-			if(idNegro != " ") {
-				UsuarioApp jugadorNegro = new UsuarioApp();
+			if( idNegro != "" ) {
+				UsuarioApp jugadorNegro = new UsuarioApp(idNegro);
 				jugadorNegro = jugadorNegro.findById(idNegro); }
-			if ( jugadorNegro != null) {
+			if ( jugadorNegro != null ) {
 				System.out.println ("Jugador encontrado\n"); }
-			}	
+			}
+				
 		catch(Exception e){
 			throw new IllegalArgumentException ("El idNegro recibido no existe\n");
 	    
 			}
 	
 	//Aqui controlo que el idBlanco no sea null
-	try { if(idBlanco != " ") {
-		    UsuarioApp jugadorBlanco = new UsuarioApp();	
+	try { 
+		if( idBlanco == "") {
+		    UsuarioApp jugadorBlanco = new UsuarioApp(idBlanco);	
 		    jugadorBlanco = jugadorBlanco.findById(idBlanco); 
 			}
-		  if ( jugadorBlanco != null) {
+		  if ( jugadorBlanco != null ) {
 			System.out.println ("Jugador encontrado\n"); }
 		}
 		catch (Exception e){
@@ -63,9 +71,9 @@ public class Partida
 	try{
 		// Que dificultad sea igual a cero significa que el jugador tendra 30 seg para realizar su movimiento
 	    if(dificultRec == 0 || dificultRec == 1 || dificultRec == 2){ 
-		 // dificultad.setDificultad(dificultRec);  }
-		 dificultad = dificultRec;
-	  }
+		// dificultad.setDificultad(dificultRec);  
+		 this.dificultad = dificultRec;
+		}
 		}
 	catch (Exception e){
 	    throw new IllegalArgumentException ("El nivel de dificultad recibido no es válido\n");
@@ -79,8 +87,7 @@ public class Partida
 	}
 		
 	public String jugadorActual() {
-		// TODO : to implement
-		return "";	
+		return turnoActual;	
 	}
 	
 	public int estadoJuego() {
@@ -88,14 +95,14 @@ public class Partida
 		return 0;	
 	}
 	
-/*	public String getId() {
-		return UsuarioApp.getId();	
-	} */
+	public String getId() {
+		return this.id;	
+	} 
 	
 /*	public void setDificultad (int difRec) {
-		 int dificultad = new difRec;
+		int dificultad = new difRec;
 		//return dificultad;
-		} 
-	*/
+		}  */
+	
 }
 
