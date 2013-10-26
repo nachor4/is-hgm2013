@@ -2,15 +2,17 @@ package com.reversi;
 
 import com.usuario.UsuarioApp;
 
+import com.usuario.Users;
+
+import com.reversi.Temporizador;
+
 import com.usuario.models.User;
+
+import com.reversi.models.PartidaModel;
 
 import java.util.*;
 
 import java.io.*;
-
-import javax.swing.*;
-
-import java.sql.Timestamp;
 
 import java.util.Date;
 
@@ -22,65 +24,74 @@ public class Partida {
 	
 	private int dificultad;
 	
-	private int tiempoUltMov;
-	
+	private Temporizador tiempoUltMov = new Temporizador();
+		
 	private String elNegro;
 	
 	private String elBlanco;
 	
-	private byte[] tablero;
+	private int tablero[][] = new int [8][8];
 	
 	private int cantMovimientos;
 	
 	private EstadoJuego estadoJuego; 
 	
-	public ReversiObserver reversiObserver;
-	
 	private String turnoActual;
 		
 	public Partida (String idNegro, String idBlanco, int dificultRec, ReversiObserver observerRecibido){
+		connect();
 		
-		try {
-			if( idNegro != "" ) {
-				UsuarioApp jugadorNegro = new UsuarioApp(idNegro);
-				jugadorNegro = jugadorNegro.findById(idNegro); }
-			if ( jugadorNegro != null ) {
-				System.out.println ("Jugador encontrado\n"); }
-			}
+		UsuarioApp jugadorNegro = new UsuarioApp(idNegro);
+		jugadorNegro = jugadorNegro.findById(idNegro);
+		//Controlamos que el jugador Negro haya sido creado correctamente.
+			if ( jugadorNegro == null ) {
+			     throw new IllegalArgumentException ("El idNegro recibido no existe\n");
+			     }
+			else {
+				//Controlamos que el jugador Blanco haya sido creado correctamente.
+				UsuarioApp jugadorBlanco = new UsuarioApp(idBlanco);
+		        jugadorBlanco = jugadorBlanco.findById(idBlanco); 
+				if (jugadoBlanco == null){
+					throw new IllegalArgumentException ("El idBlanco recibido no existe\n");
+				}
 				
-		catch(Exception e){
-			throw new IllegalArgumentException ("El idNegro recibido no existe\n");
-	    
-			}
+				else 
+					if(dificultRec != 0 && dificultRec != 1 && dificultRec != 2){
+						throw new IllegalArgumentException ("La dificultad recibida no es válida");
+					}
+					else { dificultad = dificultRec; 
+				
+						Date date = new Date();
+						SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy h:mm:ss a");
+						String formattedDate = sdf.format(date);
+								
+						id = idNegro + idBlanco + formattedDate;
+						//Inicializamos el tablero, si un casillero esta en 0, significa que esta vacio
+						//si esta en 1 significa que hay una ficha negra y 2 si hay una ficha blanca.
+						for (int x = 0; x < 8; x++) {
+							for(int y = 0; y < 8; y++) {
+								tablero[x][y].setValue(0);
+							}
+						}
+						tablero[3][4].setValue(1);
+						tablero[4][3].setValue(1);
+						tablero[3][3].setValue(2);
+						tablero[4][4].setValue(2);
+					
+						if(dificultad == 0) {
+							tiempoUltMov.Start(60);
+						}
+						else 
+							if(dificultad == 1) {
+								tiempoUltMov.Start(40);
+							}
+							else { 
+								tiempoUltMov.Start(20); 
+							}
+					}
 	
-	//Aqui controlo que el idBlanco no sea null
-	try { 
-		if( idBlanco == "") {
-		    UsuarioApp jugadorBlanco = new UsuarioApp(idBlanco);	
-		    jugadorBlanco = jugadorBlanco.findById(idBlanco); 
-			}
-		  if ( jugadorBlanco != null ) {
-			System.out.println ("Jugador encontrado\n"); }
-		}
-		catch (Exception e){
-			throw new IllegalArgumentException ("El idBlanco recibido no existe\n");
-	    
-		}
-	
-	//Aqui controlo que el nivel de dificultad sea un valor valido (0, 1 o 2)
-	try{
-		// Que dificultad sea igual a cero significa que el jugador tendra 30 seg para realizar su movimiento
-	    if(dificultRec == 0 || dificultRec == 1 || dificultRec == 2){ 
-		// dificultad.setDificultad(dificultRec);  
-		 this.dificultad = dificultRec;
-		}
-		}
-	catch (Exception e){
-	    throw new IllegalArgumentException ("El nivel de dificultad recibido no es válido\n");
-	    }
-
-} // Cierra el constructor
-	
+	} // Cierra el constructor
+}
 	public boolean checkMov() {
 		// TODO : to implement
 		return false;	
@@ -96,13 +107,9 @@ public class Partida {
 	}
 	
 	public String getId() {
-		return this.id;	
-	} 
-	
-/*	public void setDificultad (int difRec) {
-		int dificultad = new difRec;
-		//return dificultad;
-		}  */
-	
-}
+		return id;	
+	}	
+
+
+}	
 
