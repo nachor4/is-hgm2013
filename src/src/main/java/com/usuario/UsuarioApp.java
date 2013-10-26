@@ -4,7 +4,7 @@ import java.util.*;
 import java.io.*;
 
 import com.usuario.models.User;
-import com.usuario.Resultado;
+import com.usuario.ResultadoPartida;
 
 import java.lang.String;
 
@@ -21,7 +21,6 @@ public class UsuarioApp extends Users
 		
 		try{
 			user = user.findById(id);
-			System.out.println("Usuario encontrado!");
 		}catch(Exception e){
 			throw new IllegalArgumentException("Ingreso un ID de USUARIO invalido.");
 		}
@@ -38,9 +37,8 @@ public class UsuarioApp extends Users
 		user = user.findById(id);
 		
 		if (user == null){
-			throw new IllegalArgumentException("Ingreso un ID de USUARIO no válido.");
+			throw new IllegalArgumentException("Ingreso un ID de USUARIO invalido.");
 		}else 
-		    System.out.println("El ID del Usuario es: "+id);
 		    return user.getString("id");
 	}  
 
@@ -54,56 +52,90 @@ public class UsuarioApp extends Users
 		user = user.findById(id);
 		
 		if (user == null){
-			throw new IllegalArgumentException("Ingreso un ID de USUARIO no válido.");
+			throw new IllegalArgumentException("Ingreso un ID de USUARIO invalido.");
 		}else 
-		    //System.out.println("El NOMBRE del Usuario es: "+name);
 		    return user.getString("name");
     }
+   
     
-/*    
-    
-    public int getGan() {
-        //Retorno las partidas Ganadas
+    public int getGanada() {
+        //Retorno las partidas ganadas
+        connect();
+        
 		User user = new User();	
+		
 		user = user.findById(id);
-        return use.get("won");
-    }    
-    
-    public int getPer() {
-        //Retorno las partidas Perdidas
-
-        return lost;
+		
+		if (user == null){
+			throw new IllegalArgumentException("Ingreso un ID de USUARIO invalido.");
+		}else 
+		    return user.getInteger("won");
     }  
     
-    public int getAba() {
+    
+    public int getPerdida() {
+        //Retorno las partidas Perdidas
+        
+        connect();
+        
+		User user = new User();	
+		
+		user = user.findById(id);
+		
+		if (user == null){
+			throw new IllegalArgumentException("Ingreso un ID de USUARIO invalido.");
+		}else 
+		    return user.getInteger("lost");
+    }      
+       
+    
+    public int getAbandonada() {
         //Retorno las partidas Abandonadas
 
-        return abandoned;
-    }            
+        connect();
+        
+		User user = new User();	
+		
+		user = user.findById(id);
+		
+		if (user == null){
+			throw new IllegalArgumentException("Ingreso un ID de USUARIO invalido.");
+		}else 
+		    return user.getInteger("abandoned");
+    }                  
 
 
-    public boolean saveResult(Resultado resultado) {
+    public boolean saveResult(ResultadoPartida resultado) {
         // Guardo el resultado de una partida
 
-        UsuarioApp u = new UsuarioApp(id);
+        connect();
+        
+		User u = new User();	
+		
+		u = u.findById(id);
+		
+		if (u == null){
+			throw new IllegalArgumentException("Ingreso un ID de USUARIO invalido.");
+			
+	    } else
 
-        if (resultado == Resultado.GANADAS) {
+          if (resultado == ResultadoPartida.GANO) {
 
-            int g = u.getGan();
+              int g = u.getInteger("won");
 
-            g++;
+              g++;          
 
-            u.set("won", g);
+              u.set("won", g);
 
-            u.saveIt();
+              u.saveIt();
             
-            System.out.println("Se han actualizado las partidas GANADAS");
+              System.out.println("Se han actualizado las partidas GANADAS");
 
             return true;
 
-        } else if (resultado == Resultado.PERDIDAS) {
+        } else if (resultado == ResultadoPartida.PERDIO) {
 
-                    int p = u.getPer();
+                    int p = u.getInteger("lost");
 
                     p++;
 
@@ -115,9 +147,9 @@ public class UsuarioApp extends Users
 
                     return true;
 
-        } else if (resultado == Resultado.ABANDONADAS) {
+        } else if (resultado == ResultadoPartida.ABANDONO) {
 
-                    int a = u.getAba();
+                    int a = u.getInteger("abandoned");
 
                     a++;
 
@@ -130,12 +162,11 @@ public class UsuarioApp extends Users
                     return true;
         } else {
 
-            System.out.println( "\n" + "el resultado ingresado no es correcto ");
+            System.out.println("El USUARIO ingresado no es correcto!"); 
 
             return false;
         }
 
     }
-*/
 
 }
