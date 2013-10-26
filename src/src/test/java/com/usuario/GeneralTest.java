@@ -46,22 +46,24 @@ public class GeneralTest {
         //UsuarioApp usu1 = new UsuarioApp("zzz");        
         
         //getID
-        usu.getID();
+		System.out.println("El ID del Usuario es: "+usu.getID());        
         
         //getName
-        usu.getName();        
+		System.out.println("El NOMBRE del Usuario es: "+usu.getName());                
         
-        //getGan
-        usu.getGan();  
+        //getGananada
+		System.out.println("La cantidad de partidas GANADAS es: "+usu.getGanada());          
         
-        //getPer
-        usu.getPer();    
+        //getPerdida  
+		System.out.println("La cantidad de partidas PERDIDAS es: "+usu.getPerdida()); 
         
-        //getAba
-        usu.getAba();    
+        //getAbandonada
+		System.out.println("La cantidad de partidas ABANDONADAS es: "+usu.getAbandonada());        
         
-        //getAba
-        usu.saveResult(GANADAS);  
+        //getAba                
+        Resultado resultado = Resultado.GANO;   
+        usu.saveResult(resultado);
+		System.out.println("La cantidad de partidas GANADAS es: "+usu.getGanada());          
         
 /*        		
 
