@@ -2,7 +2,7 @@ package com.usuario;
 
 import com.usuario.Login;
 import com.usuario.UsuarioApp;
-import com.usuario.Resultado;
+import com.usuario.ResultadoPartida;
 
 import org.javalite.activejdbc.Base;
 
@@ -34,95 +34,91 @@ public class GeneralTest {
 		
 //AUX Vars
         String id;
-        Resultado result;
         
 ////////TEST UsuarioApp
-		System.out.println("\n\nTEST UsuarioApp");
+		System.out.println("\n\nTEST UsuarioApp\n\n");
 		
 		//Usuario valido
-        UsuarioApp usu = new UsuarioApp("nico");
-        
-		//Usuario invalido
-        //UsuarioApp usu1 = new UsuarioApp("zzz");        
+	    UsuarioApp usu = new UsuarioApp("nico");
         
         //getID
-		System.out.println("El ID del Usuario es: "+usu.getID());        
+		try{
+			System.out.println("El ID del Usuario es: "+usu.getID());        
+		}catch(Exception e){
+			System.out.println("getID invalido");
+		}        
         
         //getName
-		System.out.println("El NOMBRE del Usuario es: "+usu.getName());                
+		try{
+		    System.out.println("El NOMBRE del Usuario es: "+usu.getName());
+		}catch(Exception e){
+			System.out.println("getName invalido");
+		}       
         
         //getGananada
-		System.out.println("La cantidad de partidas GANADAS es: "+usu.getGanada());          
+		try{
+		    System.out.println("La cantidad de partidas GANADAS es: "+usu.getGanada());
+		}catch(Exception e){
+			System.out.println("getGanada invalido");
+		}           
         
         //getPerdida  
-		System.out.println("La cantidad de partidas PERDIDAS es: "+usu.getPerdida()); 
+		try{
+		    System.out.println("La cantidad de partidas PERDIDAS es: "+usu.getPerdida()); 
+		}catch(Exception e){
+			System.out.println("getPerdida invalido");
+		}                   
         
         //getAbandonada
-		System.out.println("La cantidad de partidas ABANDONADAS es: "+usu.getAbandonada());        
+		try{
+		    System.out.println("La cantidad de partidas ABANDONADAS es: "+usu.getAbandonada()); 
+		}catch(Exception e){
+			System.out.println("getAbandonada invalido");
+		}                           
         
-        //getAba                
-        Resultado resultado = Resultado.GANO;   
-        usu.saveResult(resultado);
-		System.out.println("La cantidad de partidas GANADAS es: "+usu.getGanada());          
-        
-/*        		
-
-		//saveResult GANADAS
-		result = Resultado.GANADAS;
-		
+        //saveResult                
+        ResultadoPartida resultado = ResultadoPartida.GANO;   
 		try{
-			this.saveResult(result);
+            usu.saveResult(resultado);
+		    System.out.println("La cantidad de partidas GANADAS es: "+usu.getGanada());   
 		}catch(Exception e){
-			System.out.println("saveResult GANADAS invalido");
-		}	
+			System.out.println("saveResult invalido");
+		}        
 		
-		//saveResult PERDIDAS
-		result = Resultado.PERDIDAS;		
+		System.out.println("\n\n-> END Test UsuarioApp\n\n");				    
 		
-		try{
-			UsuarioApp.saveResult(result);
-		}catch(Exception e){
-			System.out.println("saveResult PERDIDAS invalido");
-		}			
-		
-		//saveResult ABANDONADAS
-		result = Resultado.ABANDONADAS;		
-		
-		try{
-			UsuarioApp.saveResult(result);
-		}catch(Exception e){
-			System.out.println("saveResult ABANDONADAS invalido");
-		}
-		   
 
 ////////TEST Login  
-		System.out.println("\n\nTEST Login");
+		System.out.println("\n\nTEST Login\n\n");
+		
+		//Usuario Login valido
+	    Login login = new Login("nico");		
+		 
+        //getID
+		try{
+			System.out.println("El ID del Usuario Login es: "+login.getID());        
+		}catch(Exception e){
+			System.out.println("getID invalido");
+		} 			
 
 		//newUsuario
 		try{
-			Login.newUsuario("J", "12345", "John2", "algo@algo.com", 0, 0, 0);
+			System.out.println("El ID del Nuevo Usuario es: "+login.newUsuario("J", "12345", "John2", "algo@algo.com", 0, 0, 0));
 		}catch(Exception e){
-			System.out.println("Agregar LOGIN invalido: Genero Excepcion OK");
+			System.out.println("Agregar Nuevo Usuario invalido");
 		}
-		
-		//check valido
+				
+		//checkPassword
 		try{
-			Login.check("J", "12345");
+			if (login.checkPassword("nico", "13588") == true) {
+			   System.out.println("El PASSWORD ingresado coincide con el ID ingresado");} 			
 		}catch(Exception e){
 			System.out.println("Chequear PASSWORD invalido");
 		}
 		
-		//check invalido
-		try{
-			Login.check("J", "12348");
-		}catch(Exception e){
-			System.out.println("Chequear PASSWORD valido");
-		}		
-		
 		System.out.println("\n\n-> END Test Login\n\n");		
 		
 	
-*/
     }
 
 }

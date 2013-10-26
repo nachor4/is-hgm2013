@@ -32,8 +32,6 @@ public class LoginSpec{
     public void shouldValidateMandatoryFields(){
 
         User login = new User();
-        
-/*        
 
         //check errors
         the(login).shouldNotBe("valid");
@@ -55,9 +53,7 @@ public class LoginSpec{
 		login.set("abandoned", 0);				
 		
         //all is good:
-        the(login).shouldBe("valid");
-        * 
-*/     
+        the(login).shouldBe("valid");  
  
     }
 }

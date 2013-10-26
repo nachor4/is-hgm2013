@@ -1,7 +1,7 @@
 package com.usuario;
 
 
-public enum Resultado
+public enum ResultadoPartida
 {
 	GANO, PERDIO, ABANDONO;
 }

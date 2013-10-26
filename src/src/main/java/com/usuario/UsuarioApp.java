@@ -4,7 +4,7 @@ import java.util.*;
 import java.io.*;
 
 import com.usuario.models.User;
-import com.usuario.Resultado;
+import com.usuario.ResultadoPartida;
 
 import java.lang.String;
 
@@ -21,7 +21,6 @@ public class UsuarioApp extends Users
 		
 		try{
 			user = user.findById(id);
-			System.out.println("Usuario encontrado!");
 		}catch(Exception e){
 			throw new IllegalArgumentException("Ingreso un ID de USUARIO invalido.");
 		}
@@ -106,7 +105,7 @@ public class UsuarioApp extends Users
     }                  
 
 
-    public boolean saveResult(Resultado resultado) {
+    public boolean saveResult(ResultadoPartida resultado) {
         // Guardo el resultado de una partida
 
         connect();
@@ -120,11 +119,11 @@ public class UsuarioApp extends Users
 			
 	    } else
 
-          if (resultado == Resultado.GANO) {
+          if (resultado == ResultadoPartida.GANO) {
 
               int g = u.getInteger("won");
 
-              g++;            
+              g++;          
 
               u.set("won", g);
 
@@ -134,7 +133,7 @@ public class UsuarioApp extends Users
 
             return true;
 
-        } else if (resultado == Resultado.PERDIO) {
+        } else if (resultado == ResultadoPartida.PERDIO) {
 
                     int p = u.getInteger("lost");
 
@@ -148,7 +147,7 @@ public class UsuarioApp extends Users
 
                     return true;
 
-        } else if (resultado == Resultado.ABANDONO) {
+        } else if (resultado == ResultadoPartida.ABANDONO) {
 
                     int a = u.getInteger("abandoned");
 
