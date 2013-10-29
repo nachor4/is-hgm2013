@@ -27,8 +27,6 @@ public class Login extends Users
 	
 	public String getID() {
 		// Retorna el ID del Usuario
-		
-        connect();
         
 		User login = new User();	
 		login = login.findById(id);
@@ -43,12 +41,10 @@ public class Login extends Users
 	public String newUsuario(String id, String password, String name, String email, int won, int lost, int abandoned) {
 		// Agrega un nuevo Usuario
 		
-        connect();		
-		
 		User login = new User();
 		
         login.set("id", id);	        	
-        login.set("password", DigestUtils.md5(password));        
+        login.set("password", DigestUtils.md5Hex(password));        
         login.set("name", name);
 		login.set("email", email);						
 		login.set("won", 0);		
@@ -64,8 +60,6 @@ public class Login extends Users
 	public boolean checkPassword(String id, String password) {
 		// Chequea el password del Usuario
 		
-        connect();		
-		
 		User login = new User();
 		
 		login = login.findById(id);
@@ -76,23 +70,29 @@ public class Login extends Users
 			
 			return false;		
 		
-		} else 
+		} else { 
+			
+			//String pass_usu = login.getString("password");
 		
-			if (login.get("password") == DigestUtils.md5("password")) {
+		    //String pass_ing = DigestUtils.md5Hex(password);
+		
+			if (login.getString("password").equals(DigestUtils.md5Hex(password))) {
         		
-				return true;
+		        return true;
 				
 		   } else {
 			   
 				System.out.println("El PASSWORD ingresado es invalido");			   
-		    
-		        return false;
+			   
+			    return false;
+			   
+			}
 		}  
 	}
 
 	
 	
-	public static int resetPassword(String usuario, String email) {
+	public int resetPassword(String usuario, String email) {
 		// Resetea el password
 		
 		return 0;	
