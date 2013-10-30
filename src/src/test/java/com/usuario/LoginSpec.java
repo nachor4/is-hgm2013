@@ -38,19 +38,13 @@ public class LoginSpec{
         the(login.errors().get("id")).shouldBeEqual("value is missing");        
         the(login.errors().get("password")).shouldBeEqual("value is missing");
         the(login.errors().get("name")).shouldBeEqual("value is missing");        
-        the(login.errors().get("email")).shouldBeEqual("value is missing");
-        the(login.errors().get("won")).shouldBeEqual("value is missing");        
-        the(login.errors().get("lost")).shouldBeEqual("value is missing");        
-        the(login.errors().get("abandoned")).shouldBeEqual("value is missing");        
+        the(login.errors().get("email")).shouldBeEqual("value is missing");      
 
         //set missing values
         login.set("id", "J");
         login.set("password", "12345");        
         login.set("name", "John");
-		login.set("email", "algo@algo.com");
-		login.set("won", 0);		
-		login.set("lost", 0);				
-		login.set("abandoned", 0);				
+		login.set("email", "algo@algo.com");			
 		
         //all is good:
         the(login).shouldBe("valid");  
