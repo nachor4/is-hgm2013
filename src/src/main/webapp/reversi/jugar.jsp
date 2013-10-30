@@ -4,5 +4,6 @@
 	</head>
 	<body>
 		<h1>REVERSI!</h1>
+		<p>Let the game begin!</p>
 	</body>
 </html>

@@ -1,14 +1,31 @@
 <%
 	//Realizo las configuraciones y redirijo a jugar.jsp
 	
-	String username = (String)session.getAttribute("username");
+	if (session.getAttribute("user") == null || (String)session.getAttribute("user") == ""){
+		//Si el usuario NO esta logueado, lo redirijo al juego
+		response.sendRedirect("/"); 
+		return;
+	}	
+	
+	String user = (String)session.getAttribute("user");
+	
+	Login userLogin = new Login();
+	
+	try{
+		String userName = userLogin.getName(user);
+	}catch (Exception e){
+		session.invalidate();
+		response.sendRedirect("/"); 	
+	}
+
 %>
+
 <html>
 	<head>
 		<title>Testing Websockets</title>
 	</head>
 	<body>
-		<p>Hola <%= username; %>!</p>
+		<p>Hola <%= username %>! | <a href="/logout.jsp">LogOut</a></p>
 		<h1>REVERSI!</h1>
 		<h2>Nuevo Juego</h2>
 		<form action="" method="post">
