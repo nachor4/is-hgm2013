@@ -15,6 +15,7 @@ public class UsuarioApp extends Users
     private String id;
 
     public UsuarioApp(String id) {
+		
 		connect();
 		
 		User user = new User();

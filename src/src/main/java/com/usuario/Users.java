@@ -13,7 +13,7 @@ public class Users
 	}
 */
 
-	private void connect(){
+	protected void connect(){
 		if (!Base.hasConnection()){
 			Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/Ingenieria", "reversi", "123");	
 			System.out.println("---> Se conecto a la base de datos."+Base.connection()+"\n");

@@ -11,6 +11,7 @@ public class Login extends Users
 	private String id;
 
 	public Login(String id) {
+		
 		connect();
 		
 		User login = new User();
