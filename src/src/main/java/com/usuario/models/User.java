@@ -4,7 +4,7 @@ import org.javalite.activejdbc.Model;
 
 public class User extends Model {
   static{
-      validatePresenceOf("id", "password", "name", "email", "won", "lost", "abandoned");
+      validatePresenceOf("id", "password", "name", "email");
       validateEmailOf("email");
   }
 }

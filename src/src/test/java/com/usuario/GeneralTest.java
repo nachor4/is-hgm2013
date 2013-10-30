@@ -93,11 +93,20 @@ public class GeneralTest {
 		System.out.println("\n\nTEST Login\n\n");
 		
 		//Usuario Login valido
-	    Login login = new Login();					
+	    Login login = new Login();	
+	    
+        //getName
+		try{
+		    System.out.println("El NOMBRE del Usuario es: "+login.getName("nico"));
+		}catch(Exception e){
+			System.out.println("getName invalido");
+		}  	    				
 
 		//newUsuario
 		try{
-			System.out.println("El ID del Nuevo Usuario es: "+login.newUsuario("J", "12345", "John2", "algo@algo.com", 0, 0, 0));
+			if (login.newUsuario("J", "12345", "John2", "algo@algo.com") == 0) {
+			    System.out.println("Se agrego un nuevo Usuario"); 
+			}
 		}catch(Exception e){
 			System.out.println("Agregar Nuevo Usuario invalido");
 		}
@@ -109,6 +118,10 @@ public class GeneralTest {
 		}catch(Exception e){
 			System.out.println("Chequear PASSWORD invalido");
 		}
+		
+		//resetPassword
+		System.out.println("Reset PASSWORD existente: "+login.resetPassword("nico"));
+		System.out.println("Reset PASSWORD inexistente: "+login.resetPassword("qwerty"));		
 		
 		System.out.println("\n\n-> END Test Login\n\n");		
 		

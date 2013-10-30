@@ -38,19 +38,13 @@ public class UsuarioAppSpec{
         the(usuarioapp.errors().get("id")).shouldBeEqual("value is missing");        
         the(usuarioapp.errors().get("password")).shouldBeEqual("value is missing");
         the(usuarioapp.errors().get("name")).shouldBeEqual("value is missing");        
-        the(usuarioapp.errors().get("email")).shouldBeEqual("value is missing");
-        the(usuarioapp.errors().get("won")).shouldBeEqual("value is missing");        
-        the(usuarioapp.errors().get("lost")).shouldBeEqual("value is missing");        
-        the(usuarioapp.errors().get("abandoned")).shouldBeEqual("value is missing");        
+        the(usuarioapp.errors().get("email")).shouldBeEqual("value is missing");     
 
         //set missing values
         usuarioapp.set("id", "J");
         usuarioapp.set("password", "12345");        
         usuarioapp.set("name", "John");
-		usuarioapp.set("email", "algo@algo.com");
-		usuarioapp.set("won", 0);		
-		usuarioapp.set("lost", 0);				
-		usuarioapp.set("abandoned", 0);				
+		usuarioapp.set("email", "algo@algo.com");			
 		
         //all is good:
         the(usuarioapp).shouldBe("valid");  
