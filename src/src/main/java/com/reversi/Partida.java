@@ -1,5 +1,7 @@
 package com.reversi;
 
+import com.reversi.ReversiObserver;
+
 import com.usuario.UsuarioApp;
 
 import com.reversi.EstadoJuego;
@@ -36,6 +38,8 @@ public class Partida {
 	
 	private int dificultad;
 	
+	private ReversiObserver observer = new ReversiObserver();
+	
 	//private Temporizador tiempoUltMov = new Temporizador();
 		
 	public String elNegro;  // los hice public para poder accederlo en el timer
@@ -48,16 +52,17 @@ public class Partida {
 	
 	public String turnoActual; // los hice public para poder accederlo en el timer
 		
-	public Partida (String idNegro, String idBlanco, int dificultRec, ReversiObserver observerRecibido){
+	public Partida (String idNegro, String idBlanco, int dificultRec, ReversiObserver observer){
 		
 		
 		
 		User jugadorNegro = new User();
 		jugadorNegro = jugadorNegro.findById(idNegro);
+		elNegro = idNegro;
 		
 		User jugadorBlanco = new User();
 		jugadorBlanco = jugadorBlanco.findById(idBlanco);
-		
+		elBlanco = idBlanco;
 		//Controlamos que el jugador Negro haya sido creado correctamente.
 			if ( jugadorNegro == null ) {
 			     throw new IllegalArgumentException ("El idNegro recibido no existe\n");
@@ -77,7 +82,9 @@ public class Partida {
 						SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy h:mm:ss a");
 						String formattedDate = sdf.format(date);
 								
-						id = idNegro + idBlanco + formattedDate;
+						id = elNegro + elBlanco + formattedDate; 
+						
+						
 						//Inicializamos el tablero, si un casillero esta en 0, significa que esta vacio
 						//si esta en 1 significa que hay una ficha negra y 2 si hay una ficha blanca.
 						for (int x = 0; x < 8; x++) {
@@ -165,7 +172,8 @@ public class Partida {
 	}
 	
 	public String getId() {
-		return id;	
+		Partida parti = new Partida(elNegro, elBlanco, dificultad , observer);
+		return this.id;	
 	}	
 	
 	public int getCantNegras() {
