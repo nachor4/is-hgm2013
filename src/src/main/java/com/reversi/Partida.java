@@ -2,6 +2,8 @@ package com.reversi;
 
 import com.usuario.UsuarioApp;
 
+import com.reversi.EstadoJuego;
+
 import com.usuario.Users;
 
 import org.javalite.activejdbc.Base;
@@ -30,8 +32,6 @@ import java.text.SimpleDateFormat;
 
 public class Partida {
 	
-	private enum EstadoJuego {INICIADO, JUGANDO, CANCELADO, FINALIZADO };
-	
 	private String id;
 	
 	private int dificultad;
@@ -44,9 +44,7 @@ public class Partida {
 	
 	private int tablero[][] = new int [8][8];
 	
-	private int cantMovimientos;
-	
-	private EstadoJuego estJuego; 
+	private int cantMovimientos; 
 	
 	public String turnoActual; // los hice public para poder accederlo en el timer
 		
@@ -84,14 +82,14 @@ public class Partida {
 						//si esta en 1 significa que hay una ficha negra y 2 si hay una ficha blanca.
 						for (int x = 0; x < 8; x++) {
 							for(int y = 0; y < 8; y++) {
-								tablero[x][y].setValue(0);
+								tablero[x][y] = 0;
 						 }
 					 }
 					 
-					tablero[3][4].setValue(1);
-					tablero[4][3].setValue(1);
-					tablero[3][3].setValue(2);
-					tablero[4][4].setValue(2);
+					tablero[3][4] = 1;
+					tablero[4][3] = 1;
+					tablero[3][3] = 2;
+					tablero[4][4] = 2;
 					
 						if(dificultad == 0) {
 						/*	int seg = 60;
@@ -152,23 +150,27 @@ public class Partida {
 		return turnoActual;	
 	}
 	
-	public String estadoJuego() {
+	public EstadoJuego estadoJuego() {
 		if (cantMovimientos == 1) {
-			return estJuego[0]; // El juego esta INICIADO;
+			return EstadoJuego.INICIADO; // El juego esta INICIADO;
 				}
-			else if(cantMovimientos > 1 && cantMovimientos < 60 && (cantValidos(idNegro) != 0 || cantValidos(idBlanco) != 0)) {
-					return estJuego[2];}	//El juego esta en estado JUGANDO.
-					else if (cantMovimientos == 60 || (cantValidos(idNegro) == 0 && cantValidos(idBlanco) == 0))
-							return estJuego[3]; // el juego esta en estado Finalizado.
+			else if(cantMovimientos > 1 ) /*&& cantMovimientos < 60 && (cantValidos(idNegro) != 0 || cantValidos(idBlanco) != 0))*/ {
+					return EstadoJuego.JUGANDO;}	//El juego esta en estado JUGANDO.
+					else if (cantMovimientos == 60) { /*|| (cantValidos(idNegro) == 0 && cantValidos(idBlanco) == 0) */
+							return EstadoJuego.FINALIZADO; }// el juego esta en estado Finalizado.
 							else {
-								return estJuego[1]; // El juego fue CANCELADO.
+								return EstadoJuego.CANCELADO; // El juego fue CANCELADO.
 							}
-		return 0;	
+			
 	}
 	
 	public String getId() {
 		return id;	
 	}	
+	
+	public int getCantNegras() {
+		return 0;
+		}
 	
 
 }	
