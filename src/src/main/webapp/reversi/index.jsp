@@ -1,11 +1,14 @@
 <%
 	//Realizo las configuraciones y redirijo a jugar.jsp
+	
+	String username = (String)session.getAttribute("username");
 %>
 <html>
 	<head>
 		<title>Testing Websockets</title>
 	</head>
 	<body>
+		<p>Hola <%= username; %>!</p>
 		<h1>REVERSI!</h1>
 		<h2>Nuevo Juego</h2>
 		<form action="" method="post">
