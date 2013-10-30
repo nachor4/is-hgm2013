@@ -7,20 +7,18 @@ import org.apache.commons.codec.digest.DigestUtils;
 public class Login extends Users
 {
 
-/*	
-	private String id;
-
-	public Login(){
-		//super();
-	}		
+	public Login() {
+		
+    }  	
+			
 	
-	public static String newUsuario(String id, String password, String name, String email, int won, int lost, int abandoned) {
+	public String newUsuario(String id, String password, String name, String email, int won, int lost, int abandoned) {
 		// Agrega un nuevo Usuario
 		
-		Login login = new Login();
+		User login = new User();
 		
         login.set("id", id);	        	
-        login.set("password", DigestUtils.md5(password));        
+        login.set("password", DigestUtils.md5Hex(password));        
         login.set("name", name);
 		login.set("email", email);						
 		login.set("won", 0);		
@@ -32,11 +30,11 @@ public class Login extends Users
 		return login.getString("id");
 	}	
 
-	
-	public static boolean check(String id, String password) {
+
+	public boolean checkPassword(String id, String password) {
 		// Chequea el password del Usuario
 		
-		Login login = new Login();
+		User login = new User();
 		
 		login = login.findById(id);
 
@@ -46,35 +44,27 @@ public class Login extends Users
 			
 			return false;		
 		
-		} else 
+		} else { 
 		
-			if (login.get("password") == DigestUtils.md5(password)) {
+			if (login.getString("password").equals(DigestUtils.md5Hex(password))) {
         		
-				return true;
+		        return true;
 				
 		   } else {
 			   
 				System.out.println("El PASSWORD ingresado es invalido");			   
-		    
-		        return false;
+			   
+			    return false;
+			   
+			}
 		}  
 	}
-
 	
 	
-	public static int reset(String usuario, String email) {
+	public int resetPassword(String usuario, String email) {
 		// Resetea el password
 		
 		return 0;	
 	}
-	
-	
-	public String getID() {
-		// Retorna el ID del Usuario
-		
-		return id;	
-	}
-	* 
-*/
 	
 }

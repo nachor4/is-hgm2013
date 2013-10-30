@@ -20,6 +20,6 @@ TRUNCATE users;
 
 -- Usuario de ejemplo
 INSERT INTO users (id, password, name, email,won, lost, abandoned) 
-VALUES ('nico', MD5('13588') ,'nicolas','nico@reversi.com',0,0,0);
+VALUES ('nico', MD5('13588') ,'nicolas','nico@reversi.com',1,1,1);
 
 COMMIT;
