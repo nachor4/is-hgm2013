@@ -140,7 +140,8 @@
 					 <configuration>
 						<app>target/${project.artifactId}-${project.version}</app>
 						<port>8080</port>
-						<contextRoot>${project.artifactId}</contextRoot>
+						<!--<contextRoot>${project.artifactId}</contextRoot>-->
+						<contextRoot>/</contextRoot>
 					 </configuration>
 					 <dependencies>
 					   <dependency>
