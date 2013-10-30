@@ -93,14 +93,7 @@ public class GeneralTest {
 		System.out.println("\n\nTEST Login\n\n");
 		
 		//Usuario Login valido
-	    Login login = new Login("nico");		
-		 
-        //getID
-		try{
-			System.out.println("El ID del Usuario Login es: "+login.getID());        
-		}catch(Exception e){
-			System.out.println("getID invalido");
-		} 			
+	    Login login = new Login();					
 
 		//newUsuario
 		try{

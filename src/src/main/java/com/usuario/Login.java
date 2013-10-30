@@ -7,37 +7,10 @@ import org.apache.commons.codec.digest.DigestUtils;
 public class Login extends Users
 {
 
-	
-	private String id;
-
-	public Login(String id) {
+	public Login() {
 		
-		connect();
-		
-		User login = new User();
-		
-		try{
-			login = login.findById(id);
-		}catch(Exception e){
-			throw new IllegalArgumentException("Ingreso un ID de USUARIO invalido.");
-		}
-		
-		this.id = id;
-    }  
-	
-	
-	public String getID() {
-		// Retorna el ID del Usuario
-        
-		User login = new User();	
-		login = login.findById(id);
-		
-		if (login == null){
-			throw new IllegalArgumentException("Ingreso un ID de USUARIO invalido.");
-		}else 
-		    return login.getString("id");
-	}  	
-		
+    }  	
+			
 	
 	public String newUsuario(String id, String password, String name, String email, int won, int lost, int abandoned) {
 		// Agrega un nuevo Usuario
@@ -72,10 +45,6 @@ public class Login extends Users
 			return false;		
 		
 		} else { 
-			
-			//String pass_usu = login.getString("password");
-		
-		    //String pass_ing = DigestUtils.md5Hex(password);
 		
 			if (login.getString("password").equals(DigestUtils.md5Hex(password))) {
         		
@@ -90,7 +59,6 @@ public class Login extends Users
 			}
 		}  
 	}
-
 	
 	
 	public int resetPassword(String usuario, String email) {

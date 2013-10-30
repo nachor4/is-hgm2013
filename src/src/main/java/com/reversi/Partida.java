@@ -18,8 +18,6 @@ import com.usuario.models.User;
 
 import java.lang.String;
 
-import com.reversi.models.PartidaModel;
-
 import java.util.*;
 
 import java.io.*;
@@ -30,7 +28,7 @@ import java.sql.Timestamp;
 
 import java.text.SimpleDateFormat;
 
-public class Partida {
+public class Partida { 
 	
 	private String id;
 	
@@ -171,6 +169,7 @@ public class Partida {
 	public int getCantNegras() {
 		return 0;
 		}
+	
 	
 
 }	
