@@ -9,11 +9,15 @@ public class Login extends Users
 
 	public Login() {
 		
+		connect();
+		
     }  	
 			
 	
 	public String newUsuario(String id, String password, String name, String email, int won, int lost, int abandoned) {
 		// Agrega un nuevo Usuario
+		
+		connect();
 		
 		User login = new User();
 		
@@ -33,6 +37,8 @@ public class Login extends Users
 
 	public boolean checkPassword(String id, String password) {
 		// Chequea el password del Usuario
+		
+		connect();
 		
 		User login = new User();
 		
