@@ -45,7 +45,7 @@ public class Login extends Users
 				login.set("name", name);
 				login.set("email", email);				
 			
-				login.saveIt();
+				login.insert();
 			
 				return 0;
 			
