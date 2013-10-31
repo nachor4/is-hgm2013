@@ -15,7 +15,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 
-public class GeneralTest {
+public class UsuarioAppTest {
 
     @Before
     public void before(){
@@ -44,86 +44,51 @@ public class GeneralTest {
         
         //getID
 		try{
-			System.out.println("El ID del Usuario es: "+usu.getID());        
+			System.out.println("\nEl ID del Usuario es: "+usu.getID());        
 		}catch(Exception e){
 			System.out.println("getID invalido");
 		}        
         
         //getName
 		try{
-		    System.out.println("El NOMBRE del Usuario es: "+usu.getName());
+		    System.out.println("\nEl NOMBRE del Usuario es: "+usu.getName());
 		}catch(Exception e){
 			System.out.println("getName invalido");
 		}       
         
         //getGananada
 		try{
-		    System.out.println("La cantidad de partidas GANADAS es: "+usu.getGanada());
+		    System.out.println("\nLa cantidad de partidas GANADAS es: "+usu.getGanada());
 		}catch(Exception e){
 			System.out.println("getGanada invalido");
 		}           
         
         //getPerdida  
 		try{
-		    System.out.println("La cantidad de partidas PERDIDAS es: "+usu.getPerdida()); 
+		    System.out.println("\nLa cantidad de partidas PERDIDAS es: "+usu.getPerdida()); 
 		}catch(Exception e){
 			System.out.println("getPerdida invalido");
 		}                   
         
         //getAbandonada
 		try{
-		    System.out.println("La cantidad de partidas ABANDONADAS es: "+usu.getAbandonada()); 
+		    System.out.println("\nLa cantidad de partidas ABANDONADAS es: "+usu.getAbandonada()); 
 		}catch(Exception e){
 			System.out.println("getAbandonada invalido");
 		}                           
+		
+		    System.out.println("\n");		
         
         //saveResult                
         ResultadoPartida resultado = ResultadoPartida.GANO;   
 		try{
             usu.saveResult(resultado);
-		    System.out.println("La cantidad de partidas GANADAS es: "+usu.getGanada());   
+		    System.out.println("\nLa cantidad de partidas GANADAS es: "+usu.getGanada());   
 		}catch(Exception e){
 			System.out.println("saveResult invalido");
 		}        
 		
-		System.out.println("\n\n-> END Test UsuarioApp\n\n");				    
-		
-
-////////TEST Login  
-		System.out.println("\n\nTEST Login\n\n");
-		
-		//Usuario Login valido
-	    Login login = new Login();	
-	    
-        //getName
-		try{
-		    System.out.println("El NOMBRE del Usuario es: "+login.getName("nico"));
-		}catch(Exception e){
-			System.out.println("getName invalido");
-		}  	    				
-
-		//newUsuario
-		try{
-			if (login.newUsuario("J", "12345", "John2", "algo@algo.com") == 0) {
-			    System.out.println("Se agrego un nuevo Usuario"); 
-			}
-		}catch(Exception e){
-			System.out.println("Agregar Nuevo Usuario invalido");
-		}
-				
-		//checkPassword
-		try{
-			if (login.checkPassword("nico", "13588") == true) {
-			   System.out.println("El PASSWORD ingresado coincide con el ID ingresado");} 			
-		}catch(Exception e){
-			System.out.println("Chequear PASSWORD invalido");
-		}
-		
-		//resetPassword
-		System.out.println("Reset PASSWORD existente: "+login.resetPassword("nico"));
-		System.out.println("Reset PASSWORD inexistente: "+login.resetPassword("qwerty"));		
-		
-		System.out.println("\n\n-> END Test Login\n\n");		
+		System.out.println("\n\n-> END Test UsuarioApp\n\n");		
 		
 	
     }

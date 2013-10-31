@@ -11,9 +11,7 @@ import org.slf4j.LoggerFactory;
 @RunWith(Suite.class)
 
 @Suite.SuiteClasses({
-	LoginSpec.class,
-	UsuarioAppSpec.class,
-	GeneralTest.class
+	LoginSpec.class
 })
 
 public class TestSuite {
