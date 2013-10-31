@@ -92,7 +92,7 @@ public class UsuarioAppTest {
 		System.out.println("\n\nTEST saveResult\n");         
         ResultadoPartida resultado = ResultadoPartida.GANO;   
 		try{
-            usu.saveResult(resultado);
+            usu.saveResult(resultado);       
 		    System.out.println("\nLa cantidad de partidas GANADAS es: "+usu.getGanada());   
 		}catch(Exception e){
 			System.out.println("saveResult invalido");

@@ -15,10 +15,8 @@ public class Login extends Users
     public static String getName(String id) {
         //Retorno el nombre del Usuario Login
         
-        connect();
-        
-		User login = new User();	
-		
+        connect();        
+		User login = new User();			
 		login = login.findById(id);
 		
 		if (login == null){
@@ -31,8 +29,7 @@ public class Login extends Users
 	public static int newUsuario(String id, String password, String name, String email) {
 		// Agrega un nuevo Usuario
 		
-		connect();
-		
+		connect();		
 		User login = new User();
 		
 		if (login.findById(id) == null) {		
@@ -60,16 +57,13 @@ public class Login extends Users
 	public static boolean checkPassword(String id, String password) {
 		// Chequea el password del Usuario
 		
-		connect();
-		
-		User login = new User();
-		
+		connect();		
+		User login = new User();		
 		login = login.findById(id);
 
 		if (login == null){
 			
-            System.out.println("Ingreso un ID de Usuario invalido");			
-			
+            System.out.println("Ingreso un ID de Usuario invalido");					
 			return false;		
 		
 		} else { 
@@ -80,8 +74,7 @@ public class Login extends Users
 				
 		   } else {
 			   
-				System.out.println("El PASSWORD ingresado es invalido");			   
-			   
+				System.out.println("El PASSWORD ingresado es invalido");
 			    return false;
 			   
 			}
@@ -92,20 +85,16 @@ public class Login extends Users
 	public static int resetPassword(String id) {
 		// Resetea el password
 		
-		connect();
-		
-		User login = new User();
-		
+		connect();		
+		User login = new User();		
 		login = login.findById(id);
 		
 		if (login != null) {		
 		
 			try{	  
 				      	
-				login.set("password", DigestUtils.md5Hex("12345"));
-			
-				login.saveIt();
-			
+				login.set("password", DigestUtils.md5Hex("12345"));			
+				login.saveIt();			
 				return 0;
 			
 			}catch(Exception e){

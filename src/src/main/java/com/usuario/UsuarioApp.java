@@ -14,33 +14,30 @@ public class UsuarioApp extends Users
 
     private String id;
 
-    public UsuarioApp(String id) {
+    public UsuarioApp(String uid) {
 		
-		connect();
-		
+		connect();		
 		User user = new User();
+		user = user.findById(uid);
 		
-		try{
-			user = user.findById(id);
-		}catch(Exception e){
+		if (user == null){
 			throw new IllegalArgumentException("Ingreso un ID de USUARIO invalido.");
+		}else{
+			id = uid;
 		}
-		
-		this.id = id;
     }  
     
     
 	public String getID() {
 		// Retorna el ID del Usuario
 		
-		connect();
-        
+		connect();        
 		User user = new User();	
-		user = user.findById(id);
+		user = user.findById(id);	
 		
-		if (user == null){
-			throw new IllegalArgumentException("Ingreso un ID de USUARIO invalido.");
-		}else 
+		if (user == null){		
+			throw new IllegalArgumentException("Ingreso un ID de USUARIO invalido en getID.");
+		}else 	
 		    return user.getString("id");
 	}  
 
@@ -49,13 +46,11 @@ public class UsuarioApp extends Users
         //Retorno el nombre del Usuario
         
         connect();
-        
 		User user = new User();	
-		
 		user = user.findById(id);
 		
 		if (user == null){
-			throw new IllegalArgumentException("Ingreso un ID de USUARIO invalido.");
+			throw new IllegalArgumentException("Ingreso un ID de USUARIO invalido en getName.");
 		}else 
 		    return user.getString("name");
     }
@@ -65,13 +60,11 @@ public class UsuarioApp extends Users
         //Retorno la cantidad de partidas ganadas
         
         connect();
-        
 		User user = new User();	
-		
 		user = user.findById(id);
 		
 		if (user == null){
-			throw new IllegalArgumentException("Ingreso un ID de USUARIO invalido.");
+			throw new IllegalArgumentException("Ingreso un ID de USUARIO invalido en getGanada.");
 		}else 
 		    return user.getInteger("won");
     }  
@@ -81,13 +74,11 @@ public class UsuarioApp extends Users
         //Retorno la cantidad de partidas Perdidas
         
         connect();
-        
 		User user = new User();	
-		
 		user = user.findById(id);
 		
 		if (user == null){
-			throw new IllegalArgumentException("Ingreso un ID de USUARIO invalido.");
+			throw new IllegalArgumentException("Ingreso un ID de USUARIO invalido en getPerdida.");
 		}else 
 		    return user.getInteger("lost");
     }      
@@ -97,13 +88,11 @@ public class UsuarioApp extends Users
         //Retorno la cantidad de partidas Abandonadas
         
         connect();
-        
 		User user = new User();	
-		
 		user = user.findById(id);
 		
 		if (user == null){
-			throw new IllegalArgumentException("Ingreso un ID de USUARIO invalido.");
+			throw new IllegalArgumentException("Ingreso un ID de USUARIO invalido en getAbandonada.");
 		}else 
 		    return user.getInteger("abandoned");
     }                  
@@ -112,65 +101,59 @@ public class UsuarioApp extends Users
     public boolean saveResult(ResultadoPartida resultado) {
         // Actualizo el resultado de una partida
         
-        connect();
+        boolean resul;
         
+        connect();
 		User u = new User();	
-		
-		u = u.findById(id);
-		
+		u = u.findById(id);			
+ 
 		if (u == null){
-			throw new IllegalArgumentException("Ingreso un ID de USUARIO invalido.");
+			throw new IllegalArgumentException("Ingreso un ID de USUARIO invalido en saveResult.");
 			
-	    } else
-
-          if (resultado == ResultadoPartida.GANO) {
-
-              int g = u.getInteger("won");
-
-              g++;          
-
-              u.set("won", g);
-
-              u.saveIt();
-            
-              System.out.println("Se han actualizado las partidas GANADAS");
-
-            return true;
-
-        } else if (resultado == ResultadoPartida.PERDIO) {
-
-                    int p = u.getInteger("lost");
-
-                    p++;
-
-                    u.set("lost", p);
-
-                    u.saveIt();
+	    }else{	
+							    
+			switch (resultado){
+  	
+				case GANO:
+					int g = u.getInteger("won");
+					g++;          
+					u.set("won", g);
+					u.saveIt();
+              
+					System.out.println("Se han actualizado las partidas GANADAS");
+					resul = true;
+				break;		  
+		  
+				case PERDIO:
+					int p = u.getInteger("lost");
+					p++;
+					u.set("lost", p);
+					u.saveIt();
                     
-                    System.out.println("Se han actualizado las partidas PERDIDAS");                    
-
-                    return true;
-
-        } else if (resultado == ResultadoPartida.ABANDONO) {
-
-                    int a = u.getInteger("abandoned");
-
-                    a++;
-
-                    u.set("abandoned", a);
-
-                    u.saveIt();
+					System.out.println("Se han actualizado las partidas PERDIDAS"); 
+					resul = true;		
+				break;
+		  
+				case ABANDONO:
+					int a = u.getInteger("abandoned");
+					a++;
+					u.set("abandoned", a);
+					u.saveIt();
                     
-                    System.out.println("Se han actualizado las partidas ABANDONADAS");                    
+					System.out.println("Se han actualizado las partidas ABANDONADAS"); 
+					resul = true;		
+				break;
+				
+				default:
+					System.out.println("El RESULTADO ingresado no es correcto!"); 
+					resul = false;	
+				break;				
+			}//end switch
 
-                    return true;
-        } else {
+			return resul;
+			
+		}//end else
 
-            System.out.println("El USUARIO ingresado no es correcto!"); 
-
-            return false;
-        }
-
-    }
+    }//end saveResult
 
 }
