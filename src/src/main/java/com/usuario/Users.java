@@ -11,7 +11,6 @@ public class Users
 	protected static connect(){
 		if (!Base.hasConnection()){
 			Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/Ingenieria", "reversi", "123");
-			
 		}		
 	}
 }
