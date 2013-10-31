@@ -1,7 +1,7 @@
 package com.reversi;
 
 import com.reversi.ReversiObserver;
-import com.reversi.models.PartidaModel;
+
 //import com.usuario.Login;
 
 import org.javalite.activejdbc.Base;
