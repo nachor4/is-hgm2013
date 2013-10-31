@@ -8,12 +8,10 @@ public class Login extends Users
 {
 
 	public Login() {
-		
 		connect();
-		
     }  	
     
-    public String getName(String id) {
+    public static String getName(String id) {
         //Retorno el nombre del Usuario Login
         
         connect();
@@ -29,7 +27,7 @@ public class Login extends Users
     }    
 			
 	
-	public int newUsuario(String id, String password, String name, String email) {
+	public static int newUsuario(String id, String password, String name, String email) {
 		// Agrega un nuevo Usuario
 		
 		connect();
@@ -58,7 +56,7 @@ public class Login extends Users
 	}	
 
 
-	public boolean checkPassword(String id, String password) {
+	public static boolean checkPassword(String id, String password) {
 		// Chequea el password del Usuario
 		
 		connect();
@@ -90,7 +88,7 @@ public class Login extends Users
 	}
 	
 	
-	public int resetPassword(String id) {
+	public static int resetPassword(String id) {
 		// Resetea el password
 		
 		connect();
