@@ -7,7 +7,7 @@ package com.reversi;
  * @generated
  */
 
-public abstract class ReversiObserver
+public class ReversiObserver
 {
 	/**
 	 * <!-- begin-user-doc -->
@@ -16,7 +16,8 @@ public abstract class ReversiObserver
 	 * @ordered
 	 */
 	
-	public abstract void actualizar();
+	public void actualizar() {
+		}
 	
 }
 
