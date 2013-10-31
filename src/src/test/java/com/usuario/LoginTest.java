@@ -19,8 +19,7 @@ public class LoginTest {
 
     @Before
     public void before(){
-        Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/Ingenieria", "reversi", "123");
-	    System.out.println("---> Se conecto a la base de datos."+Base.connection()+"\n");        
+        Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/Ingenieria", "reversi", "123");      
         Base.openTransaction();
     }
 
@@ -38,22 +37,24 @@ public class LoginTest {
         
 
 ////////TEST Login  
-		System.out.println("\n\nTEST Login\n\n");
+		System.out.println("\n\n**********TEST Login**********\n\n");
 		
-		//Usuario Login valido
+		//Creaccion de Usuario Login
 	    Login login = new Login();	
 	    
         //getName
+		System.out.println("\n\nTEST getName");        
 		try{
 		    System.out.println("\nEl NOMBRE del Usuario es: "+login.getName("nico"));
 		}catch(Exception e){
 			System.out.println("getName invalido");
-		}  	    				
+		}  	
+		    				
 
 	//newUsuario
-		System.out.println("\n\nTEST NewUsuario");
+		System.out.println("\n\nTEST newUsuario valido");
 		try{
-			int res = login.newUsuario("J", "12345", "John2", "algo@algo.com");
+			int res = login.newUsuario("Jaja", "12345", "John2", "algo@algo.com");
 			switch (res){
 				case 0:
 					System.out.println("Se agrego un nuevo Usuario"); 
@@ -75,9 +76,9 @@ public class LoginTest {
 			System.out.println(e.getMessage());
 		}
 		
-		System.out.println("\n\nTEST NewUsuario - Repetido");
+		System.out.println("\n\nTEST newUsuario - Repetido");
 		try{
-			int res = login.newUsuario("J", "12345", "John2", "algo@algo.com");
+			int res = login.newUsuario("Jaja", "12345", "John2", "algo@algo.com");
 			switch (res){
 				case 0:
 					System.out.println("Se agrego un nuevo Usuario"); 
@@ -99,10 +100,9 @@ public class LoginTest {
 			System.out.println(e.getMessage());
 		}
 
-		
-		
-		System.out.println("\n\nTEST CheckPasswor\n\n");
+
 		//checkPassword
+		System.out.println("\n\nTEST checkPassword");		
 		try{
 			if (login.checkPassword("nico", "13588") == true) {
 			   System.out.println("\nEl PASSWORD ingresado coincide con el ID ingresado");} 			
@@ -110,11 +110,13 @@ public class LoginTest {
 			System.out.println("Chequear PASSWORD invalido");
 		}
 		
+		
 		//resetPassword
+		System.out.println("\n\nTEST resetPassword");		
 		System.out.println("\nReset PASSWORD existente: "+login.resetPassword("nico"));
 		System.out.println("\nReset PASSWORD inexistente: "+login.resetPassword("qwerty"));		
 		
-		System.out.println("\n\n-> END Test Login\n\n");		
+		System.out.println("\n\n->**********END Test Login**********\n\n");		
 		
 	
     }

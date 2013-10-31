@@ -19,8 +19,7 @@ public class UsuarioAppTest {
 
     @Before
     public void before(){
-        Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/Ingenieria", "reversi", "123");
-	    System.out.println("---> Se conecto a la base de datos."+Base.connection()+"\n");        
+        Base.open("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/Ingenieria", "reversi", "123");       
         Base.openTransaction();
     }
 
@@ -36,50 +35,61 @@ public class UsuarioAppTest {
 //AUX Vars
         String id;
         
+        
 ////////TEST UsuarioApp
-		System.out.println("\n\nTEST UsuarioApp\n\n");
+		System.out.println("\n\n**********TEST UsuarioApp**********\n\n");
 		
-		//Usuario valido
+		//Creacion de Usuario UsuarioApp
 	    UsuarioApp usu = new UsuarioApp("nico");
+	    
         
         //getID
+		System.out.println("\n\nTEST getID");        
 		try{
 			System.out.println("\nEl ID del Usuario es: "+usu.getID());        
 		}catch(Exception e){
 			System.out.println("getID invalido");
-		}        
+		}   
+		     
         
         //getName
+		System.out.println("\n\nTEST getName");         
 		try{
 		    System.out.println("\nEl NOMBRE del Usuario es: "+usu.getName());
 		}catch(Exception e){
 			System.out.println("getName invalido");
 		}       
+		
         
         //getGananada
+		System.out.println("\n\nTEST getGanada");         
 		try{
 		    System.out.println("\nLa cantidad de partidas GANADAS es: "+usu.getGanada());
 		}catch(Exception e){
 			System.out.println("getGanada invalido");
-		}           
+		}          
+		 
         
         //getPerdida  
+		System.out.println("\n\nTEST getPerdida");         
 		try{
 		    System.out.println("\nLa cantidad de partidas PERDIDAS es: "+usu.getPerdida()); 
 		}catch(Exception e){
 			System.out.println("getPerdida invalido");
-		}                   
+		}       
+		            
         
         //getAbandonada
+		System.out.println("\n\nTEST getAbandonada");         
 		try{
 		    System.out.println("\nLa cantidad de partidas ABANDONADAS es: "+usu.getAbandonada()); 
 		}catch(Exception e){
 			System.out.println("getAbandonada invalido");
 		}                           
-		
-		    System.out.println("\n");		
+		    	
         
         //saveResult                
+		System.out.println("\n\nTEST saveResult\n");         
         ResultadoPartida resultado = ResultadoPartida.GANO;   
 		try{
             usu.saveResult(resultado);
@@ -88,7 +98,7 @@ public class UsuarioAppTest {
 			System.out.println("saveResult invalido");
 		}        
 		
-		System.out.println("\n\n-> END Test UsuarioApp\n\n");		
+		System.out.println("\n\n->**********END Test UsuarioApp**********\n\n");		
 		
 	
     }

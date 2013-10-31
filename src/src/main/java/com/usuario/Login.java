@@ -11,6 +11,7 @@ public class Login extends Users
 		connect();
     }  	
     
+    
     public static String getName(String id) {
         //Retorno el nombre del Usuario Login
         

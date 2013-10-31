@@ -29,6 +29,7 @@ public class UsuarioApp extends Users
 		this.id = id;
     }  
     
+    
 	public String getID() {
 		// Retorna el ID del Usuario
 		
@@ -61,7 +62,7 @@ public class UsuarioApp extends Users
    
     
     public int getGanada() {
-        //Retorno las partidas ganadas
+        //Retorno la cantidad de partidas ganadas
         
         connect();
         
@@ -77,7 +78,7 @@ public class UsuarioApp extends Users
     
     
     public int getPerdida() {
-        //Retorno las partidas Perdidas
+        //Retorno la cantidad de partidas Perdidas
         
         connect();
         
@@ -93,7 +94,7 @@ public class UsuarioApp extends Users
        
     
     public int getAbandonada() {
-        //Retorno las partidas Abandonadas
+        //Retorno la cantidad de partidas Abandonadas
         
         connect();
         
@@ -109,7 +110,7 @@ public class UsuarioApp extends Users
 
 
     public boolean saveResult(ResultadoPartida resultado) {
-        // Guardo el resultado de una partida
+        // Actualizo el resultado de una partida
         
         connect();
         

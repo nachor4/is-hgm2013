@@ -1,7 +1,6 @@
 package com.usuario;
 
 import com.usuario.models.User;
-//import com.usuario.Login;
 
 import org.javalite.activejdbc.Base;
 import org.junit.After;
