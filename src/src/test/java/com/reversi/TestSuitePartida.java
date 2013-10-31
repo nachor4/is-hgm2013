@@ -5,17 +5,15 @@ import org.junit.rules.ExternalResource;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RunWith(Suite.class)
 
 @Suite.SuiteClasses({
-	/*
-	 * Aqui se deben agregar las clases atestear
-	 * Ej: InmoTest.class,
-	 */
-	Ejemplo.class
+	PartidaSpec.class,
+	PartidaGralTest.class
 })
 
-public class TestSuite {
-	//Test General
+public class TestSuitePartida {
 }

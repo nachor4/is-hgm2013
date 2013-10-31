@@ -1,5 +1,6 @@
 package com.wsreversi;
 import com.wsreversi.Juego;
+import com.reversi.Partida;
 import com.reversi.ReversiObserver;
 
 //Dependencias para el servidor
@@ -41,8 +42,8 @@ public class WSreversi extends ReversiObserver
 	private Queue<Session> niveMedio;
 	private Queue<Session> niveDificil;
 	
-	//<sessionID,cola>
-	private HashMap<String,String> pendientes; //Conexiones establecidas que no han iniciado una partida
+	//<SessionID, userId>
+	private HashMap<String, String> pendientes; //Conexiones establecidas que no han iniciado una partida
 	
 	public WSreversi(){}
 	
@@ -55,7 +56,10 @@ public class WSreversi extends ReversiObserver
 	 */
 	@OnOpen
 	public void onOpen(Session session) {
-		this.pendientes.put(session.getId(), "");
+		/* El websocket no recibe parametros cuando se inicia la conexion,
+		 * por esta razón no hago nada hasta que se recibe el mensaje con la 
+		 * operacion "init". Ese es el punto de partida para los procesos.
+		 */
 	}	
 
 	/**
@@ -67,47 +71,39 @@ public class WSreversi extends ReversiObserver
 	@OnMessage
 	public void onMessage(String message, Session session) {		
 		
+		//Preparo la información para procesarla
+		
 		Gson gson = new Gson();
-		//try{
-			Properties jMessage = gson.fromJson(message, Properties.class);
-		//}catch{
-			//envio mensaje error -- No se pudo parsear el json
-			//return;
-//		}
+		Properties jMessage;
+		
+		try{
+			jMessage = gson.fromJson(message, Properties.class);
+		}catch (Exception e){ //envio mensaje error -- No se pudo parsear el json
+			System.out.println(e.getMessage());
+			this.msgError(session, "mx0", "JSON no vá");
+			return;
+		}
 	   
-		switch(jMessage.getProperty("operacion")){
-			case "connect":
+		//Proceso las opciones
+		switch(jMessage.getProperty("operacion").toLowerCase()){
+			case "init": //{id,nivel}
 				//Agregrego el usuario a la cola y actualizo en pendientes
-				
 				String userId = jMessage.getProperty("id");
 				String nivel  = jMessage.getProperty("nivel");
 				
-				if (this.pendientes.containsKey(userId)){
-					
-					String cola = this.pendientes.get(userId);
-					
-					
-					
-					
-				}else{
-					//TODO: unexpected error. invalid operation
-					
-				}
-				
-				
-				
-				
+				this.doConnect(userId, nivel.toLowerCase(), session);
 			break;
 			
 			case "move":
+				
 			break;
 			
 			case "quit":
+				
 			break;
 			
 			default:
-				//envio mensaje error -- operacion no válida session.send("")
-				//return;
+				this.msgError(session, "mx1", "Operación no válida");
 			break;
 		}
 	}
@@ -122,13 +118,94 @@ public class WSreversi extends ReversiObserver
 	public void onClose(Session session) {
 		// TODO : to implement	
 		/*
-		 * Si la session @Pendientes, la elimino. Si la sesion esta inciada pero sin pareja, la elimino de las colas
+		 * Si la session @Pendientes, la elimino. Si la session esta inciada pero sin pareja, la elimino de las colas
 		 * Si la session !@Pendientes, busco el ID de la partida. Cierro la partida y elimino las referencias de los índices.
 		 */
 	}
 	
+	//implements abstract
 	public void actualizar(){
 		// TODO : to implement	
+	}
+	
+	private void msgError(Session session, String id, String mensaje){
+		//TODO : Enviar mensaje de error
+	}
+
+
+	private void encolar(Queue cola, int nivelInt, Session session){
+		cola.add(session);
+		this.procesarCola(cola, nivelInt);
+	}
+	
+	private void procesarCola(Queue cola, int nivelInt){
+		//reviso las colas. Si algujna tiene 2 o más elementos, los quito y les inicio la partida
+		
+		if (cola.size() > 1){ //Proceso la cola solo si tiene dos o mas elementos
+			Session sessionBlanco = (Session)cola.peek();
+			Session sessionNegro = (Session)cola.peek();
+			
+			//(String idNegro, String idBlanco, int dificultRec, ReversiObserver observer){
+			Partida partida = new Partida(
+				this.pendientes.get(sessionNegro.getId()), //Obtengo el idUsurio
+				this.pendientes.get(sessionBlanco.getId()), //Obtengo el idUsurio
+				nivelInt, //Nivel de juego
+				this //observer!
+			);
+		}
+	}
+	
+	private void doConnect(String userId, String nivel, Session session){
+		
+		if (!nivel.matches("[facil|medio|dificil]")){
+			//TODO: mensaje de error
+			this.msgError(session,"mc1","Nivel no válido");
+			return;
+		}
+		
+		//Corroboro que no tenga un juego iniciado
+		if (this.indiceSesiones.containsKey(userId)){
+			
+			int nivelInt;
+			Queue cola;
+			
+			//Agrego los usuarios a las colas de nivel
+			switch (nivel){
+				case "facil": 
+					nivelInt = 0;
+					cola = this.niveFacil;
+				break;
+				
+				case "medio": 
+					nivelInt = 1;
+					cola = this.niveMedio;
+				break;
+				
+				case "dificil": 
+					nivelInt = 2;
+					cola = this.niveDificil;
+				break;
+				
+				default:
+					nivelInt = -1;
+					cola = null;
+				break;
+			}	
+
+				this.pendientes.put(session.getId(), userId);				
+				this.encolar(cola, nivelInt, session);
+								
+		}else{
+			//El jugador tiene una partida iniciada
+			this.msgError(session, "mc2", "No se puede iniciar una partida para este jugador");
+		}
+		
+	}
+	
+	private void doMove(){
+	}
+	
+	private void doQuit(){
 	}
 }
 
