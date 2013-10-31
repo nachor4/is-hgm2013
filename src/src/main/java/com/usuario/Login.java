@@ -39,25 +39,22 @@ public class Login extends Users
 		if (login.findById(id) == null) {		
 		
 			try{
-				
 				login.set("id", id);	        	
 				login.set("password", DigestUtils.md5Hex(password));        
 				login.set("name", name);
 				login.set("email", email);				
 			
-				login.saveIt();
+				login.insert();
 			
 				return 0;
 			
 			}catch(Exception e){
-			
+				System.out.println(e.getMessage());
 				return 2;
 			} 
 						
-	    } else		
-	    
-	        return 1;
- 
+	    } else return 1;
+
 	}	
 
 

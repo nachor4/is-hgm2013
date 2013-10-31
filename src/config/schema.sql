@@ -11,9 +11,9 @@ CREATE TABLE IF NOT EXISTS users(
   password VARCHAR(32) NOT NULL,
   name VARCHAR(60) NOT NULL,
   email VARCHAR(60) NOT NULL,
-  won int(6) NOT NULL, 
-  lost int(6) NOT NULL,
-  abandoned int(6) NOT NULL
+  won int(6) NOT NULL DEFAULT 0, 
+  lost int(6) NOT NULL DEFAULT 0,
+  abandoned int(6) NOT NULL DEFAULT 0
 );
 
 TRUNCATE users;

@@ -50,15 +50,58 @@ public class LoginTest {
 			System.out.println("getName invalido");
 		}  	    				
 
-		//newUsuario
+	//newUsuario
+		System.out.println("\n\nTEST NewUsuario");
 		try{
-			if (login.newUsuario("J", "12345", "John2", "algo@algo.com") == 0) {
-			    System.out.println("\nSe agrego un nuevo Usuario"); 
+			int res = login.newUsuario("J", "12345", "John2", "algo@algo.com");
+			switch (res){
+				case 0:
+					System.out.println("Se agrego un nuevo Usuario"); 
+				break;
+				
+				case 1:
+					System.out.println("Usuario Duplicado"); 
+				break;
+				
+				case 2:
+					System.out.println("Error Inesperado"); 
+				break;
+				
+				default:
+					System.out.println(res); 
+				break;
 			}
 		}catch(Exception e){
-			System.out.println("Agregar Nuevo Usuario invalido");
+			System.out.println(e.getMessage());
 		}
+		
+		System.out.println("\n\nTEST NewUsuario - Repetido");
+		try{
+			int res = login.newUsuario("J", "12345", "John2", "algo@algo.com");
+			switch (res){
+				case 0:
+					System.out.println("Se agrego un nuevo Usuario"); 
+				break;
 				
+				case 1:
+					System.out.println("Usuario Duplicado"); 
+				break;
+				
+				case 2:
+					System.out.println("Error Inesperado"); 
+				break;
+				
+				default:
+					System.out.println(res); 
+				break;
+			}
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+		}
+
+		
+		
+		System.out.println("\n\nTEST CheckPasswor\n\n");
 		//checkPassword
 		try{
 			if (login.checkPassword("nico", "13588") == true) {
