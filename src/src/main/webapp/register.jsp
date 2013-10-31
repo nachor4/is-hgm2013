@@ -1,8 +1,11 @@
+<%@ page import="com.usuario.Login" %>
 <%
 	//Si hay POST, registro... sino, muestro el form
 	//Si registro OK, redirijo a Jugar
 
 	Boolean hayPOST = "POST".equalsIgnoreCase(request.getMethod());
+
+	String mensajeRegistracion = "";
 	
 	if(!hayPOST){
 		session.invalidate();
@@ -13,10 +16,10 @@
 		String password = request.getParameter("password");		
 		String nombre = request.getParameter("nombre");		
 		String email = request.getParameter("email");		
+				
+		System.out.println(user + " | " + password + " | " + nombre + " | " + email);
 		
-		String mensajeRegistracion = "";
-		
-		switch (Login.newUsuario(user, password,nombre,email)){
+		switch (Login.newUsuario(user, password, nombre, email)){
 			case 0:
 				//Se registro el usuario, lo redirijo a Jugar.
 				session.setAttribute("user", user);
@@ -24,12 +27,12 @@
 			break;
 			
 			case 1:
-				mensajeRegistracion = "USUARIO DUPLICADO. Elige otro nombre de usuario";
+				mensajeRegistracion = "<p><b>USUARIO DUPLICADO.</b> Elige otro nombre de usuario</p>";
 			break;
 			
 			case 2:
-				mensajeRegistracion = "Error Inesperado. Intentalo nuevamente";
-			break
+				mensajeRegistracion = "<p><b>Error Inesperado.</b> Intentalo nuevamente</p>";
+			break;
 		}
 	}
 %>

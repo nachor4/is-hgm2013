@@ -1,3 +1,5 @@
+<%@ page import="com.usuario.Login" %>
+
 <%
 	//Realizo las configuraciones y redirijo a jugar.jsp
 	
@@ -11,8 +13,9 @@
 	
 	Login userLogin = new Login();
 	
+	String userName = "";
 	try{
-		String userName = userLogin.getName(user);
+		userName = userLogin.getName(user);
 	}catch (Exception e){
 		session.invalidate();
 		response.sendRedirect("/"); 	
@@ -25,7 +28,7 @@
 		<title>Testing Websockets</title>
 	</head>
 	<body>
-		<p>Hola <%= username %>! | <a href="/logout.jsp">LogOut</a></p>
+		<p>Hola <%= userName %>! | <a href="/logout.jsp">LogOut</a></p>
 		<h1>REVERSI!</h1>
 		<h2>Nuevo Juego</h2>
 		<form action="" method="post">
