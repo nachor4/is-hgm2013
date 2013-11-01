@@ -39,10 +39,13 @@ public class PartidaGralTest {
 		System.out.println("\n\nTEST Partida\n\n");
 		ReversiObserver observ = new ReversiObserver();
 	    Partida parti = new Partida("guille", "nico", 1, observ);
-        
+	    Ficha ficha = new Ficha(3, 2);
+	            
         //getID
 		try{
-			System.out.println("El ID de la partida es: "+parti.getId());        
+			System.out.println("El ID de la partida es: "+parti.getId());
+			//parti.actualizarTablero();
+			parti.mover(ficha, "guille");        
 		}catch(Exception e){
 			System.out.println("getID invalido");
 		}        		

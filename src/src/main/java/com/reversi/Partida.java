@@ -217,10 +217,12 @@ public class Partida {
 		if (cantMovimientos == 1) {
 			return this.estado.INICIADO; // El juego esta INICIADO;
 				}
-			else if(cantMovimientos > 1 && cantMovimientos < 60  ) /*&& cantMovimientos < 60 && (cantValidos(idNegro) != 0 || cantValidos(idBlanco) != 0))*/ {
-					return this.estado.JUGANDO;}	//El juego esta en estado JUGANDO.
-					else if (cantMovimientos == 60) { /*|| (cantValidos(idNegro) == 0 && cantValidos(idBlanco) == 0) */
-							return this.estado.FINALIZADO; }// el juego esta en estado Finalizado.
+			else if(cantMovimientos > 1 && cantMovimientos < 60 && (movimientosValidos(elNegro).size() > 0 || movimientosValidos(elBlanco).size() > 0) ){
+					return this.estado.JUGANDO;
+				 }	//El juego esta en estado JUGANDO.
+					else if (cantMovimientos == 60 || (movimientosValidos(elNegro).size() == 0 && movimientosValidos(elBlanco).size() == 0)) { 
+							return this.estado.FINALIZADO;
+						 }// el juego esta en estado Finalizado.
 							else {
 								return this.estado.CANCELADO; // El juego fue CANCELADO.
 							}
@@ -231,21 +233,21 @@ public class Partida {
 				
 		//ResultadoMovimiento result = new ResultadoMovimiento ();
 		ReversiObserver rever = new ReversiObserver();
-		Partida part = new Partida("guille", "nico", 1, rever);
-		if (part.checkMov (ficha, idJugador) == false) {
+		//Partida part = new Partida("guille", "nico", 1, rever);
+		if (this.checkMov (ficha, idJugador) == false) {
 			throw new IllegalArgumentException ("El movimiento es inválido");
 			} else {
-			ResultadoMovimiento result = new ResultadoMovimiento (part.invertirFichas(ficha, idJugador));
-			this.cantDos = result.getBlancas();
-			this.cantUnos = result.getNegras();
-			part.actualizarTablero();
+			ResultadoMovimiento result = new ResultadoMovimiento (this.invertirFichas(ficha, idJugador));
+			this.cantDos = setDos(result.getBlancas());
+			this.cantUnos = setUnos(result.getNegras());
+			//part.actualizarTablero();
 				if (turnoActual == elNegro) {
 					turnoActual = elBlanco;
 				}
 					else {
 					turnoActual = elNegro;
 					}
-				part.actualizarTablero();	
+				this.actualizarTablero();	
 				return result;
 			  }
 		}
@@ -331,18 +333,14 @@ public class Partida {
 	}	
 				
 	public void actualizarTablero() {
-		for (int x = 0; x < 8; x++) {
-			for (int y = 0; y < 8; y++){
-				if (x == 7) {
-				   System.out.println(" "+this.tablero[x][y]+ " "); 
-				}
-					else {
-						System.out.println(" "+this.tablero[x][y] + "\n");
-					} 
-				 
+		for (int x = 0; x < this.tablero.length; x++) {
+			for(int y=0; y < this.tablero.length; y++){
+				System.out.print(" "+this.tablero[x][y]+ " ");
 			}
+		System.out.println();
 		}
 	}
+
 	
 	public void finalizar(String idAbandonador, String idAbandonado) { 
 		
@@ -357,6 +355,22 @@ public class Partida {
 		
 	} 
 	
+	public ArrayList<Ficha> movimientosValidos (String idJugador) {
+		ArrayList<Ficha> arrMovValidos = new ArrayList<Ficha>();
+		
+		for (int y = 0; y < tablero.length; y++) {
+			for(int x = 0; x < tablero[y].length; x++){
+				Ficha testFicha = new Ficha(x , y);
+				boolean valido = checkMov(testFicha, idJugador);
+				if(valido == true) {
+					arrMovValidos.add(testFicha);
+				}
+			}
+		}
+	return arrMovValidos;
+	}
+	
+
 	public int getCantBlancas() {
 		return cantDos;
 	}
@@ -372,6 +386,16 @@ public class Partida {
 	public String wholsNegras() {
 		return elNegro;
 	}
+	
+	public void setUnos(int negras) {
+			cantUnos = negras;
+	}
+	
+	public void setDos(int blancas) {
+			cantDos = blancas;
+	}
+	
+	
 
 }	
 
