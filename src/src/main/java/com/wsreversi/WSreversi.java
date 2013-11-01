@@ -1,9 +1,12 @@
 package com.wsreversi;
 import com.wsreversi.Juego;
+
+//Reversi
 import com.reversi.Partida;
+import com.reversi.Ficha;
 import com.reversi.ReversiObserver;
 
-//Dependencias para el servidor
+//Librerías Java
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Set;
@@ -13,18 +16,20 @@ import java.util.HashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.HashSet;
 
+//WebSocket
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.server.ServerEndpoint;
 import javax.websocket.Session;
 
-//Para realizar las comunicaciones con el browser
+//GSON: Librería JSON (comunicacion con los websocket clients)
 import com.google.gson.Gson;
+/*
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-
+*/
 
 /**
  * Para acceder a los juegos cuando el websocket recibe un mensaje, los busca mediante el ID de la 
@@ -43,8 +48,8 @@ public class WSreversi extends ReversiObserver
 	private static Queue<Session> niveMedio;
 	private static Queue<Session> niveDificil;
 	
-	//<SessionID, userId>
-	private static HashMap<String, String> pendientes; //Conexiones establecidas que no han iniciado una partida
+	//<SessionID, userId> 
+	private static HashMap<String, String> idUsers; //Conexiones establecidas que no han iniciado una partida --TEMPORAL
 	//userId
 	private static Set<String> jugadores;
 	
@@ -57,8 +62,11 @@ public class WSreversi extends ReversiObserver
 		if (niveMedio == null) niveMedio = new ConcurrentLinkedQueue<Session>();
 		if (niveDificil == null) niveDificil = new ConcurrentLinkedQueue<Session>();
 		
-		if (pendientes == null) pendientes = new HashMap<String, String>();
+		if (idUsers == null) idUsers = new HashMap<String, String>();
 		if (jugadores == null) jugadores = new HashSet<String>();
+		
+		//Session j = new Session();
+		//System.out.println(j.getId());
 	}
 	
 	/**
@@ -66,7 +74,8 @@ public class WSreversi extends ReversiObserver
 	 */
 	@OnOpen
 	public void onOpen(Session session) {
-		/* El websocket no recibe parametros cuando se inicia la conexion,
+		/* 
+		 * El websocket no recibe parametros cuando se inicia la conexion,
 		 * por esta razón no hago nada hasta que se recibe el mensaje con la 
 		 * operacion "init". Ese es el punto de partida para los procesos.
 		 */
@@ -75,10 +84,12 @@ public class WSreversi extends ReversiObserver
 	}	
 
 	/**
+	 * 
 	 */
 	@OnMessage
-	public void onMessage(String message, Session session) {		
-
+	public void onMessage(String message, Session session)
+	throws IOException, InterruptedException {
+		
 		//:TEST
 		System.out.println("\n\n\n\nMensaje: " + message);
 		
@@ -100,7 +111,7 @@ public class WSreversi extends ReversiObserver
 		//Proceso las opciones
 		switch(jMessage.getProperty("operacion").toLowerCase()){
 			case "init": //{id,nivel}
-				//Agregrego el usuario a la cola y actualizo en pendientes
+				//Agregrego el usuario a la cola y actualizo en idUsers
 				String userId = jMessage.getProperty("id");
 				String nivel  = jMessage.getProperty("nivel");
 				
@@ -108,11 +119,14 @@ public class WSreversi extends ReversiObserver
 			break;
 			
 			case "move":
-				
+				/**
+				 * TODO:
+				 * Analizo la info, y ejecuto doMove();
+				 */
 			break;
 			
 			case "quit":
-				
+				doQuit(session);
 			break;
 			
 			default:
@@ -125,31 +139,41 @@ public class WSreversi extends ReversiObserver
 	 */
 	@OnClose
 	public void onClose(Session session) {
-		// TODO : to implement	
-		/*
-		 * Si la session @Pendientes, la elimino. Si la session esta inciada pero sin pareja, la elimino de las colas
-		 * Si la session !@Pendientes, busco el ID de la partida. Cierro la partida y elimino las referencias de los índices.
-		 */
+		doQuit(session);
 	}
 	
 	//implements abstract
 	public void actualizar(){
-		// TODO : to implement	
+		/**
+		 * TODO:
+		 * 
+		 * Escenarios: 
+		 * 		- Cambio de turno por timeout: notifico a las interfases
+		 * 		- No hay mas movimientos: notifico las interfases y envio los RESULTADOS
+		 * 		- Partida Cancelada: Notifico a las interfases y envio RESULTADOS 
+		 * 
+		 * RESULTADOS: aka scores de los usuarios
+		 * */	
 	}
 	
-	private void msgError(Session session, String id, String mensaje){
+	private void msgError(Session session, String id, String mensaje)
+	throws IOException, InterruptedException {
 		//TODO : Enviar mensaje de error
 		//:TEST
 		System.out.println("\nmsgError: id: "+id+" | mensaje: "+mensaje);		
+		
+		session.getBasicRemote().sendText("{\"status\":\"error\",\"data\":\"("+id+") "+mensaje+"\"}");		
 	}
 
 
-	private void encolar(Queue cola, int nivelInt, Session session){
+	private void encolar(Queue cola, int nivelInt, Session session)
+	throws IOException, InterruptedException {
 		cola.add(session);
 		procesarCola(cola, nivelInt);
 	}
 	
-	private void procesarCola(Queue cola, int nivelInt){
+	private void procesarCola(Queue cola, int nivelInt)
+	throws IOException, InterruptedException {
 		//reviso las colas. Si algujna tiene 2 o más elementos, los quito y les inicio la partida
 		
 		if (cola.size() > 1){ //Proceso la cola solo si tiene dos o mas elementos
@@ -158,8 +182,8 @@ public class WSreversi extends ReversiObserver
 		
 			Juego juego = new Juego(
 				new Partida( //(String idNegro, String idBlanco, int dificultRec, ReversiObserver observer){
-					pendientes.get(sessionNegro.getId()), //Obtengo el idUsurio
-					pendientes.get(sessionBlanco.getId()), //Obtengo el idUsurio
+					idUsers.get(sessionNegro.getId()), //Obtengo el idUsurio
+					idUsers.get(sessionBlanco.getId()), //Obtengo el idUsurio
 					nivelInt, //Nivel de juego
 					this //observer!
 				),
@@ -174,30 +198,26 @@ public class WSreversi extends ReversiObserver
 			indicePartida.put (juego.partida.getId(), juego);
 			
 			System.out.println("indiceSesiones: "+indiceSesiones.size()+ " | indicePartida: " + indicePartida.size());
-			System.out.println("idNegro: " + pendientes.get(sessionNegro.getId()) + " | idBlanco: " + pendientes.get(sessionBlanco.getId()) +" | Nivel:" + nivelInt + " | partidaID" + juego.partida.getId()); 
+			System.out.println("idNegro: " + idUsers.get(sessionNegro.getId()) + " | idBlanco: " + idUsers.get(sessionBlanco.getId()) +" | Nivel:" + nivelInt + " | partidaID" + juego.partida.getId()); 
 			
-			pendientes.remove(sessionNegro.getId());
-			pendientes.remove(sessionBlanco.getId());
+			idUsers.remove(sessionNegro.getId());
+			idUsers.remove(sessionBlanco.getId());
+	
+			//TODO: definir
+			sessionBlanco.getBasicRemote().sendText("Juego Iniciado!");
+			sessionNegro.getBasicRemote().sendText("Juego Iniciado!");
 			
-			System.out.println("Pendintes Size: " + pendientes.size());
+			System.out.println("Pendintes Size: " + idUsers.size());
 		}
 	}
 	
-	private void doConnect(String userId, String nivel, Session session){
-		//:TEST
-		System.out.println("\ndoConnect: userId: "+ userId + " | nivel: " + nivel + " | session: "+session.getId());
-		
-		if (!nivel.matches("facil|medio|dificil")){
-			//TODO: mensaje de error
-			msgError(session,"mc1","Nivel no válido");
-			return;
-		}
-
+	private void doConnect(String userId, String nivel, Session session)
+	throws IOException, InterruptedException {
+				
 		if (!jugadores.contains(userId)){
-			jugadores.add(userId);
-			
 			int nivelInt;
 			Queue cola;
+			Boolean ok = true;
 			
 			//Agrego los usuarios a las colas de nivel
 			switch (nivel){
@@ -219,11 +239,16 @@ public class WSreversi extends ReversiObserver
 				default:
 					nivelInt = -1;
 					cola = null;
+					ok = false;
 				break;
 			}	
 			
-			pendientes.put(session.getId(), userId);			
-			encolar(cola, nivelInt, session);
+			if (ok){
+				jugadores.add(userId);
+				idUsers.put(session.getId(), userId);			
+				encolar(cola, nivelInt, session);
+			}else msgError(session,"mc1","Nivel no válido");
+
 								
 		}else{
 			//El jugador tiene una partida iniciada
@@ -232,10 +257,27 @@ public class WSreversi extends ReversiObserver
 	
 	}//end doConnect()
 	
-	private void doMove(){
+	private void doMove(Session session, Ficha ficha){
+		/**
+		 * TODO:
+		 * Dada una session, obtengo la partida y el Id del jugador
+		 * me fijo que el jugador actual es el que intenta hacer el movimiento o envio mensaje de error
+		 * 
+		 * Hago el movimiento. Envio resultado y notifico al contrincante
+		 */
 	}
 	
-	private void doQuit(){
+	private void doQuit(Session session){
+		/**
+		 * TODO:
+		 * busco la partida. la finalizo. envio los datos de finalizacion al contrincante
+		 *  
+		 * elimino todas las participaciones en los índices.
+		 * 
+		 * cierro las conexiones
+		 * 
+		 * Nota: idem onClose()
+		 */		
 	}
 }
 
