@@ -1,0 +1,72 @@
+<html>
+<head>
+	<script>
+
+	var webSocket1 = new WebSocket('ws://localhost:8080/wsreversi');
+	var webSocket2 = new WebSocket('ws://localhost:8080/wsreversi');
+	var webSocket3 = new WebSocket('ws://localhost:8080/wsreversi');
+	var webSocket4 = new WebSocket('ws://localhost:8080/wsreversi');
+
+	setWSop(webSocket1);
+	setWSop(webSocket2);
+	
+	a = JSON.stringify({operacion:"init", id:"j", nivel:"facil"});
+	b = JSON.stringify({operacion:"init", id:"k", nivel:"facil"});
+	
+	c = JSON.stringify({operacion:"init", id:"l", nivel:"facil"});
+	d = JSON.stringify({operacion:"init", id:"m", nivel:"facil"});
+	
+	function setWSop(WS){
+		WS.onerror = function(event) {
+			onError(event)
+		};
+
+		WS.onopen = function(event) {
+			onOpen(event)
+		};
+
+		WS.onclose = function(event) {
+			onClose(event)
+		};
+
+		WS.onmessage = function(event) {
+			onMessage(event)
+		};		
+	}
+
+
+	function onMessage(event) {
+		console.log(event.data);
+	}
+
+	function onOpen(event) {
+		console.log('Connection established');
+	}
+
+	function onError(event) {
+		console.log(event.data);
+	}
+
+	function onClose(event) {
+		console.log('Conexion Cerrada por el Servidor!');
+	}
+
+	function send(WS,data) {
+		if (WS.readyState == WS.OPEN){
+				WS.send(data);
+				console.log("enviado");
+		}else{
+				console.log("No hay conexion con el servidor");
+		}
+	}
+
+	
+	function play(){
+		send(webSocket1,a);
+		send(webSocket2,b);
+	}
+	</script>
+</head>
+<body>
+</body>
+</html>
