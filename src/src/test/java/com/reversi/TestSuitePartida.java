@@ -11,8 +11,8 @@ import org.slf4j.LoggerFactory;
 @RunWith(Suite.class)
 
 @Suite.SuiteClasses({
-	PartidaSpec.class,
-	PartidaGralTest.class
+	PartidaSpec.class/*,
+	PartidaGralTest.class */
 })
 
 public class TestSuitePartida {
