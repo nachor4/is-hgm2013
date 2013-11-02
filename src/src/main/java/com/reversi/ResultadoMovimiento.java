@@ -25,12 +25,12 @@ private ArrayList<Ficha> modificaciones = new ArrayList<Ficha>();
 	}
 		
 	public int getBlancas() {
-		System.out.println("Cant Blancas despues del movimiento: " +cantBlancas);
+		//System.out.println("Cant Blancas despues del movimiento: " +cantBlancas); 
 		return cantBlancas;
 	}
 	
 	public int getNegras() {
-		System.out.println("Cant Negras despues del movimiento: " +cantNegras);
+		//System.out.println("Cant Negras despues del movimiento: " +cantNegras);
 		return cantNegras;
 	}
 	
