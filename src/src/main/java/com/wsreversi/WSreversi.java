@@ -1,10 +1,12 @@
 package com.wsreversi;
 import com.wsreversi.Juego;
+import com.wsreversi.Jugador;
 
 //Reversi
 import com.reversi.Partida;
 import com.reversi.Ficha;
 import com.reversi.ReversiObserver;
+import com.reversi.ResultadoMovimiento;
 
 //Librerías Java
 import java.io.IOException;
@@ -40,7 +42,7 @@ import com.google.gson.JsonObject;
 public class WSreversi extends ReversiObserver
 {
 	//Tengo que hacer un pearing de Juegos para saber quien es el compañero de cada jugador y su partida
-	private static HashMap<String, Juego> indiceSesiones; //Id Session, Juego
+	private static HashMap<String, Jugador> indiceSesiones; //Id Session, Juego
 	private static HashMap<String, Juego> indicePartida; //Id Partida, Juego
 	
 	//Colas de usuarios por niveles de dificultad
@@ -49,13 +51,13 @@ public class WSreversi extends ReversiObserver
 	private static Queue<Session> niveDificil;
 	
 	//<SessionID, userId> 
-	private static HashMap<String, String> idUsers; //Conexiones establecidas que no han iniciado una partida --TEMPORAL
+	
+	private static HashMap<String, String> idUsers; //Map: Session->userId de cola. Aún no han iniciado una partida --TEMPORAL
 	//userId
 	private static Set<String> jugadores;
 	
 	public WSreversi(){
-		System.out.println("\n\n\n\n WSreversi");
-		if (indiceSesiones == null) indiceSesiones = new HashMap<String, Juego>();
+		if (indiceSesiones == null) indiceSesiones = new HashMap<String, Jugador>();
 		if (indicePartida == null) indicePartida = new HashMap<String, Juego>();
 		
 		if (niveFacil == null) niveFacil = new ConcurrentLinkedQueue<Session>();
@@ -70,7 +72,6 @@ public class WSreversi extends ReversiObserver
 	}
 	
 	/**
-	 * Guardo la session hasta que se inicie la partida
 	 */
 	@OnOpen
 	public void onOpen(Session session) {
@@ -111,18 +112,25 @@ public class WSreversi extends ReversiObserver
 		//Proceso las opciones
 		switch(jMessage.getProperty("operacion").toLowerCase()){
 			case "init": //{id,nivel}
-				//Agregrego el usuario a la cola y actualizo en idUsers
+				
 				String userId = jMessage.getProperty("id");
 				String nivel  = jMessage.getProperty("nivel");
 				
-				doConnect(userId, nivel.toLowerCase(), session);
+				if (userId == null || nivel == null){
+					msgError(session,"mc0","Información incompleta");
+				}else doConnect(userId, nivel.toLowerCase(), session);
+				
 			break;
 			
 			case "move":
-				/**
-				 * TODO:
-				 * Analizo la info, y ejecuto doMove();
-				 */
+				
+				String posX = jMessage.getProperty("posx");
+				String posY  = jMessage.getProperty("posy");
+				
+				if (posX == null || posY == null){
+					msgError(session,"mm0","Información incompleta");
+				}else doMove(session, posX, posY);
+				
 			break;
 			
 			case "quit":
@@ -166,54 +174,9 @@ public class WSreversi extends ReversiObserver
 	}
 
 
-	private void encolar(Queue cola, int nivelInt, Session session)
-	throws IOException, InterruptedException {
-		cola.add(session);
-		procesarCola(cola, nivelInt);
-	}
-	
-	private void procesarCola(Queue cola, int nivelInt)
-	throws IOException, InterruptedException {
-		//reviso las colas. Si algujna tiene 2 o más elementos, los quito y les inicio la partida
-		
-		if (cola.size() > 1){ //Proceso la cola solo si tiene dos o mas elementos
-			Session sessionBlanco = (Session)cola.poll();
-			Session sessionNegro = (Session)cola.poll();
-		
-			Juego juego = new Juego(
-				new Partida( //(String idNegro, String idBlanco, int dificultRec, ReversiObserver observer){
-					idUsers.get(sessionNegro.getId()), //Obtengo el idUsurio
-					idUsers.get(sessionBlanco.getId()), //Obtengo el idUsurio
-					nivelInt, //Nivel de juego
-					this //observer!
-				),
-				sessionBlanco, 
-				sessionNegro				
-			);
-		
-			System.out.println("indiceSesiones: "+indiceSesiones.size()+ " | indicePartida: " + indicePartida.size());
-			
-			indiceSesiones.put(sessionBlanco.getId(), juego);
-			indiceSesiones.put(sessionNegro.getId(),  juego);
-			indicePartida.put (juego.partida.getId(), juego);
-			
-			System.out.println("indiceSesiones: "+indiceSesiones.size()+ " | indicePartida: " + indicePartida.size());
-			System.out.println("idNegro: " + idUsers.get(sessionNegro.getId()) + " | idBlanco: " + idUsers.get(sessionBlanco.getId()) +" | Nivel:" + nivelInt + " | partidaID" + juego.partida.getId()); 
-			
-			idUsers.remove(sessionNegro.getId());
-			idUsers.remove(sessionBlanco.getId());
-	
-			//TODO: definir
-			sessionBlanco.getBasicRemote().sendText("Juego Iniciado!");
-			sessionNegro.getBasicRemote().sendText("Juego Iniciado!");
-			
-			System.out.println("Pendintes Size: " + idUsers.size());
-		}
-	}
-	
 	private void doConnect(String userId, String nivel, Session session)
 	throws IOException, InterruptedException {
-				
+
 		if (!jugadores.contains(userId)){
 			int nivelInt;
 			Queue cola;
@@ -256,8 +219,49 @@ public class WSreversi extends ReversiObserver
 		}
 	
 	}//end doConnect()
+
+	private void encolar(Queue cola, int nivelInt, Session session)
+	throws IOException, InterruptedException {
+		cola.add(session);
+		procesarCola(cola, nivelInt);
+	}
 	
-	private void doMove(Session session, Ficha ficha){
+	private void procesarCola(Queue cola, int nivelInt)
+	throws IOException, InterruptedException {
+		//reviso las colas. Si algujna tiene 2 o más elementos, los quito y les inicio la partida
+		
+		if (cola.size() > 1){ //Proceso la cola solo si tiene dos o mas elementos
+			Session sessionBlanco = (Session)cola.poll();
+			Session sessionNegro = (Session)cola.poll();
+		
+			Juego juego = new Juego(
+				new Partida( //(String idNegro, String idBlanco, int dificultRec, ReversiObserver observer){
+					idUsers.get(sessionNegro.getId()), //Obtengo el idUsurio
+					idUsers.get(sessionBlanco.getId()), //Obtengo el idUsurio
+					nivelInt, //Nivel de juego
+					this //observer!
+				),
+				sessionBlanco, 
+				sessionNegro				
+			);
+					
+			indicePartida.put (juego.partida.getId(), juego);
+
+			indiceSesiones.put(sessionBlanco.getId(), new Jugador(idUsers.get(sessionBlanco.getId()), juego.partida, sessionNegro));
+			indiceSesiones.put(sessionNegro.getId(),  new Jugador(idUsers.get(sessionNegro.getId()),  juego.partida, sessionBlanco));
+						
+			idUsers.remove(sessionNegro.getId());
+			idUsers.remove(sessionBlanco.getId());
+	
+			//TODO: definir
+			sessionBlanco.getBasicRemote().sendText("Juego Iniciado!");
+			sessionNegro.getBasicRemote().sendText("Juego Iniciado!");
+		}
+	}
+
+
+	private void doMove(Session session, String posX, String posY)
+	throws IOException, InterruptedException {		
 		/**
 		 * TODO:
 		 * Dada una session, obtengo la partida y el Id del jugador
@@ -265,6 +269,32 @@ public class WSreversi extends ReversiObserver
 		 * 
 		 * Hago el movimiento. Envio resultado y notifico al contrincante
 		 */
+		 
+		 if (posX.matches("0|1|2|3|4|5|6|7") && posY.matches("0|1|2|3|4|5|6|7")){
+			Jugador jugador = indiceSesiones.get(session.getId());
+			
+			if (jugador.partida.jugadorActual() == jugador.userId){
+				
+				ResultadoMovimiento resultado = jugador.partida.mover(
+					new Ficha(Integer.parseInt(posX),Integer.parseInt(posY)),
+					jugador.userId
+				);
+				
+				if (resultado != null){
+					//TODO :
+					/**
+					 * Enviar actualizaciones de tablero.
+					 * Notificar que tiene el turno
+					 * 
+					 * 
+					 */
+					
+				}else msgError(session,"dm3","No se puede realizar este movimiento");
+				
+			}else msgError(session,"dm2","No es tuturno!");
+			
+		 }else msgError(session,"dm1","Posición no válida");
+		 
 	}
 	
 	private void doQuit(Session session){
