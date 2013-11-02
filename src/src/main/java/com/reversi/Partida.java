@@ -1,37 +1,24 @@
 package com.reversi;
-
 import com.reversi.ReversiObserver;
-
 import com.reversi.ResultadoMovimiento;
-
 import com.reversi.Ficha;
-
-import com.usuario.UsuarioApp;
-
 import com.reversi.EstadoJuego;
 
-import com.usuario.Users;
-
+import com.usuario.UsuarioApp;
+import com.usuario.ResultadoPartida;
 import org.javalite.activejdbc.Base;
 
 //import java.awt.event.ActionListener;
 
-import java.awt.event.ActionEvent;
-
 //import com.reversi.Temporizador;
 
 import com.usuario.models.User;
-
+import java.awt.event.ActionEvent;
 import java.lang.String;
-
 import java.util.*;
-
 import java.io.*;
-
 import java.util.Date;
-
 import java.sql.Timestamp;
-
 import java.text.SimpleDateFormat;
 
 public class Partida {
@@ -44,7 +31,7 @@ public class Partida {
 	
 	//private Temporizador tiempoUltMov = new Temporizador();
 		
-	public String elNegro;  // los hice public para poder accederlo en el timer
+	private String elNegro;  // los hice public para poder accederlo en el timer
 	
 	private String elBlanco; // los hice public para poder accederlo en el timer
 	
@@ -57,6 +44,8 @@ public class Partida {
 	private int cantUnos; // Cantidad de fichas Negras que hay en el tablero.
 	
 	private int cantDos; // Cantidad dde fichas Blancas que hay en el tablero.
+	
+	private EstadoJuego estado;
 		
 	public final Ficha dirUp = new Ficha(0, -1);
 	public final Ficha dirDown = new Ficha(0 , 1);
@@ -68,8 +57,102 @@ public class Partida {
 	public final Ficha dirDownRight = new Ficha(1,1);
 		
 	public Partida (String idNegro, String idBlanco, int dificultRec, ReversiObserver observer){
-		cantUnos = 0;
-		cantDos = 0;
+		cantUnos = 2;
+		cantDos = 2;
+			
+		UsuarioApp jugadorNegro = new UsuarioApp (idNegro);
+				
+		UsuarioApp jugadorBlanco = new UsuarioApp(idBlanco);
+				
+		//Controlamos que el jugador Negro haya sido creado correctamente.
+			if ( jugadorNegro == null ) {
+			     throw new IllegalArgumentException ("El idNegro recibido no existe\n");
+			     }
+				else { 
+					elNegro = idNegro;
+					if (jugadorBlanco == null){
+						throw new IllegalArgumentException ("El idBlanco recibido no existe\n");
+					 }
+				
+					else {
+						 elBlanco = idBlanco;
+						 if(dificultRec != 0 && dificultRec != 1 && dificultRec != 2){
+							throw new IllegalArgumentException ("La dificultad recibida no es válida");
+							}
+					    else { 
+						
+							dificultad = dificultRec; 
+						
+							Date date = new Date();
+							SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy h:mm:ss a");
+							String formattedDate = sdf.format(date);
+								
+							id = elNegro + elBlanco + formattedDate; 
+						
+						
+						//Inicializamos el tablero, si un casillero esta en 0, significa que esta vacio
+						//si esta en 1 significa que hay una ficha negra y 2 si hay una ficha blanca.
+						for (int x = 0; x < 8; x++) {
+							for(int y = 0; y < 8; y++) {
+								tablero[x][y] = 0;
+						 }
+					 }
+				 
+					 
+					tablero[3][4] = 1;
+					tablero[4][3] = 1;
+					tablero[3][3] = 2;
+					tablero[4][4] = 2;
+					
+						if(dificultad == 0) {
+						/*	int seg = 60;
+							Timer tiempo = new Timer (seg, new ActionListener() {
+								public void actionPerformed(ActionEvent ev) {
+									if (this.turnoActual == this.elNegro) {  
+										this.turnoActual = this.elBlanco; 
+									}
+										else {
+										this.turnoActual = this.elNegro;
+										}
+									}
+								});
+							tiempo.Start(); */
+						}
+							else 
+								if(dificultad == 1) {
+								/*	int seg = 40;
+									Timer tiempo = new Timer (seg, new ActionListener() {
+									public void actionPerformed(ActionEvent ev) {
+										if (this.turnoActual == this.elNegro) {  
+											this.turnoActual = this.elBlanco; 
+										}
+											else {
+												this.turnoActual = this.elNegro;
+											}
+										}
+									});
+									
+									tiempo.Start(); */
+								}
+								else { 
+									  /*  int seg = 20;
+										Timer tiempo = new Timer (seg, new ActionListener() {
+										public void actionPerformed(ActionEvent ev) {
+										if (this.turnoActual == this.elNegro) {  
+											this.turnoActual = this.elBlanco; 
+										}
+											else {
+												this.turnoActual = this.elNegro;
+											}
+										}
+										});
+										tiempo.Start(); */
+									}
+						this.turnoActual = elNegro;
+						cantMovimientos = 0;
+					}
+				}
+			}
 		
 	} // Cierra el constructor 
 
@@ -132,14 +215,16 @@ public class Partida {
 	
 	public EstadoJuego estadoJuego() {
 		if (cantMovimientos == 1) {
-			return EstadoJuego.INICIADO; // El juego esta INICIADO;
+			return this.estado.INICIADO; // El juego esta INICIADO;
 				}
-			else if(cantMovimientos > 1 ) /*&& cantMovimientos < 60 && (cantValidos(idNegro) != 0 || cantValidos(idBlanco) != 0))*/ {
-					return EstadoJuego.JUGANDO;}	//El juego esta en estado JUGANDO.
-					else if (cantMovimientos == 60) { /*|| (cantValidos(idNegro) == 0 && cantValidos(idBlanco) == 0) */
-							return EstadoJuego.FINALIZADO; }// el juego esta en estado Finalizado.
+			else if(cantMovimientos > 1 && cantMovimientos < 60 && (movimientosValidos(elNegro).size() > 0 || movimientosValidos(elBlanco).size() > 0) ){
+					return this.estado.JUGANDO;
+				 }	//El juego esta en estado JUGANDO.
+					else if (cantMovimientos == 60 || (movimientosValidos(elNegro).size() == 0 && movimientosValidos(elBlanco).size() == 0)) { 
+							return this.estado.FINALIZADO;
+						 }// el juego esta en estado Finalizado.
 							else {
-								return EstadoJuego.CANCELADO; // El juego fue CANCELADO.
+								return this.estado.CANCELADO; // El juego fue CANCELADO.
 							}
 			
 	}
@@ -148,23 +233,26 @@ public class Partida {
 				
 		//ResultadoMovimiento result = new ResultadoMovimiento ();
 		ReversiObserver rever = new ReversiObserver();
-		Partida part = new Partida("guille", "nico", 1, rever);
-		if (part.checkMov (ficha, idJugador) == false) {
-			throw new IllegalArgumentException ("El movimiento es inválido");
-			} else {
-			ResultadoMovimiento result = new ResultadoMovimiento (part.invertirFichas(ficha, idJugador));
-			this.cantDos = result.getBlancas();
-			this.cantUnos = result.getNegras();
-			part.actualizarTablero();
-				if (turnoActual == elNegro) {
-					turnoActual = elBlanco;
-				}
-					else {
-					turnoActual = elNegro;
+		//Partida part = new Partida("guille", "nico", 1, rever);
+		if (this.turnoActual != idJugador) {
+			throw new IllegalArgumentException("No es tu turno"); 
+		}else if (this.checkMov (ficha, idJugador) == false) {
+					throw new IllegalArgumentException ("El movimiento es inválido");
+				} else {
+					ResultadoMovimiento result = new ResultadoMovimiento (this.invertirFichas(ficha, idJugador));
+					this.cantDos = (result.getBlancas());
+					this.cantUnos = (result.getNegras());
+					//part.actualizarTablero();
+					if (turnoActual == elNegro) {
+						turnoActual = elBlanco;
 					}
-				part.actualizarTablero();	
-				return result;
-			  }
+						else {
+							turnoActual = elNegro;
+						}
+					this.actualizarTablero();
+				
+					return result;
+				}
 		}
 	
 	public ResultadoMovimiento invertirFichas(Ficha ficha, String idJugador) {
@@ -198,7 +286,7 @@ public class Partida {
 			int yDir = coordDirecciones.getY();
 			boolean potencial = false;
 			if((y+yDir) > -1 && (y+yDir) < 8 && (x+xDir) <8 && (x+xDir) > -1) {
-				if(tablero[x+xDir][y+yDir] == cont){
+				if(tablero[x+xDir][y+yDir] == contra){
 					potencial = true;
 				}
 			}
@@ -210,34 +298,55 @@ public class Partida {
 					}
 					if(tablero[x+(salto * xDir)][y + (salto * yDir)] == yoJug){
 						for (int k = 0; k < salto; k++) {
-							tablero[x+k*xDir][y+k*yDir] = yoJug;							
-							Ficha fichaResultado = new Ficha(x+k*xDir, y+k*yDir);
-							result.getModificaciones()[cont] = fichaResultado;
-							cont++;
-							if(yoJug == 1){
-								
-								temp = result.getNegras();
-								result.setCantNegras(temp++);
-								
-								temp2 = result.getBlancas();
-								result.setCantBlancas(temp2--);
-							}							
-								else {
-									temp2 = result.getBlancas();
-									result.setCantBlancas(temp2++);
-									temp = result.getNegras();
-									result.setCantNegras(temp--);
+							tablero[x+k*xDir][y+k*yDir] = yoJug;
+							result.getModificaciones().add(new Ficha(x+k*xDir, y+k*yDir));
+							/*
+							if(tablero[x+k*xDir][y+k*yDir] == 0 && yoJug == 1) {
+								tablero[x+k*xDir][y+k*yDir] = yoJug;
+								result.getModificaciones().add(new Ficha(x+k*xDir, y+k*yDir));
+								result.setCantNegras(result.getNegras() +1); 
+							}
+							else if (tablero[x+k*xDir][y+k*yDir] == 2 && yoJug == 1) {
+									tablero[x+k*xDir][y+k*yDir] = yoJug;
+								result.getModificaciones().add(new Ficha(x+k*xDir, y+k*yDir));
+								cont++;
+								result.setCantNegras(result.getNegras()+1);
+								result.setCantBlancas(result.getBlancas()-1);
 								}
-						}
-					break;
+								else if(tablero[x+k*xDir][y+k*yDir] == 0 && yoJug == 2) {
+										tablero[x+k*xDir][y+k*yDir] = yoJug;
+										result.getModificaciones().add(new Ficha(x+k*xDir, y+k*yDir));
+										result.setCantBlancas(result.getBlancas()+1);
+									}
+									else {
+										tablero[x+k*xDir][y+k*yDir] = yoJug;
+										result.getModificaciones().add(new Ficha(x+k*xDir, y+k*yDir));
+										cont++;
+										result.setCantBlancas(result.getBlancas()+1);
+										result.setCantNegras(result.getNegras()-1);
+									} */
+						} 
+						
+						break;
 					}
 					salto++;
 				} 
 			}	
 		
 		}
+		if (idJugador == this.elNegro) {
+			result.setCantNegras(result.getModificaciones().size());
+			result.setCantBlancas(result.getModificaciones().size()-1);
+		} else {
+			result.setCantBlancas(result.getModificaciones().size());
+			result.setCantNegras(result.getModificaciones().size()-1);
+			}
+		
+		System.out.println("Cantidad de fichas invertidas: "+cont);
 		return result;
 }
+
+
 	/*
 
 	 */
@@ -248,19 +357,48 @@ public class Partida {
 	}	
 				
 	public void actualizarTablero() {
-		for (int x = 0; x < 8; x++) {
-			for (int y = 0; y < 8; y++){
-				if (x == 7) {
-				   System.out.println(" "+this.tablero[x][y]); 
-				}
-					else {
-						System.out.println(" "+this.tablero[x][y]);
-					} 
-				 
+		for (int x = 0; x < this.tablero.length; x++) {
+			for(int y=0; y < this.tablero.length; y++){
+				System.out.print(" "+this.tablero[x][y]+ " ");
 			}
+		System.out.println();
 		}
 	}
+
 	
+	public void finalizar(String idAbandonador) { 
+		
+		UsuarioApp unJugador = new UsuarioApp(idAbandonador);
+		
+		if(idAbandonador == this.elBlanco) {
+			UsuarioApp otroJugador = new UsuarioApp(elBlanco);
+		} else {
+			UsuarioApp otroJugador = new UsuarioApp(elNegro);
+			}		
+				
+		ResultadoPartida result = ResultadoPartida.ABANDONO;
+		unJugador.saveResult (result);
+		ResultadoPartida result2 = ResultadoPartida.GANO;
+		//otroJugador.saveResult(result2);
+		
+	} 
+	
+	public ArrayList<Ficha> movimientosValidos (String idJugador) {
+		ArrayList<Ficha> arrMovValidos = new ArrayList<Ficha>();
+		
+		for (int y = 0; y < tablero.length; y++) {
+			for(int x = 0; x < tablero[y].length; x++){
+				Ficha testFicha = new Ficha(x , y);
+				boolean valido = checkMov(testFicha, idJugador);
+				if(valido == true) {
+					arrMovValidos.add(testFicha);
+				}
+			}
+		}
+	return arrMovValidos;
+	}
+	
+
 	public int getCantBlancas() {
 		return cantDos;
 	}
@@ -268,6 +406,23 @@ public class Partida {
 	public int getCantNegras() {
 		return cantUnos;
 	}
-
+	
+	public String wholsBlancas() {
+		return elBlanco;
+	}
+	
+	public String wholsNegras() {
+		return elNegro;
+	}
+	
+	public void setUnos(int negras) {
+			cantUnos = negras;
+	}
+	
+	public void setDos(int blancas) {
+			cantDos = blancas;
+	}
+	
+	
 }	
 

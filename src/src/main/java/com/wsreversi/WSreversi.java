@@ -66,9 +66,6 @@ public class WSreversi extends ReversiObserver
 		
 		if (idUsers == null) idUsers = new HashMap<String, String>();
 		if (jugadores == null) jugadores = new HashSet<String>();
-		
-		//Session j = new Session();
-		//System.out.println(j.getId());
 	}
 	
 	/**
@@ -92,7 +89,7 @@ public class WSreversi extends ReversiObserver
 	throws IOException, InterruptedException {
 		
 		//:TEST
-		System.out.println("\n\n\n\nMensaje: " + message);
+		System.out.println("\n\nMensaje: " + message);
 		
 		//Preparo la información para procesarla
 		Gson gson = new Gson();
@@ -288,7 +285,7 @@ public class WSreversi extends ReversiObserver
 					 * 
 					 * 
 					 */
-					
+					 
 				}else msgError(session,"dm3","No se puede realizar este movimiento");
 				
 			}else msgError(session,"dm2","No es tuturno!");
@@ -308,6 +305,18 @@ public class WSreversi extends ReversiObserver
 		 * 
 		 * Nota: idem onClose()
 		 */		
+		 
+		 //Obtengo los jugadores
+		 Jugador jugador = indiceSesiones.get(session.getId());
+		 Jugador contrincante = indiceSesiones.get(jugador.pear.getId());
+		 
+		 //Termino la partida
+		 //jugador.partida.finalizar(jugador.userId);
+		 
+		 //jugador.partida.scoring(jugador.idUsers);
+		 //jugador.partida.scoring(contrincate.idUsers);
+		 
+		 //TODO : Envair Resultados
 	}
 }
 
