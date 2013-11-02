@@ -1,23 +1,9 @@
 package com.reversi;
-
-
-/**
- * <!-- begin-user-doc -->
- * <!--  end-user-doc  -->
- * @generated
- */
+import com.reversi.MotivoActualizar;
 
 public class ReversiObserver
-{
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
-	public void actualizar() {
-		}
+{	
+	public void actualizar(MotivoActualizar motivo, String partidaId){}
 	
 }
 
