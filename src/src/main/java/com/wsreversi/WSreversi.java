@@ -3,10 +3,7 @@ import com.wsreversi.Juego;
 import com.wsreversi.Jugador;
 
 //Reversi
-import com.reversi.Partida;
-import com.reversi.Ficha;
-import com.reversi.ReversiObserver;
-import com.reversi.ResultadoMovimiento;
+import com.reversi.*;
 
 //Librerías Java
 import java.io.IOException;
@@ -33,11 +30,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 */
 
-/**
- * Para acceder a los juegos cuando el websocket recibe un mensaje, los busca mediante el ID de la 
- * sesssion que origino el evento en el hashmap de juegos
- */
-
 @ServerEndpoint("/wsreversi")
 public class WSreversi extends ReversiObserver
 {
@@ -51,9 +43,10 @@ public class WSreversi extends ReversiObserver
 	private static Queue<Session> niveDificil;
 	
 	//<SessionID, userId> 
-	
-	private static HashMap<String, String> idUsers; //Map: Session->userId de cola. Aún no han iniciado una partida --TEMPORAL
-	//userId
+	//Map: Session->userId de cola. Aún no han iniciado una partida --TEMPORAL
+	private static HashMap<String, String> idUsers; 
+
+	//userId -- Mantengo este listado para que un mismo usuario no inicie mas de una partida
 	private static Set<String> jugadores;
 	
 	public WSreversi(){
@@ -68,8 +61,6 @@ public class WSreversi extends ReversiObserver
 		if (jugadores == null) jugadores = new HashSet<String>();
 	}
 	
-	/**
-	 */
 	@OnOpen
 	public void onOpen(Session session) {
 		/* 
@@ -82,7 +73,7 @@ public class WSreversi extends ReversiObserver
 	}	
 
 	/**
-	 * 
+	 * Recibe los mensajes del FrontEnd y los analiza para luego procesarlos como corresponda
 	 */
 	@OnMessage
 	public void onMessage(String message, Session session)
@@ -149,7 +140,7 @@ public class WSreversi extends ReversiObserver
 	}
 	
 	//implements abstract
-	public void actualizar(){
+	public void actualizar(MotivoActualizar motivo, String partidaId){
 		/**
 		 * TODO:
 		 * 
@@ -160,6 +151,21 @@ public class WSreversi extends ReversiObserver
 		 * 
 		 * RESULTADOS: aka scores de los usuarios
 		 * */	
+		 
+		 switch (motivo){
+			case TIMEOUT:
+				//El jugador que tenía el turno lo perdio. Debo avisar a ambos
+			break;
+			
+			case CANCELADO:
+				//La partida se cancelo porque los jugadores no estaba jugando.
+				//cleanSessions()
+			break;
+			
+			case END:
+			break;
+		 }
+		 
 	}
 	
 	private void msgError(Session session, String id, String mensaje)
@@ -261,7 +267,6 @@ public class WSreversi extends ReversiObserver
 	private void doMove(Session session, String posX, String posY)
 	throws IOException, InterruptedException {		
 		/**
-		 * TODO:
 		 * Dada una session, obtengo la partida y el Id del jugador
 		 * me fijo que el jugador actual es el que intenta hacer el movimiento o envio mensaje de error
 		 * 
@@ -279,12 +284,10 @@ public class WSreversi extends ReversiObserver
 				);
 				
 				if (resultado != null){
-					//TODO :
+//TODO :
 					/**
 					 * Enviar actualizaciones de tablero.
 					 * Notificar que tiene el turno
-					 * 
-					 * 
 					 */
 					 
 				}else msgError(session,"dm3","No se puede realizar este movimiento");
@@ -298,39 +301,49 @@ public class WSreversi extends ReversiObserver
 	private void doQuit(Session session)
 	throws IOException, InterruptedException {			
 		/**
-		 * TODO:
-		 * busco la partida. la finalizo. envio los datos de finalizacion al contrincante
-		 *  
-		 * elimino todas las participaciones en los índices.
-		 * 
-		 * cierro las conexiones
-		 * 
-		 * Nota: idem onClose()
-		 */		
+		* busco la partida. la finalizo. envio los datos de finalizacion al contrincante
+		* elimino todas las participaciones en los índices.
+		* cierro las conexiones
+		* Nota: idem onClose()
+		*/		
 		 
-		 //Obtengo los jugadores
-		 Jugador jugador = indiceSesiones.get(session.getId());
-		 Jugador contrincante = indiceSesiones.get(jugador.pear.getId());
+		//Obtengo los jugadores
+		Jugador jugador = indiceSesiones.get(session.getId());
+		Jugador contrincante = indiceSesiones.get(jugador.pear.getId());
 		 
-		 //Termino la partida
-		 //jugador.partida.finalizar(jugador.userId);
+		//Termino la partida
+		jugador.partida.finalizar(jugador.userId);
 		 
-		 //jugador.partida.scoring(jugador.idUsers);
-		 //jugador.partida.scoring(contrincate.idUsers);
+		//Scoring resJugador = jugador.partida.scoring(jugador.idUsers);
+		//Scoring resContrincante = jugador.partida.scoring(contrincate.idUsers);
 		 
+//TODO : Envair Resultados  
 		 
-		 jugadores.remove(jugador.userId);
-		 jugadores.remove(contrincante.userId);
+		cleanSessions(
+			jugador.userId,
+			contrincante.userId,
+			
+			session,
+			jugador.pear,
+			
+			jugador.partida.getId()
+		);
+	}
+	
+	private void cleanSessions(String j1Id, String j2Id, Session s1, Session s2, String pId)
+	throws IOException, InterruptedException {
+		 jugadores.remove(j1Id);
+		 jugadores.remove(j2Id);
 		 
-		 indiceSesiones.remove(session.getId());
-		 indiceSesiones.remove(jugador.pear.getId());
+		 indiceSesiones.remove(s1.getId());
+		 indiceSesiones.remove(s2.getId());
 		 
-		 indicePartida.remove(jugador.partida.getId());
+		 indicePartida.remove(pId);
 		 
-		 jugador.pear.close();
-		 session.close();
+		 s2.close();
+		 s1.close();
 		 
-		 //TODO : Envair Resultados 
+		 System.out.println("Ya no quedan muertitos en el placard!");
 	}
 }
 
