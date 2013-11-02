@@ -3,6 +3,7 @@ import com.reversi.ReversiObserver;
 import com.reversi.ResultadoMovimiento;
 import com.reversi.Ficha;
 import com.reversi.EstadoJuego;
+import com.reversi.UserScoring;
 
 import com.usuario.UsuarioApp;
 import com.usuario.ResultadoPartida;
@@ -15,6 +16,7 @@ import org.javalite.activejdbc.Base;
 import com.usuario.models.User;
 import java.awt.event.ActionEvent;
 import java.lang.String;
+import java.lang.Math;
 import java.util.*;
 import java.io.*;
 import java.util.Date;
@@ -46,6 +48,8 @@ public class Partida {
 	private int cantDos; // Cantidad dde fichas Blancas que hay en el tablero.
 	
 	private EstadoJuego estado;
+	
+	private int abandono = 0;
 		
 	public final Ficha dirUp = new Ficha(0, -1);
 	public final Ficha dirDown = new Ficha(0 , 1);
@@ -222,8 +226,8 @@ public class Partida {
 					return this.estado.JUGANDO;
 				 }	//El juego esta en estado JUGANDO.
 					else if (cantMovimientos == 60 || (movimientosValidos(elNegro).size() == 0 && movimientosValidos(elBlanco).size() == 0)) { 
-							return this.estado.FINALIZADO;
-						 }// el juego esta en estado Finalizado.
+							return this.estado.TERMINADO;
+						 }// el juego esta en estado TERMINADO.
 							else {
 								return this.estado.CANCELADO; // El juego fue CANCELADO.
 							}
@@ -236,7 +240,7 @@ public class Partida {
 		ReversiObserver rever = new ReversiObserver();
 		//Partida part = new Partida("guille", "nico", 1, rever);
 		if (this.turnoActual != idJugador) {
-			System.out.println("No es tu turno");
+			System.out.println("No es tu turno, es el turno de: "+this.turnoActual);
 			return null;
 			//throw new IllegalArgumentException("No es tu turno");
 			
@@ -246,6 +250,8 @@ public class Partida {
 			return null;
 					
 		} else {
+			cantMovimientos++;
+			System.out.println("La cantidad de movimientos hechos es: "+cantMovimientos);
 			ResultadoMovimiento result = new ResultadoMovimiento (this.invertirFichas(ficha, idJugador));
 					if (idJugador == this.elNegro) {
 						this.cantDos = result.getBlancas();
@@ -360,17 +366,19 @@ public class Partida {
 	public void finalizar(String idAbandonador) { 
 		
 		UsuarioApp unJugador = new UsuarioApp(idAbandonador);
-		
+		UsuarioApp otroJugador;
 		if(idAbandonador == this.elBlanco) {
-			UsuarioApp otroJugador = new UsuarioApp(elBlanco);
+			otroJugador = new UsuarioApp(elNegro);
+			abandono = 2;
 		} else {
-			UsuarioApp otroJugador = new UsuarioApp(elNegro);
+			otroJugador = new UsuarioApp(elBlanco);
+			abandono = 1;
 			}		
 				
 		ResultadoPartida result = ResultadoPartida.ABANDONO;
 		unJugador.saveResult (result);
 		ResultadoPartida result2 = ResultadoPartida.GANO;
-		//otroJugador.saveResult(result2);
+		otroJugador.saveResult (result2);
 		
 	} 
 	
@@ -389,6 +397,28 @@ public class Partida {
 	return arrMovValidos;
 	}
 	
+	public UserScoring scoring(String idJugador) {
+			UsuarioApp user = new UsuarioApp(idJugador);
+			UserScoring userScoring = new UserScoring();
+			userScoring.ganadas = user.getGanada();
+			userScoring.perdidas = user.getPerdida();
+			userScoring.abandonadas = user.getAbandonada();
+			if(this.estado == this.estado.TERMINADO && this.cantUnos > this.cantDos && idJugador == elNegro) {
+				userScoring.estaPartida = 3;
+			} else if(this.estado == this.estado.TERMINADO && this.cantUnos > this.cantDos && idJugador == elBlanco){
+					userScoring.estaPartida = -1;	
+				} else if(this.abandono == 1 && idJugador == elNegro) {
+						userScoring.estaPartida = -3;
+						}
+						else {
+							userScoring.estaPartida = 3;
+						}
+			
+			int suma = (user.getGanada() * 3) - user.getPerdida() - (user.getAbandonada() * 3);
+			userScoring.scoreMas = Math.min(0, suma);
+			return userScoring;
+	}
+
 
 	public int getCantBlancas() {
 		return cantDos;
