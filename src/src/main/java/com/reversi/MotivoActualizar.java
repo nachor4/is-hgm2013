@@ -1,5 +1,5 @@
 package com.reversi;
 
-enum MotivoActualizar {
-	TIMEOUT, JUEGOCANCELADO;
+public enum MotivoActualizar {
+	TIMEOUT, CANCELADO, END;
 }
