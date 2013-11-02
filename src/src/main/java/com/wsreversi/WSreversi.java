@@ -143,7 +143,8 @@ public class WSreversi extends ReversiObserver
 	/**
 	 */
 	@OnClose
-	public void onClose(Session session) {
+	public void onClose(Session session)
+	throws IOException, InterruptedException {				
 		doQuit(session);
 	}
 	
@@ -228,8 +229,8 @@ public class WSreversi extends ReversiObserver
 		//reviso las colas. Si algujna tiene 2 o más elementos, los quito y les inicio la partida
 		
 		if (cola.size() > 1){ //Proceso la cola solo si tiene dos o mas elementos
-			Session sessionBlanco = (Session)cola.poll();
 			Session sessionNegro = (Session)cola.poll();
+			Session sessionBlanco = (Session)cola.poll();
 		
 			Juego juego = new Juego(
 				new Partida( //(String idNegro, String idBlanco, int dificultRec, ReversiObserver observer){
@@ -251,8 +252,8 @@ public class WSreversi extends ReversiObserver
 			idUsers.remove(sessionBlanco.getId());
 	
 			//TODO: definir
-			sessionBlanco.getBasicRemote().sendText("Juego Iniciado!");
-			sessionNegro.getBasicRemote().sendText("Juego Iniciado!");
+			sessionBlanco.getBasicRemote().sendText("Juego Iniciado! Espera a que tu compañero juegue");
+			sessionNegro.getBasicRemote().sendText("Juego Iniciado! Hace tu movida");
 		}
 	}
 
@@ -294,7 +295,8 @@ public class WSreversi extends ReversiObserver
 		 
 	}
 	
-	private void doQuit(Session session){
+	private void doQuit(Session session)
+	throws IOException, InterruptedException {			
 		/**
 		 * TODO:
 		 * busco la partida. la finalizo. envio los datos de finalizacion al contrincante
@@ -316,7 +318,19 @@ public class WSreversi extends ReversiObserver
 		 //jugador.partida.scoring(jugador.idUsers);
 		 //jugador.partida.scoring(contrincate.idUsers);
 		 
-		 //TODO : Envair Resultados
+		 
+		 jugadores.remove(jugador.userId);
+		 jugadores.remove(contrincante.userId);
+		 
+		 indiceSesiones.remove(session.getId());
+		 indiceSesiones.remove(jugador.pear.getId());
+		 
+		 indicePartida.remove(jugador.partida.getId());
+		 
+		 jugador.pear.close();
+		 session.close();
+		 
+		 //TODO : Envair Resultados 
 	}
 }
 

@@ -31,15 +31,15 @@ public class Partida {
 	
 	//private Temporizador tiempoUltMov = new Temporizador();
 		
-	private String elNegro;  // los hice public para poder accederlo en el timer
+	private String elNegro; 
 	
-	private String elBlanco; // los hice public para poder accederlo en el timer
+	private String elBlanco;
 	
 	private int tablero[][] = new int [8][8];
 	
 	private int cantMovimientos; 
 	
-	public String turnoActual; // los hice public para poder accederlo en el timer
+	public String turnoActual; 
 	
 	private int cantUnos; // Cantidad de fichas Negras que hay en el tablero.
 	
@@ -59,6 +59,7 @@ public class Partida {
 	public Partida (String idNegro, String idBlanco, int dificultRec, ReversiObserver observer){
 		cantUnos = 2;
 		cantDos = 2;
+		cantMovimientos = 0;
 			
 		UsuarioApp jugadorNegro = new UsuarioApp (idNegro);
 				
@@ -235,13 +236,26 @@ public class Partida {
 		ReversiObserver rever = new ReversiObserver();
 		//Partida part = new Partida("guille", "nico", 1, rever);
 		if (this.turnoActual != idJugador) {
-			throw new IllegalArgumentException("No es tu turno"); 
+			System.out.println("No es tu turno");
+			return null;
+			//throw new IllegalArgumentException("No es tu turno");
+			
+			
 		}else if (this.checkMov (ficha, idJugador) == false) {
-					throw new IllegalArgumentException ("El movimiento es inválido");
-				} else {
-					ResultadoMovimiento result = new ResultadoMovimiento (this.invertirFichas(ficha, idJugador));
-					this.cantDos = (result.getBlancas());
-					this.cantUnos = (result.getNegras());
+			//throw new IllegalArgumentException ("El movimiento es inválido");
+			return null;
+					
+		} else {
+			ResultadoMovimiento result = new ResultadoMovimiento (this.invertirFichas(ficha, idJugador));
+					if (idJugador == this.elNegro) {
+						this.cantDos = result.getBlancas();
+						this.cantUnos = result.getNegras(); }
+						else {
+							this.cantDos = result.getBlancas();
+							this.cantUnos = result.getNegras();
+							}
+					System.out.println("Cantidad de unos: "+this.cantUnos);
+					System.out.println("Cantidad de dos: "+this.cantDos);
 					//part.actualizarTablero();
 					if (turnoActual == elNegro) {
 						turnoActual = elBlanco;
@@ -285,6 +299,7 @@ public class Partida {
 			int xDir = coordDirecciones.getX();
 			int yDir = coordDirecciones.getY();
 			boolean potencial = false;
+			
 			if((y+yDir) > -1 && (y+yDir) < 8 && (x+xDir) <8 && (x+xDir) > -1) {
 				if(tablero[x+xDir][y+yDir] == contra){
 					potencial = true;
@@ -292,39 +307,18 @@ public class Partida {
 			}
 			if(potencial == true) {
 				int salto = 2;
+				
 				while( (y + (salto * yDir)) > -1 && (y+(salto * yDir)) < 8 &&  (x+(salto * xDir)) < 8 && (x + (salto * xDir)) > -1){
 					if(tablero[x+(salto * xDir)][y + (salto * yDir)] == 0){
 						break;
 					}
 					if(tablero[x+(salto * xDir)][y + (salto * yDir)] == yoJug){
 						for (int k = 0; k < salto; k++) {
-							tablero[x+k*xDir][y+k*yDir] = yoJug;
-							result.getModificaciones().add(new Ficha(x+k*xDir, y+k*yDir));
-							/*
-							if(tablero[x+k*xDir][y+k*yDir] == 0 && yoJug == 1) {
+							if (tablero[x+k*xDir][y+k*yDir] != yoJug){
 								tablero[x+k*xDir][y+k*yDir] = yoJug;
 								result.getModificaciones().add(new Ficha(x+k*xDir, y+k*yDir));
-								result.setCantNegras(result.getNegras() +1); 
 							}
-							else if (tablero[x+k*xDir][y+k*yDir] == 2 && yoJug == 1) {
-									tablero[x+k*xDir][y+k*yDir] = yoJug;
-								result.getModificaciones().add(new Ficha(x+k*xDir, y+k*yDir));
-								cont++;
-								result.setCantNegras(result.getNegras()+1);
-								result.setCantBlancas(result.getBlancas()-1);
-								}
-								else if(tablero[x+k*xDir][y+k*yDir] == 0 && yoJug == 2) {
-										tablero[x+k*xDir][y+k*yDir] = yoJug;
-										result.getModificaciones().add(new Ficha(x+k*xDir, y+k*yDir));
-										result.setCantBlancas(result.getBlancas()+1);
-									}
-									else {
-										tablero[x+k*xDir][y+k*yDir] = yoJug;
-										result.getModificaciones().add(new Ficha(x+k*xDir, y+k*yDir));
-										cont++;
-										result.setCantBlancas(result.getBlancas()+1);
-										result.setCantNegras(result.getNegras()-1);
-									} */
+							
 						} 
 						
 						break;
@@ -334,12 +328,13 @@ public class Partida {
 			}	
 		
 		}
+		
 		if (idJugador == this.elNegro) {
-			result.setCantNegras(result.getModificaciones().size());
-			result.setCantBlancas(result.getModificaciones().size()-1);
+			result.setCantNegras(this.cantUnos + result.getModificaciones().size());
+			result.setCantBlancas(this.cantDos - (result.getModificaciones().size()-1));
 		} else {
-			result.setCantBlancas(result.getModificaciones().size());
-			result.setCantNegras(result.getModificaciones().size()-1);
+			result.setCantBlancas(this.cantDos + result.getModificaciones().size());
+			result.setCantNegras(this.cantUnos - (result.getModificaciones().size()-1));
 			}
 		
 		System.out.println("Cantidad de fichas invertidas: "+cont);
@@ -347,10 +342,6 @@ public class Partida {
 }
 
 
-	/*
-
-	 */
-	 
 	public String getId() {
 		Partida parti = new Partida(elNegro, elBlanco, dificultad , observer);
 		return this.id;	

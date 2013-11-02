@@ -1,0 +1,82 @@
+<html>
+<head>
+	<script>
+
+	var webSocket1 = new WebSocket('ws://localhost:8080/wsreversi');
+	var webSocket2 = new WebSocket('ws://localhost:8080/wsreversi');
+
+	setWSop(webSocket1);
+	setWSop(webSocket2);
+	
+	function setWSop(WS){
+		WS.onerror = function(event) {
+			onError(event)
+		};
+
+		WS.onopen = function(event) {
+			onOpen(event)
+		};
+
+		WS.onclose = function(event) {
+			onClose(event)
+		};
+
+		WS.onmessage = function(event) {
+			onMessage(event)
+		};		
+	}
+
+
+	function onMessage(event) {
+		console.log(event.data);
+	}
+
+	function onOpen(event) {
+		console.log('Connection established');
+	}
+
+	function onError(event) {
+		console.log(event.data);
+	}
+
+	function onClose(event) {
+		console.log('Conexion Cerrada por el Servidor!');
+	}
+
+	function send(WS,data) {
+		if (WS.readyState == WS.OPEN){
+				WS.send(data);
+				console.log("enviado");
+		}else{
+				console.log("No hay conexion con el servidor");
+		}
+	}
+/*
+	init = JSON.stringify();
+	b = JSON.stringify({operacion:"init", id:"k"});
+	
+	c = JSON.stringify({operacion:"init", id:"l", nivel:"facil"});
+	d = JSON.stringify({operacion:"init", id:"m", nivel:"facil"});
+
+*/	
+	
+	var op = [
+		{ws: webSocket1, data: {operacion:"init", id:"guille", nivel:"facil"}}, //Blanco
+		{ws: webSocket2, data: {operacion:"init", id:"nico", nivel:"facil"}}, //Negro
+		
+		{ws: webSocket1, data: {operacion:"move", posx:"3", posy:"2"}},
+		{ws: webSocket2, data: {operacion:"move", posx:"4", posy:"2"}},
+		
+		{ws: webSocket1, data: {operacion:"quit"}},
+
+	]; 
+	
+	function doMove(pos){
+		send(op[pos].ws,JSON.stringify(op[pos].data));
+	}
+
+	</script>
+</head>
+<body>
+</body>
+</html>
