@@ -1,13 +1,15 @@
 package com.reversi;
 
 import com.reversi.Ficha;
+import java.util.*;
 
 public class ResultadoMovimiento {
 
 private String usuario;
 private int cantBlancas;
 private int cantNegras;
-private Ficha modificaciones [] = new Ficha [64];
+private ArrayList<Ficha> modificaciones = new ArrayList<Ficha>();
+
 
 
 	public ResultadoMovimiento(String idUsuario, int blancas, int negras) {
@@ -23,19 +25,19 @@ private Ficha modificaciones [] = new Ficha [64];
 	}
 		
 	public int getBlancas() {
-		System.out.println("Cant Blancas despues del movimiento: " +cantBlancas +" \n");
+		System.out.println("Cant Blancas despues del movimiento: " +cantBlancas);
 		return cantBlancas;
 	}
 	
 	public int getNegras() {
-		System.out.println("Cant Negras despues del movimiento: " +cantNegras +" \n");
+		System.out.println("Cant Negras despues del movimiento: " +cantNegras);
 		return cantNegras;
 	}
 	
-	public Ficha [] getModificaciones() {
+	public ArrayList<Ficha> getModificaciones() {
 		System.out.println("Estas son las fichas modificadas:\n");
-		for(int x = 0; x < modificaciones.length; x++) {
-		System.out.println(" ( "+modificaciones[x].getX()+", "+modificaciones[x].getY()+") ");	
+		for(int x = 0; x < modificaciones.size(); x++) {
+		System.out.println(" ( "+modificaciones.get(x).getX()+", "+modificaciones.get(x).getY()+") ");	
 		}
 		return modificaciones;
 	}

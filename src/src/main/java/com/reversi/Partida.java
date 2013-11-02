@@ -31,7 +31,7 @@ public class Partida {
 	
 	//private Temporizador tiempoUltMov = new Temporizador();
 		
-	public String elNegro;  // los hice public para poder accederlo en el timer
+	private String elNegro;  // los hice public para poder accederlo en el timer
 	
 	private String elBlanco; // los hice public para poder accederlo en el timer
 	
@@ -57,8 +57,8 @@ public class Partida {
 	public final Ficha dirDownRight = new Ficha(1,1);
 		
 	public Partida (String idNegro, String idBlanco, int dificultRec, ReversiObserver observer){
-		cantUnos = 0;
-		cantDos = 0;
+		cantUnos = 2;
+		cantDos = 2;
 			
 		UsuarioApp jugadorNegro = new UsuarioApp (idNegro);
 				
@@ -234,22 +234,25 @@ public class Partida {
 		//ResultadoMovimiento result = new ResultadoMovimiento ();
 		ReversiObserver rever = new ReversiObserver();
 		//Partida part = new Partida("guille", "nico", 1, rever);
-		if (this.checkMov (ficha, idJugador) == false) {
-			throw new IllegalArgumentException ("El movimiento es inválido");
-			} else {
-			ResultadoMovimiento result = new ResultadoMovimiento (this.invertirFichas(ficha, idJugador));
-			this.cantDos = setDos(result.getBlancas());
-			this.cantUnos = setUnos(result.getNegras());
-			//part.actualizarTablero();
-				if (turnoActual == elNegro) {
-					turnoActual = elBlanco;
-				}
-					else {
-					turnoActual = elNegro;
+		if (this.turnoActual != idJugador) {
+			throw new IllegalArgumentException("No es tu turno"); 
+		}else if (this.checkMov (ficha, idJugador) == false) {
+					throw new IllegalArgumentException ("El movimiento es inválido");
+				} else {
+					ResultadoMovimiento result = new ResultadoMovimiento (this.invertirFichas(ficha, idJugador));
+					this.cantDos = (result.getBlancas());
+					this.cantUnos = (result.getNegras());
+					//part.actualizarTablero();
+					if (turnoActual == elNegro) {
+						turnoActual = elBlanco;
 					}
-				this.actualizarTablero();	
-				return result;
-			  }
+						else {
+							turnoActual = elNegro;
+						}
+					this.actualizarTablero();
+				
+					return result;
+				}
 		}
 	
 	public ResultadoMovimiento invertirFichas(Ficha ficha, String idJugador) {
@@ -283,7 +286,7 @@ public class Partida {
 			int yDir = coordDirecciones.getY();
 			boolean potencial = false;
 			if((y+yDir) > -1 && (y+yDir) < 8 && (x+xDir) <8 && (x+xDir) > -1) {
-				if(tablero[x+xDir][y+yDir] == cont){
+				if(tablero[x+xDir][y+yDir] == contra){
 					potencial = true;
 				}
 			}
@@ -295,34 +298,55 @@ public class Partida {
 					}
 					if(tablero[x+(salto * xDir)][y + (salto * yDir)] == yoJug){
 						for (int k = 0; k < salto; k++) {
-							tablero[x+k*xDir][y+k*yDir] = yoJug;							
-							Ficha fichaResultado = new Ficha(x+k*xDir, y+k*yDir);
-							result.getModificaciones()[cont] = fichaResultado;
-							cont++;
-							if(yoJug == 1){
-								
-								temp = result.getNegras();
-								result.setCantNegras(temp++);
-								
-								temp2 = result.getBlancas();
-								result.setCantBlancas(temp2--);
-							}							
-								else {
-									temp2 = result.getBlancas();
-									result.setCantBlancas(temp2++);
-									temp = result.getNegras();
-									result.setCantNegras(temp--);
+							tablero[x+k*xDir][y+k*yDir] = yoJug;
+							result.getModificaciones().add(new Ficha(x+k*xDir, y+k*yDir));
+							/*
+							if(tablero[x+k*xDir][y+k*yDir] == 0 && yoJug == 1) {
+								tablero[x+k*xDir][y+k*yDir] = yoJug;
+								result.getModificaciones().add(new Ficha(x+k*xDir, y+k*yDir));
+								result.setCantNegras(result.getNegras() +1); 
+							}
+							else if (tablero[x+k*xDir][y+k*yDir] == 2 && yoJug == 1) {
+									tablero[x+k*xDir][y+k*yDir] = yoJug;
+								result.getModificaciones().add(new Ficha(x+k*xDir, y+k*yDir));
+								cont++;
+								result.setCantNegras(result.getNegras()+1);
+								result.setCantBlancas(result.getBlancas()-1);
 								}
-						}
-					break;
+								else if(tablero[x+k*xDir][y+k*yDir] == 0 && yoJug == 2) {
+										tablero[x+k*xDir][y+k*yDir] = yoJug;
+										result.getModificaciones().add(new Ficha(x+k*xDir, y+k*yDir));
+										result.setCantBlancas(result.getBlancas()+1);
+									}
+									else {
+										tablero[x+k*xDir][y+k*yDir] = yoJug;
+										result.getModificaciones().add(new Ficha(x+k*xDir, y+k*yDir));
+										cont++;
+										result.setCantBlancas(result.getBlancas()+1);
+										result.setCantNegras(result.getNegras()-1);
+									} */
+						} 
+						
+						break;
 					}
 					salto++;
 				} 
 			}	
 		
 		}
+		if (idJugador == this.elNegro) {
+			result.setCantNegras(result.getModificaciones().size());
+			result.setCantBlancas(result.getModificaciones().size()-1);
+		} else {
+			result.setCantBlancas(result.getModificaciones().size());
+			result.setCantNegras(result.getModificaciones().size()-1);
+			}
+		
+		System.out.println("Cantidad de fichas invertidas: "+cont);
 		return result;
 }
+
+
 	/*
 
 	 */
@@ -342,16 +366,20 @@ public class Partida {
 	}
 
 	
-	public void finalizar(String idAbandonador, String idAbandonado) { 
+	public void finalizar(String idAbandonador) { 
 		
 		UsuarioApp unJugador = new UsuarioApp(idAbandonador);
-				
-		UsuarioApp otroJugador = new UsuarioApp(idAbandonado);		
+		
+		if(idAbandonador == this.elBlanco) {
+			UsuarioApp otroJugador = new UsuarioApp(elBlanco);
+		} else {
+			UsuarioApp otroJugador = new UsuarioApp(elNegro);
+			}		
 				
 		ResultadoPartida result = ResultadoPartida.ABANDONO;
 		unJugador.saveResult (result);
 		ResultadoPartida result2 = ResultadoPartida.GANO;
-		otroJugador.saveResult(result2);
+		//otroJugador.saveResult(result2);
 		
 	} 
 	
@@ -396,6 +424,5 @@ public class Partida {
 	}
 	
 	
-
 }	
 
