@@ -49,9 +49,16 @@ public class PartidaGralTest {
 			System.out.println("El ID de la partida es: "+parti.getId());
 			//parti.actualizarTablero();
 			parti.mover(ficha, "guille");
+			
+			System.out.println("\n\nGuessing");
+			ResultadoMovimiento resultado = parti.mover(ficha, "guille");
+			
+			if (resultado == null) System.out.println("Movimiento no válido!");
+ 			System.out.println(resultado);
+ 			
 			parti.mover(ficha2, "nico");
 			parti.mover(ficha3, "guille");
-			parti.mover(ficha4, "nico");        
+			parti.mover(ficha4, "guille");        
 		}catch(Exception e){
 			System.out.println("getID invalido");
 		}        		
