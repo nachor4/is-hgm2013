@@ -1,0 +1,118 @@
+<html>
+<head>
+	<style>
+		body{
+			height:100%;
+			ming-height:450px;
+			padding:0; 
+			margin:0;
+		}
+		
+		#wrapper{
+			width:100%;
+			margin:0 auto;
+			max-height:100%;
+			overflow:hidden;
+		}
+		
+		h1{
+			font-size:22px;
+			margin:0;
+			padding:0;
+			margin-left:2%;
+			margin-top:2%;
+		}
+		
+		pre{
+			width:29%; 
+			height:80%;
+			border:1px solid #CCC;
+			margin:2%;
+			float:left;
+			box-sizing: border-box;
+			padding:10px;
+			overflow:auto;
+		}
+	</style>
+</head>
+<body>
+	<div id="wrapper">
+		<h1>WS Reversi - Testing <button id="btn" onclick="javascript:next();">Enviar Mensaje</button></h1>
+		<pre id="uno">Jugador 1:</pre>
+		<pre id="dos">Jugador 2:</pre>
+		<pre id="server">Server</pre>
+	</div>
+</body>
+
+	<script>
+
+	var webSocket1 = new WebSocket('ws://localhost:8080/wsreversi');
+	var webSocket2 = new WebSocket('ws://localhost:8080/wsreversi');
+
+	setWSop(webSocket1,"uno");
+	setWSop(webSocket2,"dos");
+	
+	function setWSop(WS,idPre){
+		WS.onerror = function(event) {
+			printLog(event.data,idPre)
+		};
+
+		WS.onopen = function(event) {
+			printLog("Conexion Establecida",idPre, true) //idPre es el nombre del WebScoket
+		};
+
+		WS.onclose = function(event) {
+			printLog("Conexion Cerrada",idPre);
+		};
+
+		WS.onmessage = function(event) {
+			printLog(event.data,idPre); //idPre es el nombre del WebScoket
+		};		
+	}
+
+	function next(){
+		excecute(testing.shift());
+	}
+		
+	function printLog(msg,idPre, noNext){		
+		dE = document.getElementById(idPre);
+		dE.innerHTML = dE.innerHTML + "\n\n" + msg;
+		dE.scrollTop = dE.scrollHeight;
+	}
+
+	function send(WS,data, id) {
+		if (WS.readyState == WS.OPEN){
+			WS.send(data);
+
+			dE = document.getElementById("server");
+			dE.innerHTML = dE.innerHTML + "\n\n" + id + ": "+ data;
+			dE.scrollTop = dE.scrollHeight;
+			
+		}else{
+			alert("No hay conexion con el servidor");
+		}
+	}
+
+	function excecute(inst){
+		if (inst != undefined){ 
+			send(inst.ws,JSON.stringify(inst.data),inst.id); 
+		}
+	}
+	
+	var testing = [
+		{ws: webSocket1, id: "uno", data: {operacion:"init", id:"guille", nivel:"facil"}}, //Blanco
+		{ws: webSocket2, id: "dos", data: {operacion:"init", id:"nico", nivel:"facil"}}, //Negro
+		
+		{ws: webSocket2, id: "dos", data: {operacion:"move", posx:"4", posy:"2"}}, //No es su turno
+		{ws: webSocket1, id: "uno", data: {operacion:"move", posx:"3", posy:"2"}},
+		{ws: webSocket2, id: "dos", data: {operacion:"move", posx:"4", posy:"2"}},
+		
+		{ws: webSocket1, id: "uno", data: {operacion:"quit"}},
+		{ws: webSocket2, id: "dos", data: {operacion:"quit"}},
+	]; 
+	
+	
+	</script>
+
+
+</html>
