@@ -12,8 +12,10 @@ import org.javalite.activejdbc.Base;
 //import com.reversi.Temporizador;
 
 import javax.swing.Timer;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import java.awt.event.*;
+//import java.awt.event.ActionListener;
+//import java.awt.event.ActionEvent;
+
 import java.lang.String;
 import java.lang.Math;
 import java.util.ArrayList;
@@ -56,91 +58,89 @@ public class Partida {
 	public final Ficha dirDownRight = new Ficha(1,1);
 	
 	
-private class Temporizador extends ActionListener {  //estaba private
+	private class Temporizador implements ActionListener {  //estaba private
 		private Partida partida;
 
-		private void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent e) {
 			  partida.timeout();
 		}
 		public Temporizador (Partida p) {
 			this.partida = p;
 		}
 		
-  } 
+	} 
 	
 
 	public Partida (String idNegro, String idBlanco, int dificultRec, ReversiObserver observer){
-		cantUnos = 2;
-		cantDos = 2;
-		cantMovimientos = 0;
-		
-	     	 			
+		boolean datosOK = true;
+
 		UsuarioApp jugadorNegro = new UsuarioApp (idNegro);
-				
 		UsuarioApp jugadorBlanco = new UsuarioApp(idBlanco);
-				
-		//Controlamos que el jugador Negro haya sido creado correctamente.
-			if ( jugadorNegro == null ) {
-			     throw new IllegalArgumentException ("El idNegro recibido no existe\n");
-			     }
-				else { 
-					elNegro = idNegro;
-					if (jugadorBlanco == null){
-						throw new IllegalArgumentException ("El idBlanco recibido no existe\n");
-					 }
-				
-					else {
-						 elBlanco = idBlanco;
-						 if(dificultRec != 0 && dificultRec != 1 && dificultRec != 2){
-							throw new IllegalArgumentException ("La dificultad recibida no es válida");
-							}
-					    else { 
-						
-							dificultad = dificultRec; 
-						
-							Date date = new Date();
-							SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy h:mm:ss a");
-							String formattedDate = sdf.format(date);
-								
-							id = elNegro + elBlanco + formattedDate; 
-						
-						
-						//Inicializamos el tablero, si un casillero esta en 0, significa que esta vacio
-						//si esta en 1 significa que hay una ficha negra y 2 si hay una ficha blanca.
-						for (int x = 0; x < 8; x++) {
-							for(int y = 0; y < 8; y++) {
-								tablero[x][y] = 0;
-						 }
-					 }
-				 
-					 
-					tablero[3][4] = 1;
-					tablero[4][3] = 1;
-					tablero[3][3] = 2;
-					tablero[4][4] = 2;
-					
-				int tiempo;
-						
-						if(dificultad == 1) {
-							int seg = 60;
-							
-							tiempoUltMov = new Timer (seg, new Temporizador(this));
-							tiempoUltMov.setRepeats(false);
-							tiempoUltMov.start(); 
-					}
-						else { 
-							int seg = 30;
-							tiempoUltMov = new Timer(seg, new ActionListener());
-							tiempoUltMov.setRepeats(false);
-							tiempoUltMov.start();
-						}
-						
-						this.turnoActual = elNegro;
-						cantMovimientos = 0;
-					}
-				}
-			}
+		
+		//verifico la info recibida
+		if (jugadorNegro == null){
+			datosOK = false;
+			throw new IllegalArgumentException ("El idNegro recibido no existe\n");
+		}else if(jugadorBlanco == null){
+			datosOK = false;
+			throw new IllegalArgumentException ("El idBlanco recibido no existe\n");
+		}else if (dificultRec != 0 && dificultRec != 1 && dificultRec != 2){
+			datosOK = false;
+			throw new IllegalArgumentException ("La dificultad recibida no es válida");
 		}
+		
+		//Si la info recibida es correcta
+		if (datosOK){
+
+			//Almaceno los IDs de los jugadores
+			elNegro = idNegro;
+			elBlanco = idBlanco;
+
+			//Guardo la configuración de dificultad
+			dificultad = dificultRec; 
+
+			/**
+			 * Preparo el ID de la partida
+			 * Se calcula concatenando los IDs de los jugadores y sumandole un timestamp, 
+			 * luego se calcula un hash para unificar el formato de la cadena y mostrarlo de forma encriptada
+			 **/  
+			SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy h:mm:ss a");
+			id = elNegro + elBlanco + (String)sdf.format(new Date()); 
+			
+			
+			//Inicializamos el tablero, si un casillero esta en 0, significa que esta vacio
+			//si esta en 1 significa que hay una ficha negra y 2 si hay una ficha blanca.
+			for (int x = 0; x < 8; x++) 
+				for(int y = 0; y < 8; y++)
+					tablero[x][y] = 0;
+		 
+			//Inicializo las variables de juego
+			cantUnos = 2;
+			cantDos = 2;
+			cantMovimientos = 0;
+
+			//Incializacion del tablero
+			tablero[3][4] = 1;
+			tablero[4][3] = 1;
+			tablero[3][3] = 2;
+			tablero[4][4] = 2;
+			
+			this.turnoActual = elNegro;
+
+			//Inicializacion del TIMER
+			int tiempo = 0;
+			
+			if(dificultad == 1) tiempo = 60;
+			else tiempo = 30;
+			
+			if (tiempo > 0){
+				tiempoUltMov = new Timer (tiempo, new Temporizador(this));
+				tiempoUltMov.setRepeats(false);
+				tiempoUltMov.start(); 
+			}
+		}//End Inicializacion
+				
+	}//Fin Partida
 		
 
 
