@@ -7,17 +7,16 @@ import com.reversi.UserScoring;
 
 import com.usuario.UsuarioApp;
 import com.usuario.ResultadoPartida;
+import com.usuario.models.User;
 import org.javalite.activejdbc.Base;
-
-//import java.awt.event.ActionListener;
-
 //import com.reversi.Temporizador;
 
-import com.usuario.models.User;
+import javax.swing.Timer;
+import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.lang.String;
 import java.lang.Math;
-import java.util.*;
+import java.util.ArrayList;
 import java.io.*;
 import java.util.Date;
 import java.sql.Timestamp;
@@ -26,25 +25,21 @@ import java.text.SimpleDateFormat;
 public class Partida {
 	
 	private String id;
-	
 	private int dificultad;
-	
 	private ReversiObserver observer = new ReversiObserver();
 	
-	//private Temporizador tiempoUltMov = new Temporizador();
-		
-	private String elNegro; 
+	private Timer tiempoUltMov;	
+	private int cantTimeOut = 0;
 	
-	private String elBlanco;
+	public String elNegro; 
+	public String elBlanco;
 	
 	private int tablero[][] = new int [8][8];
 	
 	private int cantMovimientos; 
-	
 	public String turnoActual; 
 	
 	private int cantUnos; // Cantidad de fichas Negras que hay en el tablero.
-	
 	private int cantDos; // Cantidad dde fichas Blancas que hay en el tablero.
 	
 	private EstadoJuego estado;
@@ -59,12 +54,27 @@ public class Partida {
 	public final Ficha dirUpRight = new Ficha(1, -1);
 	public final Ficha dirDownLeft = new Ficha(-1, 1);
 	public final Ficha dirDownRight = new Ficha(1,1);
+	
+	
+private class Temporizador extends ActionListener {  //estaba private
+		private Partida partida;
+
+		private void actionPerformed(ActionEvent e) {
+			  partida.timeout();
+		}
+		public Temporizador (Partida p) {
+			this.partida = p;
+		}
 		
+  } 
+	
+
 	public Partida (String idNegro, String idBlanco, int dificultRec, ReversiObserver observer){
 		cantUnos = 2;
 		cantDos = 2;
 		cantMovimientos = 0;
-			
+		
+	     	 			
 		UsuarioApp jugadorNegro = new UsuarioApp (idNegro);
 				
 		UsuarioApp jugadorBlanco = new UsuarioApp(idBlanco);
@@ -109,57 +119,30 @@ public class Partida {
 					tablero[3][3] = 2;
 					tablero[4][4] = 2;
 					
-						if(dificultad == 0) {
-						/*	int seg = 60;
-							Timer tiempo = new Timer (seg, new ActionListener() {
-								public void actionPerformed(ActionEvent ev) {
-									if (this.turnoActual == this.elNegro) {  
-										this.turnoActual = this.elBlanco; 
-									}
-										else {
-										this.turnoActual = this.elNegro;
-										}
-									}
-								});
-							tiempo.Start(); */
+				int tiempo;
+						
+						if(dificultad == 1) {
+							int seg = 60;
+							
+							tiempoUltMov = new Timer (seg, new Temporizador(this));
+							tiempoUltMov.setRepeats(false);
+							tiempoUltMov.start(); 
+					}
+						else { 
+							int seg = 30;
+							tiempoUltMov = new Timer(seg, new ActionListener());
+							tiempoUltMov.setRepeats(false);
+							tiempoUltMov.start();
 						}
-							else 
-								if(dificultad == 1) {
-								/*	int seg = 40;
-									Timer tiempo = new Timer (seg, new ActionListener() {
-									public void actionPerformed(ActionEvent ev) {
-										if (this.turnoActual == this.elNegro) {  
-											this.turnoActual = this.elBlanco; 
-										}
-											else {
-												this.turnoActual = this.elNegro;
-											}
-										}
-									});
-									
-									tiempo.Start(); */
-								}
-								else { 
-									  /*  int seg = 20;
-										Timer tiempo = new Timer (seg, new ActionListener() {
-										public void actionPerformed(ActionEvent ev) {
-										if (this.turnoActual == this.elNegro) {  
-											this.turnoActual = this.elBlanco; 
-										}
-											else {
-												this.turnoActual = this.elNegro;
-											}
-										}
-										});
-										tiempo.Start(); */
-									}
+						
 						this.turnoActual = elNegro;
 						cantMovimientos = 0;
 					}
 				}
 			}
+		}
 		
-	} // Cierra el constructor 
+
 
 	final Ficha checkDirecciones[] = {dirUp , dirDown ,
  dirLeft , dirRight , dirUpLeft , dirUpRight ,  dirDownLeft , dirDownRight } ;
@@ -255,14 +238,14 @@ public class Partida {
 			ResultadoMovimiento result = new ResultadoMovimiento (this.invertirFichas(ficha, idJugador));
 					if (idJugador == this.elNegro) {
 						this.cantDos = result.getBlancas();
-						this.cantUnos = result.getNegras(); }
+						this.cantUnos = result.getNegras(); 
+						cantTimeOut = 0;
+					}
 						else {
 							this.cantDos = result.getBlancas();
 							this.cantUnos = result.getNegras();
+							cantTimeOut = 0;
 							}
-					System.out.println("Cantidad de unos: "+this.cantUnos);
-					System.out.println("Cantidad de dos: "+this.cantDos);
-					//part.actualizarTablero();
 					if (turnoActual == elNegro) {
 						turnoActual = elBlanco;
 					}
@@ -415,8 +398,25 @@ public class Partida {
 						}
 			
 			int suma = (user.getGanada() * 3) - user.getPerdida() - (user.getAbandonada() * 3);
-			userScoring.scoreMas = Math.min(0, suma);
+			if (Math.min(0, suma) < 0){
+				userScoring.scoreMas = 0;
+			}
 			return userScoring;
+	}
+	
+	public void timeout(){
+		tiempoUltMov.stop();
+
+		//Do something to change the turn
+		if (turnoActual == elNegro){  
+			turnoActual = elBlanco;
+			cantTimeOut++;
+		}else{
+			turnoActual = elNegro;
+			cantTimeOut++;
+		}
+		
+		observer.actualizar(MotivoActualizar.TIMEOUT,this.id);
 	}
 
 

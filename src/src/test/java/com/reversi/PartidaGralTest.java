@@ -67,9 +67,14 @@ public class PartidaGralTest {
 	//test UserScoring
 	try{ 
 		UserScoring usuario = new UserScoring();
-		parti.scoring("guille");
+		usuario = parti.scoring("guille");
+		System.out.println("ganadas: "+usuario.gGanadas());
+		System.out.println("perdidas: "+usuario.gPerdidas());
+		System.out.println("abandonadas: "+usuario.gAbandonadas());
+		System.out.println("scoreMas: "+usuario.gScoreMas());
+		System.out.println("estaPartida: "+usuario.gEstaPartida());
 		
-	
+		
 	} catch(Exception e) {
 		System.out.println("");
 		}        		
