@@ -36,7 +36,9 @@
 		}
 	}
 %>
-<html>
+
+<!DOCTYPE html>
+<html lang="es-AR">
 	<head>
 		<meta charset="utf-8">
 		<title>Testing Websockets</title>
@@ -52,19 +54,19 @@
 		<form action="" method="post">
 			<p>
 				<label for="user">Usuario: </label>
-				<input name="user" type="text">
+				<input name="user" type="text" maxlength="20" required>
 			</p>
 			<p>
 				<label for="nombre">Nombre: </label>
-				<input name="nombre" type="text">
+				<input name="nombre" type="text" maxlength="60" required>
 			</p>
 			<p>
 				<label for="email">Email: </label>
-				<input name="email" type="text">
+				<input name="email" type="email" maxlength="60" required>
 			</p>			
 			<p>
 				<label for="password">Password: </label>
-				<input name="password" type="text">
+				<input name="password" type="text" maxlength="12" required>
 			</p>
 			<p>
 				<input type="submit" value="Registrarse">
