@@ -227,10 +227,10 @@ public class WSreversi extends ReversiObserver
 	private void encolar(Queue cola, int nivelInt, Session session)
 	throws IOException, InterruptedException {
 		cola.add(session);
-		procesarCola(cola, nivelInt);
+		procesarCola(cola, nivelInt, session);
 	}
 	
-	private void procesarCola(Queue cola, int nivelInt)
+	private void procesarCola(Queue cola, int nivelInt, Session session)
 	throws IOException, InterruptedException {
 		//reviso las colas. Si algujna tiene 2 o más elementos, los quito y les inicio la partida
 		
@@ -260,6 +260,8 @@ public class WSreversi extends ReversiObserver
 			//TODO: definir
 			sessionBlanco.getBasicRemote().sendText("Juego Iniciado! Espera a que tu compañero juegue");
 			sessionNegro.getBasicRemote().sendText("Juego Iniciado! Hace tu movida");
+		}else{
+			//session.getBasicRemote().sendText("Te has conectado. Espera que se conecte otro jugador");
 		}
 	}
 
