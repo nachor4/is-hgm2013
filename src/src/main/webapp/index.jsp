@@ -62,7 +62,7 @@
 		</p>
 		
 		<p>
-			¿si no recuerdas tu eMail haz click <a href="reset.jsp">aquí</a>
+			¿si no recuerdas tu password haz click <a href="reset.jsp">aquí</a>
 		</p>
 	</body>
 </html>
