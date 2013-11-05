@@ -409,7 +409,7 @@ public class Partida {
 
 		cantTimeOut++;
 		
-		if (turnoActual == elNegro) turnoActual = elBlanco;
+		if (turnoActual == elNegro)turnoActual = elBlanco;
 		else turnoActual = elNegro;
 		
 		try{
@@ -420,6 +420,11 @@ public class Partida {
 			}else{
 				System.out.println("ACTUALIZAR -- CANCELADO");
 				observer.actualizar(MotivoActualizar.CANCELADO, this.id);
+				ResultadoPartida result = ResultadoPartida.ABANDONO;
+				UsuarioApp elBlanquito = new UsuarioApp(elBlanco);
+				UsuarioApp elNegrito = new UsuarioApp(elNegro);
+				elBlanquito.saveResult (result);
+				elNegrito.saveResult (result);
 				
 			}
 		}catch(Exception e){System.out.println(e);}
