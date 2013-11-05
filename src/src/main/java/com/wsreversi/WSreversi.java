@@ -1,6 +1,5 @@
 package com.wsreversi;
-import com.wsreversi.Juego;
-import com.wsreversi.Jugador;
+import com.wsreversi.*;
 
 //Reversi
 import com.reversi.*;
@@ -209,11 +208,10 @@ public class WSreversi extends ReversiObserver
 	
 	private void msgError(Session session, String id, String mensaje)
 	throws IOException, InterruptedException {
-		//TODO : Enviar mensaje de error
-		//:TEST
-		System.out.println("\nmsgError: id: "+id+" | mensaje: "+mensaje);		
-		
-		session.getBasicRemote().sendText("{\"status\":\"error\",\"data\":\"("+id+") "+mensaje+"\"}");		
+		RespuestaWS j = new RespuestaWS("error");
+		j.addAttr("data", "(" + id + ") " + mensaje);
+				
+		session.getBasicRemote().sendText(j.toString());		
 	}
 
 
@@ -297,6 +295,9 @@ public class WSreversi extends ReversiObserver
 			idUsers.remove(sessionBlanco.getId());
 	
 			//TODO: definir
+			RespuestaWS j = new RespuestaWS("msg");
+			System.out.println(j.toString());
+			
 			sessionBlanco.getBasicRemote().sendText("Juego Iniciado! Espera a que tu compañero juegue");
 			sessionNegro.getBasicRemote().sendText("Juego Iniciado! Hace tu movida");
 		}else{
@@ -325,12 +326,20 @@ public class WSreversi extends ReversiObserver
 				);
 				
 				if (resultado != null){
-//TODO :
-					/**
-					 * Enviar actualizaciones de tablero.
-					 * Notificar que tiene el turno
-					 */
-					 
+					//Enviar actualizaciones de tablero - Notificar que tiene el turno
+
+					RespuestaWS rJ = new RespuestaWS("mover");
+					RespuestaWS rC = new RespuestaWS("mover");
+										
+					rJ.addAttr("turno", jugador.partida.jugadorActual() == jugador.userId);
+					rC.addAttr("turno", jugador.partida.jugadorActual() != jugador.userId);
+
+					rJ.addAttr("data", resultado);
+					rC.addAttr("data", resultado);
+							
+					session.getBasicRemote().sendText(rJ.toString());						 
+					jugador.pear.getBasicRemote().sendText(rC.toString());					
+						 
 				}else msgError(session,"dm3","No se puede realizar este movimiento");
 				
 			}else msgError(session,"dm2","No es tuturno!");
@@ -350,15 +359,22 @@ public class WSreversi extends ReversiObserver
 		 
 		//Obtengo los jugadores
 		Jugador jugador = indiceSesiones.get(session.getId());
-		Jugador contrincante = indiceSesiones.get(jugador.pear.getId());
+		Jugador contrincante = indiceSesiones.get(jugador.pear.getId()); //para obtener el Id del Contrincante
 		 
 		//Termino la partida
 		jugador.partida.finalizar(jugador.userId);
 		 
-		//Scoring resJugador = jugador.partida.scoring(jugador.idUsers);
-		//Scoring resContrincante = jugador.partida.scoring(contrincate.idUsers);
-		 
-//TODO : Envair Resultados  
+		UserScoring resJugador = jugador.partida.scoring(jugador.userId);
+		UserScoring resContrincante = jugador.partida.scoring(contrincante.userId);
+				
+		RespuestaWS rJ = new RespuestaWS("quit");
+		RespuestaWS rC = new RespuestaWS("quit");
+							
+		rJ.addAttr("data", resJugador);
+		rC.addAttr("data", resContrincante);
+				
+		session.getBasicRemote().sendText(rJ.toString());						 
+		jugador.pear.getBasicRemote().sendText(rC.toString());					
 		 
 		cleanSessions(
 			jugador.userId,
