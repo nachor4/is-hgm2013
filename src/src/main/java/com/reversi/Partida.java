@@ -206,7 +206,10 @@ public class Partida {
 					return this.estado.JUGANDO;
 				 }	//El juego esta en estado JUGANDO.
 					else if (cantMovimientos == 60 || (movimientosValidos(elNegro).size() == 0 && movimientosValidos(elBlanco).size() == 0)) { 
-							observer.actualizar(MotivoActualizar.END, this.id);
+							try{
+								System.out.println("ACTUALIZAR -- END");
+								observer.actualizar(MotivoActualizar.END, this.id);
+							}catch(Exception e){System.out.println(e);}
 							return this.estado.TERMINADO;
 						 }// el juego esta en estado TERMINADO.
 							else {
@@ -418,11 +421,16 @@ public class Partida {
 			tiempoUltMov.restart();
 		}
 		if(cantTimeOut < 4){
-			observer.actualizar(MotivoActualizar.TIMEOUT,this.id);
-		}
-			else {
+			try{
+				System.out.println("ACTUALIZAR -- TIMEOUT");
+				observer.actualizar(MotivoActualizar.TIMEOUT,this.id);
+			}catch(Exception e){System.out.println(e);}
+		}else{
+			try{
+				System.out.println("ACTUALIZAR -- CANCELADO");
 				observer.actualizar(MotivoActualizar.CANCELADO, this.id);
-			}
+			}catch(Exception e){System.out.println(e);}
+		}
 			
 	}
 	
