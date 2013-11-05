@@ -68,7 +68,7 @@ public class WSreversi extends ReversiObserver
 		 * operacion "init". Ese es el punto de partida para los procesos.
 		 */
 		 
-		 System.out.println("Conexion: " + session.getId());
+		 //System.out.println("Conexion: " + session.getId());
 	}	
 
 	/**
@@ -79,7 +79,7 @@ public class WSreversi extends ReversiObserver
 	throws IOException, InterruptedException {
 		
 		//:TEST
-		System.out.println("\n\nMensaje: " + message);
+		//System.out.println("\n\nMensaje: " + message);
 		
 		//Preparo la información para procesarla
 		Gson gson = new Gson();
@@ -88,13 +88,13 @@ public class WSreversi extends ReversiObserver
 		try{
 			jMessage = gson.fromJson(message, Properties.class);
 		}catch (Exception e){ //envio mensaje error -- No se pudo parsear el json
-			System.out.println("Error al procesar el JSON:" + e.getMessage());
+			//System.out.println("Error al procesar el JSON:" + e.getMessage());
 			msgError(session, "mx0", "JSON no válido");
 			return;
 		}
 
 		//:TEST
-		System.out.println("Operacion: " + jMessage.getProperty("operacion").toUpperCase());
+		//System.out.println("Operacion: " + jMessage.getProperty("operacion").toUpperCase());
 
 		//Proceso las opciones
 		switch(jMessage.getProperty("operacion").toUpperCase()){
@@ -154,7 +154,7 @@ public class WSreversi extends ReversiObserver
 		Juego juego = indicePartida.get(partidaId);
 		boolean clean = false;
 		
-		System.out.println(motivo);
+		//System.out.println(motivo);
 				 
 		switch (motivo){
 			case TIMEOUT:
@@ -441,7 +441,7 @@ public class WSreversi extends ReversiObserver
 		 s2.close();
 		 s1.close();
 		 
-		 System.out.println("Ya no quedan muertitos en el placard!");
+		 //System.out.println("Ya no quedan muertitos en el placard!");
 	}
 }
 
