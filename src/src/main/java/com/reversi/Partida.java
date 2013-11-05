@@ -197,9 +197,6 @@ public class Partida {
 		return result;	
 	}
 	
-	public String jugadorActual() {
-		return turnoActual;	
-	}
 	
 	public EstadoJuego estadoJuego() {
 		if (cantMovimientos == 1) {
@@ -440,11 +437,11 @@ public class Partida {
 		return cantUnos;
 	}
 	
-	public String wholsBlancas() {
+	public String whoIsBlancas() {
 		return elBlanco;
 	}
 	
-	public String wholsNegras() {
+	public String whoIsNegras() {
 		return elNegro;
 	}
 	
@@ -454,6 +451,10 @@ public class Partida {
 	
 	public void setDos(int blancas) {
 			cantDos = blancas;
+	}
+	
+	public String jugadorActual() {
+		return turnoActual;	
 	}
 	
 	
