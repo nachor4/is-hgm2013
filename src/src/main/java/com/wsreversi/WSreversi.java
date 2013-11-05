@@ -142,7 +142,6 @@ public class WSreversi extends ReversiObserver
 	public void actualizar(MotivoActualizar motivo, String partidaId)
 	throws IOException, InterruptedException {				
 		/**
-		 * TODO:
 		 * 
 		 * Escenarios: 
 		 * 		- Cambio de turno por timeout: notifico a las interfases
@@ -171,26 +170,44 @@ public class WSreversi extends ReversiObserver
 					turnoAtenrior = juego.blancas;
 				}
 				
-				turnoAcutal.getBasicRemote().sendText("Tu contrincante perdió su turno. Ahora debes jugar tu.");
-				turnoAtenrior.getBasicRemote().sendText("Epa! se te ha pasado el tiempo");
+				RespuestaWS rActual = new RespuestaWS("TIMEOUT");
+				RespuestaWS rAnterior = new RespuestaWS("TIMEOUT");
+									
+				rActual.addAttr("msg", "Tu contrincante perdió su turno. Ahora debes jugar tu.");
+				rAnterior.addAttr("msg", "Epa! se te ha pasado el tiempo");
+						
+				rActual.addAttr("turno", true);
+				rAnterior.addAttr("turno", false);
+
+				turnoAcutal.getBasicRemote().sendText(rActual.toString());						 
+				turnoAtenrior.getBasicRemote().sendText(rAnterior.toString());					
 				
 			break;
 			
-			case CANCELADO:
-				//La partida se cancelo porque los jugadores no estaba jugando.
-				juego = indicePartida.get(partidaId);
-				
-				juego.blancas.getBasicRemote().sendText("Juego Cancelado");
-				juego.negras.getBasicRemote().sendText("Juego Cancelado");
-				
-				clean = true;
-			break;
-			
+			case CANCELADO: //Unifico los casos
 			case END:
+				//Obtengo el Juego
 				juego = indicePartida.get(partidaId);
-				
-				juego.blancas.getBasicRemote().sendText("Juego Terminado");
-				juego.negras.getBasicRemote().sendText("Juego Terminado");
+
+				//Defino los objetos Respuesta
+				RespuestaWS jBlancas;
+				RespuestaWS jNegras;				
+			
+				if (motivo == MotivoActualizar.CANCELADO){
+					//La partida se cancelo porque los jugadores no estaba jugando.
+					jBlancas = new RespuestaWS("CANCEL");
+					jNegras = new RespuestaWS("CANCEL");				
+				}else{
+					//La partida finalizó porque no hay movimientos dispobibles
+					jBlancas = new RespuestaWS("CANCEL");
+					jNegras = new RespuestaWS("CANCEL");
+				}
+													
+				jBlancas.addAttr("data", juego.partida.scoring(juego.partida.whoIsBlancas()));
+				jNegras.addAttr("data",  juego.partida.scoring(juego.partida.whoIsNegras()));
+
+				juego.blancas.getBasicRemote().sendText(jBlancas.toString());						 
+				juego.negras.getBasicRemote().sendText(jNegras.toString());
 				
 				clean = true;				
 			break;
@@ -294,14 +311,25 @@ public class WSreversi extends ReversiObserver
 			idUsers.remove(sessionNegro.getId());
 			idUsers.remove(sessionBlanco.getId());
 	
-			//TODO: definir
-			RespuestaWS j = new RespuestaWS("msg");
-			System.out.println(j.toString());
+			//Aviso a los jugadores que inicio la partida
+			RespuestaWS rBlanco = new RespuestaWS("INIT");
+			RespuestaWS rNegro = new RespuestaWS("INIT");
+								
+			rBlanco.addAttr("msg", "Juego Iniciado! Espera a que tu compañero juegue");
+			rBlanco.addAttr("turno", false);
 			
-			sessionBlanco.getBasicRemote().sendText("Juego Iniciado! Espera a que tu compañero juegue");
-			sessionNegro.getBasicRemote().sendText("Juego Iniciado! Hace tu movida");
+			rNegro.addAttr("msg", "Juego Iniciado! Hace tu movida");
+			rNegro.addAttr("turno", true);
+						
+			sessionBlanco.getBasicRemote().sendText(rBlanco.toString());
+			sessionNegro.getBasicRemote().sendText(rNegro.toString());
+			
 		}else{
-			//session.getBasicRemote().sendText("Te has conectado. Espera que se conecte otro jugador");
+			//Esperando que otro jugador se conecte
+			RespuestaWS espera = new RespuestaWS("MSG");
+			espera.addAttr("msg", "Ya estas online, espera que se conecte otro jugador");
+			
+			session.getBasicRemote().sendText(espera.toString());
 		}
 	}
 
