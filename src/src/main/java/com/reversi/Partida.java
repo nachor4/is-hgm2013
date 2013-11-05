@@ -204,7 +204,10 @@ public class Partida {
 	
 	
 	public EstadoJuego estadoJuego() {
-		if (cantMovimientos == 1){
+		return estado;
+	}
+		
+	/*	if (cantMovimientos == 1){
 			return this.estado.INICIADO; // El juego esta INICIADO;
 		
 		}else if (cantMovimientos > 1 && cantMovimientos < 60 && (movimientosValidos(elNegro).size() > 0 || movimientosValidos(elBlanco).size() > 0) ){
@@ -224,7 +227,7 @@ public class Partida {
 			return this.estado.CANCELADO; // El juego fue CANCELADO.
 		}
 			
-	}//end Estado Juego
+	}//end Estado Juego */
 	
 	public ResultadoMovimiento mover (Ficha ficha, String idJugador) {
 				
@@ -243,6 +246,20 @@ public class Partida {
 			cantMovimientos++;
 			System.out.println("La cantidad de movimientos hechos es: "+cantMovimientos);
 			cantTimeOut = 0;
+			if (cantMovimientos == 1){
+				estado = EstadoJuego.INICIADO; // El juego esta INICIADO;
+				}else if (cantMovimientos > 1 && cantMovimientos < 60 && (movimientosValidos(elNegro).size() > 0 || movimientosValidos(elBlanco).size() > 0) ){
+					estado = EstadoJuego.JUGANDO;
+					}else if (cantMovimientos == 60 || (movimientosValidos(elNegro).size() == 0 && movimientosValidos(elBlanco).size() == 0)) { 
+						System.out.println("ACTUALIZAR -- END");
+			try{
+				estado = EstadoJuego.TERMINADO;
+				observer.actualizar(MotivoActualizar.END, this.id);
+			}catch(Exception e){System.out.println(e);}
+			
+		
+		} 
+			
 			ResultadoMovimiento result = new ResultadoMovimiento (this.invertirFichas(ficha, idJugador));
 					
 					if (idJugador == this.elNegro) {
@@ -370,6 +387,7 @@ public class Partida {
 		unJugador.saveResult (result);
 		ResultadoPartida result2 = ResultadoPartida.GANO;
 		otroJugador.saveResult (result2);
+		estado = EstadoJuego.CANCELADO;
 		
 	} 
 	

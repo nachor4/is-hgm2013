@@ -57,7 +57,11 @@ public class PartidaGralTest {
  			System.out.println(resultado);
  			
 			parti.mover(ficha2, "nico");
+			parti.finalizar("nico");
+			System.out.println("el estado de la partida es: "+parti.estadoJuego());
 			System.out.println("esperando");
+			
+			
 			try{
 				Thread.sleep(31000);
 			}catch (InterruptedException ex) {/*skyp*/}
