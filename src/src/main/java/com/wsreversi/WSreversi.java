@@ -140,7 +140,8 @@ public class WSreversi extends ReversiObserver
 	}
 	
 	//implements abstract
-	public void actualizar(MotivoActualizar motivo, String partidaId){
+	public void actualizar(MotivoActualizar motivo, String partidaId)
+	throws IOException, InterruptedException {				
 		/**
 		 * TODO:
 		 * 
@@ -152,17 +153,47 @@ public class WSreversi extends ReversiObserver
 		 * RESULTADOS: aka scores de los usuarios
 		 * */	
 		 
+		 Juego juego;
+		 
 		 switch (motivo){
 			case TIMEOUT:
 				//El jugador que tenía el turno lo perdio. Debo avisar a ambos
+				
+				juego = indicePartida.get(partidaId);
+				Session = turnoAcutal;
+				Session = turnoAtenrior;
+				
+				if (juego.partida.jugadorActual() == juego.partida.whoIsBlancas()){
+					turnoAcutal = juego.blancas;
+					turnoAtenrior = juego.negras;				
+				}else{
+					turnoAcutal = juego.negras;
+					turnoAtenrior = juego.blancas;
+				}
+				
+				turnoAcutal.getBasicRemote().sendText("Tu contrincante perdió su turno. Ahora debes jugar tu.");
+				turnoAtenrior.getBasicRemote().sendText("Epa! se te ha pasado el tiempo");
+				
 			break;
 			
 			case CANCELADO:
 				//La partida se cancelo porque los jugadores no estaba jugando.
-				//cleanSessions()
+				juego = indicePartida.get(partidaId);
+				
+				juego.blancas.getBasicRemote().sendText("Juego Cancelado");
+				juego.negras.getBasicRemote().sendText("Juego Cancelado");
+				
+				//String j1Id, String j2Id, Session s1, Session s2, String pId
+				cleanSessions(juego.whoIsBlancas(), juego.whoIsNegras(), juego.blancas, juego.negras, juego.partida.getId());
 			break;
 			
 			case END:
+				juego = indicePartida.get(partidaId);
+				
+				juego.blancas.getBasicRemote().sendText("Juego Terminado");
+				juego.negras.getBasicRemote().sendText("Juego Terminado");
+				
+				cleanSessions(juego.whoIsBlancas(), juego.whoIsNegras(), juego.blancas, juego.negras, juego.partida.getId());
 			break;
 		 }
 		 
