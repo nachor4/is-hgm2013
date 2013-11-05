@@ -80,11 +80,15 @@ public class PartidaGralTest {
 		}        		
 		
 	
-    }
+	try{
+		Thread.sleep(5000);
+	}catch (InterruptedException ex) {/*skyp*/}
 
+
+    
+    }
+	
 }
 
 
-//	try{
-//		Thread.sleep(5000);
-//	}catch (InterruptedException ex) {/*skyp*/}
+	

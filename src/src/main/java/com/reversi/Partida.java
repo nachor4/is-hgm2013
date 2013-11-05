@@ -145,7 +145,7 @@ public class Partida {
 
 
 	final Ficha checkDirecciones[] = {dirUp , dirDown ,
- dirLeft , dirRight , dirUpLeft , dirUpRight ,  dirDownLeft , dirDownRight } ;
+		dirLeft , dirRight , dirUpLeft , dirUpRight ,  dirDownLeft , dirDownRight } ;
 
 	public boolean checkMov(Ficha fich, String jugador) {
 		boolean result = false;
@@ -153,45 +153,45 @@ public class Partida {
 		int cont;
 		int yoJug;
 		String yo;
-			if (jugador == elNegro) {
-				contrario = elBlanco;
-				cont = 2;
-				yoJug = 1;}
-				else {
-					contrario = elNegro;
-					yoJug = 2;
-					cont = 1;
-					}
+		if (jugador == elNegro) {
+			contrario = elBlanco;
+			cont = 2;
+			yoJug = 1;}
+		else {
+			contrario = elNegro;
+			yoJug = 2;
+			cont = 1;
+		}
 			
-		   yo = jugador;
-		   int x = fich.getX();
-		   int y = fich.getY();
-		   if (tablero[x][y] != 0) {
-			 return false;  
-		   } else {
-			   for (int i = 0; i < checkDirecciones.length; i++) {
-				 Ficha coordDirecciones = checkDirecciones[i];
+	   yo = jugador;
+	   int x = fich.getX();
+	   int y = fich.getY();
+	   if (tablero[x][y] != 0) {
+		 return false;  
+	   } else {
+        for (int i = 0; i < checkDirecciones.length; i++) {
+			 Ficha coordDirecciones = checkDirecciones[i];
 				 
-				 int xDir = coordDirecciones.getX();
-				 int yDir = coordDirecciones.getY();
-				 int salto = 2;
+			 int xDir = coordDirecciones.getX();
+			 int yDir = coordDirecciones.getY();
+			 int salto = 2;
 				 
-				 if ((y + yDir) > -1 && (y+yDir) < 8 && (x+xDir) < 8 && (x+xDir) > -1) {
-					if(tablero[x+xDir][y+yDir] == cont) {
-						while( (y+ (salto * yDir)) > -1 && (y+(salto *yDir)) < 8 && (x + (salto * xDir)) < 8 && (x + (salto * xDir)) > -1) {
-							if(tablero[x+salto * xDir][y + salto * yDir] == 0) {
-								break;
-							}	
-							if(tablero[x+ salto * xDir][y + salto * yDir] == yoJug) {
-								return true;
-							}
-							salto++;	
-						} // cierra el while
-					} // cierra el segundo if
-				 
-				 } // cierra el primer if 
-				} // cierra el for
-			  } // cierra el else
+			 if ((y + yDir) > -1 && (y+yDir) < 8 && (x+xDir) < 8 && (x+xDir) > -1) {
+				if(tablero[x+xDir][y+yDir] == cont) {
+					while( (y+ (salto * yDir)) > -1 && (y+(salto *yDir)) < 8 && (x + (salto * xDir)) < 8 && (x + (salto * xDir)) > -1) {
+						if(tablero[x+salto * xDir][y + salto * yDir] == 0) {
+							break;
+						}	
+						if(tablero[x+ salto * xDir][y + salto * yDir] == yoJug) {
+							return true;
+						}
+						salto++;	
+					} // cierra el while
+				} // cierra el segundo if
+			 
+			 } // cierra el primer if 
+		} // cierra el for
+	  } // cierra el else
 		   
 		
 		return result;	
@@ -209,6 +209,7 @@ public class Partida {
 					return this.estado.JUGANDO;
 				 }	//El juego esta en estado JUGANDO.
 					else if (cantMovimientos == 60 || (movimientosValidos(elNegro).size() == 0 && movimientosValidos(elBlanco).size() == 0)) { 
+							observer.actualizar(MotivoActualizar.END, this.id);
 							return this.estado.TERMINADO;
 						 }// el juego esta en estado TERMINADO.
 							else {
@@ -232,19 +233,20 @@ public class Partida {
 			//throw new IllegalArgumentException ("El movimiento es inválido");
 			return null;
 					
-		} else {
+		}  else {
+			tiempoUltMov.stop();
 			cantMovimientos++;
 			System.out.println("La cantidad de movimientos hechos es: "+cantMovimientos);
+			cantTimeOut = 0;
 			ResultadoMovimiento result = new ResultadoMovimiento (this.invertirFichas(ficha, idJugador));
+					
 					if (idJugador == this.elNegro) {
 						this.cantDos = result.getBlancas();
-						this.cantUnos = result.getNegras(); 
-						cantTimeOut = 0;
+						this.cantUnos = result.getNegras();							
 					}
 						else {
 							this.cantDos = result.getBlancas();
 							this.cantUnos = result.getNegras();
-							cantTimeOut = 0;
 							}
 					if (turnoActual == elNegro) {
 						turnoActual = elBlanco;
@@ -253,6 +255,7 @@ public class Partida {
 							turnoActual = elNegro;
 						}
 					this.actualizarTablero();
+					tiempoUltMov.restart();
 				
 					return result;
 				}
@@ -411,13 +414,22 @@ public class Partida {
 		if (turnoActual == elNegro){  
 			turnoActual = elBlanco;
 			cantTimeOut++;
+			tiempoUltMov.restart();
 		}else{
 			turnoActual = elNegro;
 			cantTimeOut++;
+			tiempoUltMov.restart();
 		}
-		
-		observer.actualizar(MotivoActualizar.TIMEOUT,this.id);
+		if(cantTimeOut < 4){
+			observer.actualizar(MotivoActualizar.TIMEOUT,this.id);
+		}
+			else {
+				observer.actualizar(MotivoActualizar.CANCELADO, this.id);
+			}
+			
 	}
+	
+	
 
 
 	public int getCantBlancas() {
