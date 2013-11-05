@@ -100,15 +100,15 @@
 	}
 	
 	var testing = [
-		{ws: webSocket1, id: "uno", data: {operacion:"init", id:"guille", nivel:"dificil"}}, //Blanco
-		{ws: webSocket2, id: "dos", data: {operacion:"init", id:"nico", nivel:"dificil"}}, //Negro
+		{ws: webSocket1, id: "uno", data: {operacion:"INIT", id:"guille", nivel:"dificil"}}, //Blanco
+		{ws: webSocket2, id: "dos", data: {operacion:"INIT", id:"nico", nivel:"dificil"}}, //Negro
 		
-		{ws: webSocket2, id: "dos", data: {operacion:"move", posx:"4", posy:"2"}}, //No es su turno
-		{ws: webSocket1, id: "uno", data: {operacion:"move", posx:"3", posy:"2"}},
-		{ws: webSocket2, id: "dos", data: {operacion:"move", posx:"4", posy:"2"}},
+		{ws: webSocket2, id: "dos", data: {operacion:"MOVE", posx:"5", posy:"3"}}, //No es su turno
+		{ws: webSocket1, id: "uno", data: {operacion:"MOVE", posx:"4", posy:"3"}},
+		{ws: webSocket2, id: "dos", data: {operacion:"MOVE", posx:"5", posy:"3"}},
 		
-		{ws: webSocket1, id: "uno", data: {operacion:"quit"}},
-		{ws: webSocket2, id: "dos", data: {operacion:"quit"}},
+		{ws: webSocket1, id: "uno", data: {operacion:"QUIT"}},
+		{ws: webSocket2, id: "dos", data: {operacion:"QUIT"}} //Debiera fallar. No debiera tener conexión con el server.
 	]; 
 	
 	
