@@ -38,7 +38,7 @@ public class PartidaGralTest {
 ////////TEST Partida
 		System.out.println("\n\nTEST Partida\n\n");
 		ReversiObserver observ = new ReversiObserver();
-	    Partida parti = new Partida("guille", "nico", 1, observ);
+	    Partida parti = new Partida("guille", "nico", 2, observ);
 	    Ficha ficha = new Ficha(3, 2);
 	    Ficha ficha2 = new Ficha(4,2);
 	    Ficha ficha3 = new Ficha(5,2);
@@ -57,6 +57,11 @@ public class PartidaGralTest {
  			System.out.println(resultado);
  			
 			parti.mover(ficha2, "nico");
+			System.out.println("esperando");
+			try{
+				Thread.sleep(31000);
+			}catch (InterruptedException ex) {/*skyp*/}
+			
 			parti.mover(ficha3, "guille");
 			parti.mover(ficha4, "guille");
 			        
@@ -79,12 +84,6 @@ public class PartidaGralTest {
 		System.out.println("");
 		}        		
 		
-	
-	try{
-		Thread.sleep(5000);
-	}catch (InterruptedException ex) {/*skyp*/}
-
-
     
     }
 	

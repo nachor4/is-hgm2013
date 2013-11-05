@@ -28,7 +28,7 @@ public class Partida {
 	
 	private String id;
 	private int dificultad;
-	private ReversiObserver observer = new ReversiObserver();
+	private ReversiObserver observer;
 	
 	private Timer tiempoUltMov;	
 	private int cantTimeOut = 0;
@@ -91,6 +91,7 @@ public class Partida {
 		
 		//Si la info recibida es correcta
 		if (datosOK){
+			this.observer = observer;
 
 			//Almaceno los IDs de los jugadores
 			elNegro = idNegro;
@@ -130,9 +131,12 @@ public class Partida {
 			//Inicializacion del TIMER
 			int tiempo = 0;
 			
-			if(dificultad == 1) tiempo = 60;
-			else tiempo = 30;
-			
+			switch (dificultad){
+				//case 0: tiempo = 0; break;
+				case 1: tiempo = 60000; break;
+				case 2: tiempo = 30000; break;
+			}
+						
 			if (tiempo > 0){
 				tiempoUltMov = new Timer (tiempo, new Temporizador(this));
 				tiempoUltMov.setRepeats(false);
@@ -153,6 +157,7 @@ public class Partida {
 		int cont;
 		int yoJug;
 		String yo;
+
 		if (jugador == elNegro) {
 			contrario = elBlanco;
 			cont = 2;
@@ -199,30 +204,30 @@ public class Partida {
 	
 	
 	public EstadoJuego estadoJuego() {
-		if (cantMovimientos == 1) {
+		if (cantMovimientos == 1){
 			return this.estado.INICIADO; // El juego esta INICIADO;
-				}
-			else if(cantMovimientos > 1 && cantMovimientos < 60 && (movimientosValidos(elNegro).size() > 0 || movimientosValidos(elBlanco).size() > 0) ){
-					return this.estado.JUGANDO;
-				 }	//El juego esta en estado JUGANDO.
-					else if (cantMovimientos == 60 || (movimientosValidos(elNegro).size() == 0 && movimientosValidos(elBlanco).size() == 0)) { 
-							try{
-								System.out.println("ACTUALIZAR -- END");
-								observer.actualizar(MotivoActualizar.END, this.id);
-							}catch(Exception e){System.out.println(e);}
-							return this.estado.TERMINADO;
-						 }// el juego esta en estado TERMINADO.
-							else {
-								return this.estado.CANCELADO; // El juego fue CANCELADO.
-							}
+		
+		}else if (cantMovimientos > 1 && cantMovimientos < 60 && (movimientosValidos(elNegro).size() > 0 || movimientosValidos(elBlanco).size() > 0) ){
+			return this.estado.JUGANDO;
+		
+		}else if (cantMovimientos == 60 || (movimientosValidos(elNegro).size() == 0 && movimientosValidos(elBlanco).size() == 0)) { 
+			//El juego esta en estado JUGANDO.
+			System.out.println("ACTUALIZAR -- END");
+
+			try{
+				observer.actualizar(MotivoActualizar.END, this.id);
+			}catch(Exception e){System.out.println(e);}
 			
-	}
+			return this.estado.TERMINADO;
+		}else{
+			// el juego esta en estado TERMINADO.
+			return this.estado.CANCELADO; // El juego fue CANCELADO.
+		}
+			
+	}//end Estado Juego
 	
 	public ResultadoMovimiento mover (Ficha ficha, String idJugador) {
 				
-		//ResultadoMovimiento result = new ResultadoMovimiento ();
-		ReversiObserver rever = new ReversiObserver();
-		//Partida part = new Partida("guille", "nico", 1, rever);
 		if (this.turnoActual != idJugador) {
 			System.out.println("No es tu turno, es el turno de: "+this.turnoActual);
 			return null;
@@ -259,7 +264,7 @@ public class Partida {
 				
 					return result;
 				}
-		}
+	}//end fn
 	
 	public ResultadoMovimiento invertirFichas(Ficha ficha, String idJugador) {
 		String contrario;
@@ -384,53 +389,48 @@ public class Partida {
 	}
 	
 	public UserScoring scoring(String idJugador) {
-			UsuarioApp user = new UsuarioApp(idJugador);
-			UserScoring userScoring = new UserScoring();
-			userScoring.ganadas = user.getGanada();
-			userScoring.perdidas = user.getPerdida();
-			userScoring.abandonadas = user.getAbandonada();
-			if(this.estado == this.estado.TERMINADO && this.cantUnos > this.cantDos && idJugador == elNegro) {
-				userScoring.estaPartida = 3;
-			} else if(this.estado == this.estado.TERMINADO && this.cantUnos > this.cantDos && idJugador == elBlanco){
-					userScoring.estaPartida = -1;	
-				} else if(this.abandono == 1 && idJugador == elNegro) {
-						userScoring.estaPartida = -3;
-						}
-						else {
-							userScoring.estaPartida = 3;
-						}
-			
-			int suma = (user.getGanada() * 3) - user.getPerdida() - (user.getAbandonada() * 3);
-			if (Math.min(0, suma) < 0){
-				userScoring.scoreMas = 0;
-			}
-			return userScoring;
+		UsuarioApp user = new UsuarioApp(idJugador);
+		UserScoring userScoring = new UserScoring();
+		userScoring.ganadas = user.getGanada();
+		userScoring.perdidas = user.getPerdida();
+		userScoring.abandonadas = user.getAbandonada();
+		
+		if(this.estado == this.estado.TERMINADO && this.cantUnos > this.cantDos && idJugador == elNegro) {
+			userScoring.estaPartida = 3;
+		} else if(this.estado == this.estado.TERMINADO && this.cantUnos > this.cantDos && idJugador == elBlanco){
+				userScoring.estaPartida = -1;	
+			} else if(this.abandono == 1 && idJugador == elNegro) {
+					userScoring.estaPartida = -3;
+					}
+					else {
+						userScoring.estaPartida = 3;
+					}
+		
+		userScoring.scoreMas = Math.max(0, (user.getGanada() * 3) - user.getPerdida() - (user.getAbandonada() * 3));
+		
+		return userScoring;
 	}
+	
 	
 	public void timeout(){
 		tiempoUltMov.stop();
 
-		//Do something to change the turn
-		if (turnoActual == elNegro){  
-			turnoActual = elBlanco;
-			cantTimeOut++;
-			tiempoUltMov.restart();
-		}else{
-			turnoActual = elNegro;
-			cantTimeOut++;
-			tiempoUltMov.restart();
-		}
-		if(cantTimeOut < 4){
-			try{
+		cantTimeOut++;
+		
+		if (turnoActual == elNegro) turnoActual = elBlanco;
+		else turnoActual = elNegro;
+		
+		try{
+			if(cantTimeOut < 4){
 				System.out.println("ACTUALIZAR -- TIMEOUT");
 				observer.actualizar(MotivoActualizar.TIMEOUT,this.id);
-			}catch(Exception e){System.out.println(e);}
-		}else{
-			try{
+				tiempoUltMov.restart();
+			}else{
 				System.out.println("ACTUALIZAR -- CANCELADO");
 				observer.actualizar(MotivoActualizar.CANCELADO, this.id);
-			}catch(Exception e){System.out.println(e);}
-		}
+				// y la actualizacion en la clase usuario???
+			}
+		}catch(Exception e){System.out.println(e);}
 			
 	}
 	
