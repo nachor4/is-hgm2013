@@ -9,20 +9,16 @@ import com.usuario.UsuarioApp;
 import com.usuario.ResultadoPartida;
 import com.usuario.models.User;
 import org.javalite.activejdbc.Base;
-//import com.reversi.Temporizador;
 
 import javax.swing.Timer;
 import java.awt.event.*;
-//import java.awt.event.ActionListener;
-//import java.awt.event.ActionEvent;
 
 import java.lang.String;
 import java.lang.Math;
 import java.util.ArrayList;
 import java.io.*;
 import java.util.Date;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
+
 
 public class Partida {
 	
@@ -105,8 +101,7 @@ public class Partida {
 			 * Se calcula concatenando los IDs de los jugadores y sumandole un timestamp, 
 			 * luego se calcula un hash para unificar el formato de la cadena y mostrarlo de forma encriptada
 			 **/  
-			SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy h:mm:ss a");
-			id = elNegro + elBlanco + (String)sdf.format(new Date()); 
+			id = elNegro + elBlanco + System.currentTimeMillis(); 
 			
 			
 			//Inicializamos el tablero, si un casillero esta en 0, significa que esta vacio
@@ -207,28 +202,6 @@ public class Partida {
 		return estado;
 	}
 		
-	/*	if (cantMovimientos == 1){
-			return this.estado.INICIADO; // El juego esta INICIADO;
-		
-		}else if (cantMovimientos > 1 && cantMovimientos < 60 && (movimientosValidos(elNegro).size() > 0 || movimientosValidos(elBlanco).size() > 0) ){
-			return this.estado.JUGANDO;
-		
-		}else if (cantMovimientos == 60 || (movimientosValidos(elNegro).size() == 0 && movimientosValidos(elBlanco).size() == 0)) { 
-			//El juego esta en estado JUGANDO.
-			System.out.println("ACTUALIZAR -- END");
-
-			try{
-				observer.actualizar(MotivoActualizar.END, this.id);
-			}catch(Exception e){System.out.println(e);}
-			
-			return this.estado.TERMINADO;
-		}else{
-			// el juego esta en estado TERMINADO.
-			return this.estado.CANCELADO; // El juego fue CANCELADO.
-		}
-			
-	}//end Estado Juego */
-	
 	public ResultadoMovimiento mover (Ficha ficha, String idJugador) {
 				
 		if (this.turnoActual != idJugador) {
@@ -254,6 +227,7 @@ public class Partida {
 						System.out.println("ACTUALIZAR -- END");
 			try{
 				estado = EstadoJuego.TERMINADO;
+				tiempoUltMov.stop();
 				observer.actualizar(MotivoActualizar.END, this.id);
 			}catch(Exception e){System.out.println(e);}
 			
@@ -269,7 +243,7 @@ public class Partida {
 						else {
 							this.cantDos = result.getBlancas();
 							this.cantUnos = result.getNegras();
-							}
+						}
 					if (turnoActual == elNegro) {
 						turnoActual = elBlanco;
 					}
@@ -357,7 +331,6 @@ public class Partida {
 
 
 	public String getId() {
-		Partida parti = new Partida(elNegro, elBlanco, dificultad , observer);
 		return this.id;	
 	}	
 				
@@ -388,6 +361,7 @@ public class Partida {
 		ResultadoPartida result2 = ResultadoPartida.GANO;
 		otroJugador.saveResult (result2);
 		estado = EstadoJuego.CANCELADO;
+		tiempoUltMov.stop();
 		
 	} 
 	
@@ -446,7 +420,7 @@ public class Partida {
 			}else{
 				System.out.println("ACTUALIZAR -- CANCELADO");
 				observer.actualizar(MotivoActualizar.CANCELADO, this.id);
-				// y la actualizacion en la clase usuario???
+				
 			}
 		}catch(Exception e){System.out.println(e);}
 			
