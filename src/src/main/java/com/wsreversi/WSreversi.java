@@ -153,15 +153,16 @@ public class WSreversi extends ReversiObserver
 		 * RESULTADOS: aka scores de los usuarios
 		 * */	
 		 
-		 Juego juego;
-		 
-		 switch (motivo){
+		Juego juego = indicePartida.get(partidaId);
+		boolean clean = false;
+		
+		System.out.println(motivo);
+				 
+		switch (motivo){
 			case TIMEOUT:
 				//El jugador que tenía el turno lo perdio. Debo avisar a ambos
-				
-				juego = indicePartida.get(partidaId);
-				Session = turnoAcutal;
-				Session = turnoAtenrior;
+				Session turnoAcutal;
+				Session turnoAtenrior;
 				
 				if (juego.partida.jugadorActual() == juego.partida.whoIsBlancas()){
 					turnoAcutal = juego.blancas;
@@ -183,8 +184,7 @@ public class WSreversi extends ReversiObserver
 				juego.blancas.getBasicRemote().sendText("Juego Cancelado");
 				juego.negras.getBasicRemote().sendText("Juego Cancelado");
 				
-				//String j1Id, String j2Id, Session s1, Session s2, String pId
-				cleanSessions(juego.whoIsBlancas(), juego.whoIsNegras(), juego.blancas, juego.negras, juego.partida.getId());
+				clean = true;
 			break;
 			
 			case END:
@@ -193,9 +193,17 @@ public class WSreversi extends ReversiObserver
 				juego.blancas.getBasicRemote().sendText("Juego Terminado");
 				juego.negras.getBasicRemote().sendText("Juego Terminado");
 				
-				cleanSessions(juego.whoIsBlancas(), juego.whoIsNegras(), juego.blancas, juego.negras, juego.partida.getId());
+				clean = true;				
 			break;
-		 }
+		}
+		
+		if (clean) cleanSessions(
+			juego.partida.whoIsBlancas(), //Id
+			juego.partida.whoIsNegras(),  //Id
+			juego.blancas, //Session
+			juego.negras,  //Session
+			juego.partida.getId() 
+		);
 		 
 	}
 	
