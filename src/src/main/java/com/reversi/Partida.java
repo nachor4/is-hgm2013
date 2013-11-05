@@ -8,11 +8,10 @@ import com.reversi.UserScoring;
 import com.usuario.UsuarioApp;
 import com.usuario.ResultadoPartida;
 import com.usuario.models.User;
-import org.javalite.activejdbc.Base;
 
+import org.javalite.activejdbc.Base;
 import javax.swing.Timer;
 import java.awt.event.*;
-
 import java.lang.String;
 import java.lang.Math;
 import java.util.ArrayList;
@@ -21,29 +20,39 @@ import java.util.Date;
 
 
 public class Partida {
-	
+	// Es la concatenacion de los id de los jugadores con un timeStamp.
 	private String id;
-	private int dificultad;
+	// Nivel de dificultad de la partida. 
+	private int dificultad; 
+	// Cada posición del tablero puede estar en 0 (vacía), 1 (hay una ficha negra) o 2 (hay una ficha blanca).
+	private int tablero[][] = new int [8][8]; 
+	// Controla el tiempo que le queda a un jugador para hacer su movimiento.
+	private Timer tiempoUltMov;
+	// Representa el id del jugador Negro.
+	public String elNegro;
+	//Representa las fichas del jugador Blanco. 
+	public String elBlanco;
+	// Lleva la cuenta del total de movimientos realizados hasta el  momento.
+	private int cantMovimientos;
+	// Almacena el estado actual de la partida (INICIADO, JUGANDO, CANCELADO, TERMINADO)
+	private EstadoJuego estado;
+	// Lleva el control de que jugador tiene el turno.
+	public String turnoActual;
+	// Controla que jugador abandona una partida: 0 (Ninguno), 1 (Negro), 2 (Blanco)
+	private int abandono = 0;
+	/* Controla la cantidad de veces que un jugador no hace el movimiento porque se le termina el tiempo.
+	 * si llega a 4, la partida se da por CANCELADA y se considera a ambos jugadores como partida abandonada
+	 */
+	private int cantTimeOut = 0;
+	// Cantidad de fichas Negras que hay en el tablero.
+	private int cantUnos;
+	// Cantidad dde fichas Blancas que hay en el tablero.  
+	private int cantDos; 
 	private ReversiObserver observer;
 	
-	private Timer tiempoUltMov;	
-	private int cantTimeOut = 0;
-	
-	public String elNegro; 
-	public String elBlanco;
-	
-	private int tablero[][] = new int [8][8];
-	
-	private int cantMovimientos; 
-	public String turnoActual; 
-	
-	private int cantUnos; // Cantidad de fichas Negras que hay en el tablero.
-	private int cantDos; // Cantidad dde fichas Blancas que hay en el tablero.
-	
-	private EstadoJuego estado;
-	
-	private int abandono = 0;
-		
+	/* Se utilizan para buscar piezas amigas y enemigas alrededor de una determinada posición, 
+	 * son importantes para buscar movimientos válidos en el tablero.
+	 */
 	public final Ficha dirUp = new Ficha(0, -1);
 	public final Ficha dirDown = new Ficha(0 , 1);
 	public final Ficha dirLeft = new Ficha(-1, 0);
@@ -53,8 +62,8 @@ public class Partida {
 	public final Ficha dirDownLeft = new Ficha(-1, 1);
 	public final Ficha dirDownRight = new Ficha(1,1);
 	
-	
-	private class Temporizador implements ActionListener {  //estaba private
+	// Definición de la clase temporizador.
+	private class Temporizador implements ActionListener {
 		private Partida partida;
 
 		public void actionPerformed(ActionEvent e) {
@@ -73,7 +82,7 @@ public class Partida {
 		UsuarioApp jugadorNegro = new UsuarioApp (idNegro);
 		UsuarioApp jugadorBlanco = new UsuarioApp(idBlanco);
 		
-		//verifico la info recibida
+		//verifico la información recibida.
 		if (jugadorNegro == null){
 			datosOK = false;
 			throw new IllegalArgumentException ("El idNegro recibido no existe\n");
@@ -85,45 +94,47 @@ public class Partida {
 			throw new IllegalArgumentException ("La dificultad recibida no es válida");
 		}
 		
-		//Si la info recibida es correcta
+		//Si la información recibida es correcta.
 		if (datosOK){
 			this.observer = observer;
 
-			//Almaceno los IDs de los jugadores
+			//Almaceno los IDs de los jugadores.
 			elNegro = idNegro;
 			elBlanco = idBlanco;
 
-			//Guardo la configuración de dificultad
+			//Guardo la configuración de dificultad.
 			dificultad = dificultRec; 
 
-			/**
+			/*
 			 * Preparo el ID de la partida
 			 * Se calcula concatenando los IDs de los jugadores y sumandole un timestamp, 
-			 * luego se calcula un hash para unificar el formato de la cadena y mostrarlo de forma encriptada
-			 **/  
+			 * luego se calcula un hash para unificar el formato de la cadena y mostrarlo de forma encriptada.
+			 */  
 			id = elNegro + elBlanco + System.currentTimeMillis(); 
 			
 			
-			//Inicializamos el tablero, si un casillero esta en 0, significa que esta vacio
-			//si esta en 1 significa que hay una ficha negra y 2 si hay una ficha blanca.
+			/* Inicializamos el tablero, si un casillero esta en 0, significa que esta vacio
+			 * si esta en 1 significa que hay una ficha negra y 2 si hay una ficha blanca.
+			 */
 			for (int x = 0; x < 8; x++) 
 				for(int y = 0; y < 8; y++)
 					tablero[x][y] = 0;
-		 
-			//Inicializo las variables de juego
-			cantUnos = 2;
-			cantDos = 2;
-			cantMovimientos = 0;
-
-			//Incializacion del tablero
+			// Posiciones del tablero que inicialmente estan ocupadas por fichas de alguno de los jugadores.	
 			tablero[3][4] = 1;
 			tablero[4][3] = 1;
 			tablero[3][3] = 2;
 			tablero[4][4] = 2;
+		 
+			// Inicializo las variables de juego
+			cantUnos = 2;
+			cantDos = 2;
+			cantMovimientos = 0;
+
 			
+			// Seteo la variable turno, SIEMPRE inicia moviendo el jugador negro.
 			this.turnoActual = elNegro;
 
-			//Inicializacion del TIMER
+			// Inicializacion del TIMER.
 			int tiempo = 0;
 			
 			switch (dificultad){
@@ -137,15 +148,20 @@ public class Partida {
 				tiempoUltMov.setRepeats(false);
 				tiempoUltMov.start(); 
 			}
-		}//End Inicializacion
+		}//Fin Inicializacion
 				
 	}//Fin Partida
 		
 
-
+	/* Agrupamos todas las direcciones que se chequean en un arreglo para luego utilizar este en los metodos checkMov
+	 * y invertirFichas, para asi verificar mas facilmente todas las direcciones posibles.
+	 */
 	final Ficha checkDirecciones[] = {dirUp , dirDown ,
-		dirLeft , dirRight , dirUpLeft , dirUpRight ,  dirDownLeft , dirDownRight } ;
+		  dirLeft , dirRight , dirUpLeft , dirUpRight ,  dirDownLeft , dirDownRight } ;
 
+	/* Este metodo verifica que el movimiento recibido como parámetro sea válido, teniendo en cuenta para esto
+	 * que jugador lo realiza, en caso de serlo, el metodo retorna true, en caso contrario retorna false.
+	 */
 	public boolean checkMov(Ficha fich, String jugador) {
 		boolean result = false;
 		String contrario;
@@ -156,19 +172,19 @@ public class Partida {
 		if (jugador == elNegro) {
 			contrario = elBlanco;
 			cont = 2;
-			yoJug = 1;}
-		else {
-			contrario = elNegro;
-			yoJug = 2;
-			cont = 1;
+			yoJug = 1;
+		}else{
+			  contrario = elNegro;
+			  yoJug = 2;
+			  cont = 1;
 		}
 			
 	   yo = jugador;
 	   int x = fich.getX();
 	   int y = fich.getY();
-	   if (tablero[x][y] != 0) {
-		 return false;  
-	   } else {
+	   if (tablero[x][y] != 0){
+		   return false;  
+	   }else {
         for (int i = 0; i < checkDirecciones.length; i++) {
 			 Ficha coordDirecciones = checkDirecciones[i];
 				 
@@ -176,87 +192,87 @@ public class Partida {
 			 int yDir = coordDirecciones.getY();
 			 int salto = 2;
 				 
-			 if ((y + yDir) > -1 && (y+yDir) < 8 && (x+xDir) < 8 && (x+xDir) > -1) {
+			 if ((y + yDir) > -1 && (y+yDir) < 8 && (x+xDir) < 8 && (x+xDir) > -1){
 				if(tablero[x+xDir][y+yDir] == cont) {
-					while( (y+ (salto * yDir)) > -1 && (y+(salto *yDir)) < 8 && (x + (salto * xDir)) < 8 && (x + (salto * xDir)) > -1) {
-						if(tablero[x+salto * xDir][y + salto * yDir] == 0) {
+					while( (y+ (salto * yDir)) > -1 && (y+(salto *yDir)) < 8 
+							&& (x + (salto * xDir)) < 8 && (x + (salto * xDir)) > -1) {
+						if(tablero[x+salto * xDir][y + salto * yDir] == 0){
 							break;
 						}	
-						if(tablero[x+ salto * xDir][y + salto * yDir] == yoJug) {
+						if(tablero[x+ salto * xDir][y + salto * yDir] == yoJug){
 							return true;
 						}
 						salto++;	
 					} // cierra el while
+					
 				} // cierra el segundo if
 			 
 			 } // cierra el primer if 
-		} // cierra el for
-	  } // cierra el else
+			 
+		 } // cierra el for
+		 
+	   } // cierra el else
 		   
 		
 		return result;	
-	}
+	} //Fin metodo checkMov
 	
 	
-	public EstadoJuego estadoJuego() {
-		return estado;
-	}
-		
+	/* Este metodo lleva a cabo efectivamente un movimiento, verificando antes de que quien lo envía sea el
+	 * jugador que posee actualmente el turno y que una vez chequeado este haya retornado true, es decir que
+	 * se comprobo que es un movimiento válido.
+	 */
 	public ResultadoMovimiento mover (Ficha ficha, String idJugador) {
 				
 		if (this.turnoActual != idJugador) {
 			System.out.println("No es tu turno, es el turno de: "+this.turnoActual);
 			return null;
-			//throw new IllegalArgumentException("No es tu turno");
-			
-			
-		}else if (this.checkMov (ficha, idJugador) == false) {
-			//throw new IllegalArgumentException ("El movimiento es inválido");
-			return null;
-					
-		}  else {
-			tiempoUltMov.stop();
-			cantMovimientos++;
+		}else if (this.checkMov (ficha, idJugador) == false){
+			return null;			
+		}else{
+			tiempoUltMov.stop(); //detenemos el temporizador.
+			cantMovimientos++; // actualizamos la cantidad de movimientos realizados en la partida.
 			System.out.println("La cantidad de movimientos hechos es: "+cantMovimientos);
 			cantTimeOut = 0;
+			//Controlamos el estado del juego.
 			if (cantMovimientos == 1){
-				estado = EstadoJuego.INICIADO; // El juego esta INICIADO;
-				}else if (cantMovimientos > 1 && cantMovimientos < 60 && (movimientosValidos(elNegro).size() > 0 || movimientosValidos(elBlanco).size() > 0) ){
-					estado = EstadoJuego.JUGANDO;
-					}else if (cantMovimientos == 60 || (movimientosValidos(elNegro).size() == 0 && movimientosValidos(elBlanco).size() == 0)) { 
-						System.out.println("ACTUALIZAR -- END");
-			try{
-				estado = EstadoJuego.TERMINADO;
-				tiempoUltMov.stop();
-				observer.actualizar(MotivoActualizar.END, this.id);
-			}catch(Exception e){System.out.println(e);}
-			
-		
-		} 
+				estado = EstadoJuego.INICIADO; 
+			}else if (cantMovimientos > 1 && cantMovimientos < 60 && (movimientosValidos(elNegro).size() > 0 || movimientosValidos(elBlanco).size() > 0) ){
+				 estado = EstadoJuego.JUGANDO; 
+			}else if (cantMovimientos == 60 || (movimientosValidos(elNegro).size() == 0 && movimientosValidos(elBlanco).size() == 0)) { 
+					System.out.println("ACTUALIZAR -- END");
+					try{
+						estado = EstadoJuego.TERMINADO;
+						tiempoUltMov.stop();
+						observer.actualizar(MotivoActualizar.END, this.id);
+					}catch(Exception e){System.out.println(e);}
+			} 
 			
 			ResultadoMovimiento result = new ResultadoMovimiento (this.invertirFichas(ficha, idJugador));
 					
-					if (idJugador == this.elNegro) {
-						this.cantDos = result.getBlancas();
-						this.cantUnos = result.getNegras();							
-					}
-						else {
-							this.cantDos = result.getBlancas();
-							this.cantUnos = result.getNegras();
-						}
-					if (turnoActual == elNegro) {
-						turnoActual = elBlanco;
-					}
-						else {
-							turnoActual = elNegro;
-						}
-					this.actualizarTablero();
-					tiempoUltMov.restart();
+			if (idJugador == this.elNegro) {
+				this.cantDos = result.getBlancas();
+				this.cantUnos = result.getNegras();							
+			}else {
+				this.cantDos = result.getBlancas();
+				this.cantUnos = result.getNegras();
+			}
+			
+			if (turnoActual == elNegro) turnoActual = elBlanco;
+			else turnoActual = elNegro;
+			
+			this.actualizarTablero();
+			tiempoUltMov.restart();
 				
-					return result;
-				}
-	}//end fn
+			return result;
+				} //Fin else.
+	}//Fin mover.
 	
+	/* Invierte las fichas del jugador contrario despues de un movimiento. Chequea todas las direcciones
+	 * alrededor de una posición, determina como potencial aquella dirección en la que encuentra fichas enemigas
+	 * y continúa la busqueda en dicha direccion hasta encontrar una posición vacía o una que contenga una ficha
+	 * propia, luego convierte todas las posiciones en esa dirección hasta llegar a la posición antes mencionada. */
+	 
 	public ResultadoMovimiento invertirFichas(Ficha ficha, String idJugador) {
 		String contrario;
 		int contra;
@@ -268,26 +284,27 @@ public class Partida {
 		
 		ResultadoMovimiento result = new ResultadoMovimiento( idJugador, this.getCantBlancas(), this.getCantNegras());
 		
-		if (idJugador == elNegro) {
+		if (idJugador == elNegro){
 			contrario = elBlanco;
 			contra = 2;
 			yoJug = 1;
+		}else{
+			contrario = elNegro;
+			yoJug = 2;
+			contra = 1;
 		}
-			else {
-				contrario = elNegro;
-				yoJug = 2;
-				contra = 1;
-			}
-			
-		   yo = idJugador;
+		yo = idJugador;
+		
 		int x = ficha.getX();
 		int y = ficha.getY();
+		
 		for(int i = 0; i < checkDirecciones.length; i++) {
 			Ficha coordDirecciones = checkDirecciones[i];
 			int xDir = coordDirecciones.getX();
 			int yDir = coordDirecciones.getY();
 			boolean potencial = false;
 			
+			// Verifica que haya una ficha del jugador contrario al lado de la nuestra.
 			if((y+yDir) > -1 && (y+yDir) < 8 && (x+xDir) <8 && (x+xDir) > -1) {
 				if(tablero[x+xDir][y+yDir] == contra){
 					potencial = true;
@@ -297,9 +314,9 @@ public class Partida {
 				int salto = 2;
 				
 				while( (y + (salto * yDir)) > -1 && (y+(salto * yDir)) < 8 &&  (x+(salto * xDir)) < 8 && (x + (salto * xDir)) > -1){
-					if(tablero[x+(salto * xDir)][y + (salto * yDir)] == 0){
-						break;
-					}
+					// Verifico si encuentra una ficha propia.
+					if(tablero[x+(salto * xDir)][y + (salto * yDir)] == 0) break;
+					
 					if(tablero[x+(salto * xDir)][y + (salto * yDir)] == yoJug){
 						for (int k = 0; k < salto; k++) {
 							if (tablero[x+k*xDir][y+k*yDir] != yoJug){
@@ -312,18 +329,18 @@ public class Partida {
 						break;
 					}
 					salto++;
-				} 
-			}	
+				} //Fin while 
+			} // Fin if	
 		
-		}
+		} // Fin for
 		
 		if (idJugador == this.elNegro) {
 			result.setCantNegras(this.cantUnos + result.getModificaciones().size());
 			result.setCantBlancas(this.cantDos - (result.getModificaciones().size()-1));
-		} else {
+		}else{
 			result.setCantBlancas(this.cantDos + result.getModificaciones().size());
 			result.setCantNegras(this.cantUnos - (result.getModificaciones().size()-1));
-			}
+		}
 		
 		System.out.println("Cantidad de fichas invertidas: "+cont);
 		return result;
@@ -431,9 +448,6 @@ public class Partida {
 			
 	}
 	
-	
-
-
 	public int getCantBlancas() {
 		return cantDos;
 	}
@@ -460,6 +474,10 @@ public class Partida {
 	
 	public String jugadorActual() {
 		return turnoActual;	
+	}
+	
+	public EstadoJuego estadoJuego() {
+		return estado;
 	}
 	
 	
