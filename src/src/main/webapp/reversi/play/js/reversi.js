@@ -1,47 +1,7 @@
-if(typeof console === "undefined") console = {log: function(){}}; //Por si el navegador no tiene consola... por si IE
+//Por si el navegador no tiene consola... por si IE
+if(typeof console === "undefined") console = {log: function(){}};
 
 var tablero, color, colorAdversario, webSocket; //Variables  globales :s
-
-$(document).ready(function(){ //Espero a que el DOM este generado
-	/*
-	 *	tablero: class (waiting|playing) 
-	 */
-	
-	//Agrego los cuadros del tablero
-	tablero = $("#tablero");
-		
-	for(var i=0; i<8; i++)  
-		for(var j=0; j<8; j++)
-			$(tablero).append('<li id="c'+i+j+'"><a href="#"></a></li>');	  	  
-
-	//Configuro fichas iniciales
-	$("#c33").addClass('blanca');
-	$("#c34").addClass('negra');
-	$("#c43").addClass('negra');
-	$("#c44").addClass('blanca');
-	
-	//Binding click en celda
-	$('li a',tablero).bind('click',clickCelda);
-	
-	$(tablero).addClass('waiting');
-	
-	//Conexion con el websocket
-	webSocket = new WebSocket('ws://localhost:8080/wsreversi');
-
-	if (typeof webSocket != undefined){
-		//Binding de eventos del websocket
-		webSocket.onerror = function(event) {wsError(event);};
-		webSocket.onopen = function(event) {wsError(event);};
-		webSocket.onclose = function(event) {wsError(event);};
-		webSocket.onmessage = function(event) {wsError(event);};
-		
-		//Cleanup 
-		$(window).unload(function() {
-	    	wsClose(webSocket);
-		});		
-	}
-});
-	
 
 	function wsError(event) {
 		if (event.type == 'error') alert("Error en el servidor");
@@ -50,6 +10,7 @@ $(document).ready(function(){ //Espero a que el DOM este generado
 
 	function wsOnOpen(event) {
 		console.log("connected");
+		wsSend(webSocket,{operacion:"INIT", id:$("#mainwrap").attr("data-user"), nivel:$("#mainwrap").attr("data-nivel")});
 	};
 
 	function wsOnClose(event) {
@@ -59,8 +20,9 @@ $(document).ready(function(){ //Espero a que el DOM este generado
 	function wsOnMessage(event) {
 		data = $.parseJSON(event.data);
 		
-		if(data.operacion != undefined)
-		switch (data.operacion){
+		console.log(data);
+
+		if(data.operacion != undefined) switch (data.operacion){
 			case "INIT":
 				color = (data.turno)?'negra':'blanca';
 				colorAdversario = (!data.turno)?'negra':'blanca';
@@ -92,7 +54,7 @@ $(document).ready(function(){ //Espero a que el DOM este generado
 					}else{ 
 						
 						//El movimiento no era válido
-						$("#c"+hecho.ficha.x + hecho.ficha.y).attr('class',''); 	//Quito la ficha
+						$("#c"+data.ficha.x + data.ficha.y).attr('class',''); 		//Quito la ficha
 						$(tablero).attr('class','playing turno'); 					//habilito el tablero nuevamente
 						alert(data.data); 											//Muestro el mensaje
 					}
@@ -110,14 +72,22 @@ $(document).ready(function(){ //Espero a que el DOM este generado
 	}; //onMessage
 	
 	function wsSend(WS, obj) {
+		
 		if (WS.readyState == WS.OPEN)
-			if (typeof obj == 'object') WS.send($(obj).serialize());
-			else {alert("Error al enviar la operacion al servidor"); console.log("Se intento enviar infomacion no válida al websocket"); return false;}
+			if (typeof obj == 'object'){
+				console.log(obj);
+				WS.send(JSON.stringify(obj));
+			} 
+			else {
+				alert("Error al enviar la operacion al servidor"); 
+				console.log("Se intento enviar infomacion no válida al websocket"); 
+				return false;
+			}
 		else {console.log("No hay conexion con el servidor"); return false;}
 		
 		return true;
 	}
-
+	
 	function wsClose(WS){
 		if (WS.readyState == WS.OPEN) WS.close();
 	}
@@ -163,19 +133,60 @@ $(document).ready(function(){ //Espero a que el DOM este generado
 	
 	function clickCelda(e){
 		e.preventDefault();
-		
-		celda = e.target.parentElement; //li
+		celda = e.target.parentElement.parentElement; //li
 		
 		if ($(tablero).hasClass('waiting')) return false; //no es su turno
 		if ($(celda).hasClass('blanca') || $(celda).hasClass('negra')) return; //La celda esta ocupada
 		
 		$(celda).attr('class',color);
 		
-		ok = wsSend({
+		ok = wsSend(webSocket, {
 			operacion:'MOVE', 
-			posx: $(celda).attr('id').substr(1,1), 
-			posy: $(celda).attr('id').substr(2,1)
+			posx: ($(celda).attr('id')).substr(1,1), 
+			posy: ($(celda).attr('id')).substr(2,1)
 		});
+		
+		console.log(ok);
 		
 		if (ok) $(tablero).attr('class','waiting turno');
 	}
+	
+
+$(document).ready(function(){ //Espero a que el DOM este generado
+	/*
+	 *	tablero: class (waiting|playing) 
+	 */
+	
+	//Agrego los cuadros del tablero
+	tablero = $("#tablero");
+		
+	for(var i=0; i<8; i++)  
+		for(var j=0; j<8; j++)
+			$(tablero).append('<li id="c'+i+j+'"><a href="#"><img src=\"/reversi/play/themes/transp.png\" width=\"100%\"></a></li>');	  	  
+
+	//Configuro fichas iniciales
+	$("#c33").addClass('blanca');
+	$("#c34").addClass('negra');
+	$("#c43").addClass('negra');
+	$("#c44").addClass('blanca');
+	
+	//Binding click en celda
+	$('li a',tablero).bind('click',clickCelda);
+	
+	$(tablero).addClass('waiting');
+	
+	//Conexion con el websocket
+	webSocket = new WebSocket('ws://localhost:8080/wsreversi');
+
+	//Binding de eventos del websocket
+	webSocket.onerror 	= function(event) {wsError(event);};
+	webSocket.onopen 	= function(event) {wsOnOpen(event);};
+	webSocket.onclose 	= function(event) {wsOnClose(event);};
+	webSocket.onmessage = function(event) {wsOnMessage(event);};
+	
+	//Cleanup 
+	$(window).unload(function() {
+    	wsClose(webSocket);
+	});		
+	
+});
