@@ -68,7 +68,7 @@ public class WSreversi extends ReversiObserver
 		 * operacion "init". Ese es el punto de partida para los procesos.
 		 */
 		 
-		 //System.out.println("Conexion: " + session.getId());
+		 System.out.println("Conexion: " + session.getId());
 	}	
 
 	/**
@@ -79,7 +79,7 @@ public class WSreversi extends ReversiObserver
 	throws IOException, InterruptedException {
 		
 		//:TEST
-		//System.out.println("\n\nMensaje: " + message);
+		System.out.println("\n\nMensaje: " + message);
 		
 		//Preparo la información para procesarla
 		Gson gson = new Gson();
@@ -94,7 +94,7 @@ public class WSreversi extends ReversiObserver
 		}
 
 		//:TEST
-		//System.out.println("Operacion: " + jMessage.getProperty("operacion").toUpperCase());
+		System.out.println("Operacion: " + jMessage.getProperty("operacion").toUpperCase());
 
 		//Proceso las opciones
 		switch(jMessage.getProperty("operacion").toUpperCase()){
@@ -154,7 +154,7 @@ public class WSreversi extends ReversiObserver
 		Juego juego = indicePartida.get(partidaId);
 		boolean clean = false;
 		
-		//System.out.println(motivo);
+		System.out.println(motivo);
 				 
 		switch (motivo){
 			case TIMEOUT:
@@ -351,7 +351,7 @@ public class WSreversi extends ReversiObserver
 			if (jugador.partida.jugadorActual() == jugador.userId){
 				
 				ResultadoMovimiento resultado = jugador.partida.mover(
-					new Ficha(Integer.parseInt(posX),Integer.parseInt(posY)),
+					new Ficha(Integer.parseInt(posX), Integer.parseInt(posY)),
 					jugador.userId
 				);
 				
@@ -379,11 +379,12 @@ public class WSreversi extends ReversiObserver
 			
 		 }else error = "Posición no válida";
 		 
-		 if (error == ""){
+		 if (error != ""){
 			RespuestaWS rtaError = new RespuestaWS("MOVER");
 								
 			rtaError.addAttr("hecho", false);
 			rtaError.addAttr("data", error);
+			rtaError.addAttr("ficha", new Ficha(Integer.parseInt(posX),Integer.parseInt(posY)));
 					
 			session.getBasicRemote().sendText(rtaError.toString());						 
 		 }
@@ -441,6 +442,7 @@ public class WSreversi extends ReversiObserver
 		 s2.close();
 		 s1.close();
 		 
-		 //System.out.println("Ya no quedan muertitos en el placard!");
+		 System.out.println("Ya no quedan muertitos en el placard!");
 	}
 }
+
