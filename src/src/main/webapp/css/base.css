@@ -1,0 +1,166 @@
+*{
+	box-sizing: border-box;
+}
+
+body{
+	font-size:14px;
+	line-height: 1.2em;
+	background-color: #E3E3E3;
+	color:#333333;
+}
+
+#cont p a, #cont form input[type=submit]{
+	-webkit-transition: all .2 ease-in-out;
+	   -moz-transition: all .2 ease-in-out;
+	    -ms-transition: all .2 ease-in-out;
+	     -o-transition: all .2 ease-in-out;
+	        transition: all .2 ease-in-out;
+}
+
+#wrapper{
+	width:100%;
+	max-width:300px;
+	margin:0 auto;
+	margin-top:7%;
+	
+	border-radius: 10px;
+	overflow:hidden;
+	
+	background-color: #F8F8F8;
+	
+	-webkit-box-shadow: 4px 4px 15px rgba(20, 20, 20, 0.52);
+	   -moz-box-shadow: 4px 4px 15px rgba(20, 20, 20, 0.52);
+		    box-shadow: 4px 4px 15px rgba(20, 20, 20, 0.52);
+}
+
+	h1{
+		width:100%;
+		padding:18px 15px;
+		margin:0;
+		border-top-left-radius: 10px;
+		border-top-right-radius: 10px;
+		
+		-webkit-box-shadow: 0px 1px 5px rgba(20, 20, 20, 0.3);
+		   -moz-box-shadow: 0px 1px 5px rgba(20, 20, 20, 0.3);
+			    box-shadow: 0px 1px 5px rgba(20, 20, 20, 0.3);
+			    
+		font-size:26px;
+		
+		background: #e07408; /* Old browsers */
+		background: -moz-linear-gradient(top, #e07408 0%, #fc930a 50%, #e07408 100%); /* FF3.6+ */
+		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e07408), color-stop(50%,#fc930a), color-stop(100%,#e07408)); /* Chrome,Safari4+ */
+		background: -webkit-linear-gradient(top, #e07408 0%,#fc930a 50%,#e07408 100%); /* Chrome10+,Safari5.1+ */
+		background: -o-linear-gradient(top, #e07408 0%,#fc930a 50%,#e07408 100%); /* Opera 11.10+ */
+		background: -ms-linear-gradient(top, #e07408 0%,#fc930a 50%,#e07408 100%); /* IE10+ */
+		background: linear-gradient(to bottom, #e07408 0%,#fc930a 50%,#e07408 100%); /* W3C */
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e07408', endColorstr='#e07408',GradientType=0 ); /* IE6-9 */
+		
+		color:#FFF;
+		
+		-webkit-text-shadow: 0px 1px 5px rgba(20, 20, 20, 0.3);
+		   -moz-text-shadow: 0px 1px 5px rgba(20, 20, 20, 0.3);
+			    text-shadow: 0px 1px 5px rgba(20, 20, 20, 0.3);
+		
+	}
+	
+
+	#cont{
+		padding:30px;
+		padding-top:0;
+	}
+		#cont h2{
+			text-transform: uppercase;
+			margin:0;
+			padding:0;
+			margin:30px;
+			text-align:center;
+			line-height: 1.2em;
+		}
+
+		#cont p{
+		}
+		
+		#cont p.center{
+			text-align:center;
+		}
+		
+		#cont p.ok{text-align:center}
+		#cont p.ok b{
+			color: #28B0D9;
+			display: block;
+			width: 100%;
+		}
+
+		#cont p.error{
+			text-align:center;
+		}
+		#cont p.error b{
+			color: #FF003C;
+			display: block;
+			width: 100%;			
+		}
+
+		#cont p.right{
+			text-align:right;
+			padding:0;
+			margin:0;
+			padding-top:10px;
+		}
+		
+			#cont p a{
+				color:#333333;
+				text-decoration:none;
+			}
+
+			#cont p a:hover{
+				color: #F62B0A;
+			}
+
+
+		#cont form{
+			margin:0;
+			margin-top: 30px;
+		}
+			form label{
+				width: 100%;
+				display: block;
+				font-size:.9em
+			}
+			
+			form input, form select{
+				width: 100%;
+				line-height: 2em;
+				height: 2em;
+				border-radius:3px;
+				
+				-webkit-box-shadow: 0px 1px 3px rgba(20, 20, 20, 0.3);
+				   -moz-box-shadow: 0px 1px 3px rgba(20, 20, 20, 0.3);
+					    box-shadow: 0px 1px 3px rgba(20, 20, 20, 0.3);				
+				
+			}
+			
+			form select, form input[type=text], form input[type=password], form input[type=email]{
+				border:1px solid #EEE;
+			}
+			
+			form input[type=submit]{
+				margin-top:15px;
+				padding: 5px 0;
+				height: auto;
+				
+				border:none;
+				border-radius: 5px;
+				
+				text-transform: uppercase;
+				font-weight: bold;
+				color:#333;
+
+				-webkit-box-shadow: 0px 1px 5px rgba(20, 20, 20, 0.3);
+				   -moz-box-shadow: 0px 1px 5px rgba(20, 20, 20, 0.3);
+					    box-shadow: 0px 1px 5px rgba(20, 20, 20, 0.3);				
+			}
+			
+			form input[type=submit]:hover{
+				background-color: #F62B0A;
+				color:#FFF;
+			}			

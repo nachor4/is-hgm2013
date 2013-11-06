@@ -31,38 +31,43 @@
 %>
 <html>
 	<head>
+		<title>Reversi</title>
 		<meta charset="UTF-8">
-		<title>Testing Websockets</title>
+		<link type="text/css" rel="stylesheet" href="/css/normalize.css" />
+		<link type="text/css" rel="stylesheet" href="/css/base.css" />	
 	</head>
 	<body>
-		<h1>REVERSI!</h1>
-		<h2>Login</h2>
-<%
-	if (hayPOST) {
-		//Se recibieron datos POST pero no se realizó login.
-		out.println("<p><b>Usuario y Password Incorrecto</b></p>");
-	}
-%>
-		<form action="" method="post">
-			<p>
-				<label for="user">Usuario: </label>
-				<input name="user" type="text">
-			</p>
-			<p>
-				<label for="password">Password: </label>
-				<input name="password" type="text">
-			</p>
-			<p>
-				<input type="submit" value="Ingresar">
-			</p>
-		</form>
-		
-		<p>
-			¿aún no tenes una cuenta? <a href="register.jsp">REGISTRATE!</a>
-		</p>
-		
-		<p>
-			¿si no recuerdas tu password haz click <a href="reset.jsp">aquí</a>
-		</p>
+		<div id="wrapper">
+			<h1>REVERSI!</h1>
+			<div id="cont">
+
+				<h2>Login</h2>
+				<%
+					//Se recibieron datos POST pero no se realizó login.
+					if (hayPOST) out.println("<p class=\"error\"><b>Usuario y Password Incorrecto</b></p>");
+				%>
+				<form action="" method="post">
+					<p>
+						<label for="user">Usuario </label>
+						<input name="user" type="text">
+					</p>
+					<p>
+						<label for="password">Password </label>
+						<input name="password" type="text">
+					</p>
+					<p>
+						<input type="submit" value="Ingresar">
+					</p>
+				</form>
+				<br>
+				<p>
+					<a href="register.jsp">REGISTRATE!</a>
+				</p>
+				
+				<p>
+					<a href="reset.jsp">Obtener nuevo Password</a>
+				</p>
+			</div>
+		</div>
 	</body>
 </html>

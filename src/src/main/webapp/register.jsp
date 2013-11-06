@@ -27,11 +27,11 @@
 			break;
 			
 			case 1:
-				mensajeRegistracion = "<p><b>USUARIO DUPLICADO.</b> Elige otro nombre de usuario</p>";
+				mensajeRegistracion = "<p class=\"error\"><b>USUARIO DUPLICADO.</b> Elige otro nombre de usuario</p>";
 			break;
 			
 			case 2:
-				mensajeRegistracion = "<p><b>Error Inesperado.</b> Intentalo nuevamente</p>";
+				mensajeRegistracion = "<p class=\"error\"><b>Error Inesperado.</b> Intentalo nuevamente</p>";
 			break;
 		}
 	}
@@ -40,37 +40,43 @@
 <!DOCTYPE html>
 <html lang="es-AR">
 	<head>
-		<meta charset="utf-8">
-		<title>Testing Websockets</title>
+		<title>Reversi</title>
+		<meta charset="UTF-8">
+		<link type="text/css" rel="stylesheet" href="/css/normalize.css" />
+		<link type="text/css" rel="stylesheet" href="/css/base.css" />
+
 	</head>
 	<body>
-		<h1>Nuevo Usuario</h1>
-<%
-	if (hayPOST) {
-		//Se recibieron datos POST pero no se realizó la carga del usuario.
-		out.println(mensajeRegistracion);
-	}
-%>		
-		<form action="" method="post">
-			<p>
-				<label for="user">Usuario: </label>
-				<input name="user" type="text" maxlength="20" required>
-			</p>
-			<p>
-				<label for="nombre">Nombre: </label>
-				<input name="nombre" type="text" maxlength="60" required>
-			</p>
-			<p>
-				<label for="email">Email: </label>
-				<input name="email" type="email" maxlength="60" required>
-			</p>			
-			<p>
-				<label for="password">Password: </label>
-				<input name="password" type="text" maxlength="12" required>
-			</p>
-			<p>
-				<input type="submit" value="Registrarse">
-			</p>			
-		</form>
+		<div id="wrapper">
+			<h1>REVERSI!</h1>
+			<div id="cont">
+				<h2>Nuevo Usuario</h2>
+				<%
+					//Se recibieron datos POST pero no se realizó la carga del usuario.
+					if (hayPOST) out.println(mensajeRegistracion);
+				%>		
+				<form action="" method="post">
+					<p>
+						<label for="user">Usuario </label>
+						<input name="user" type="text" maxlength="20" required>
+					</p>
+					<p>
+						<label for="nombre">Nombre </label>
+						<input name="nombre" type="text" maxlength="60" required>
+					</p>
+					<p>
+						<label for="email">Email </label>
+						<input name="email" type="email" maxlength="60" required>
+					</p>			
+					<p>
+						<label for="password">Password </label>
+						<input name="password" type="text" maxlength="12" required>
+					</p>
+					<p>
+						<input type="submit" value="Registrarse">
+					</p>			
+				</form>
+			</div>
+		</div>
 	</body>
 </html>
