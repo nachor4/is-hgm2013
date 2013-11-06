@@ -19,8 +19,8 @@
 	}catch (Exception e){
 		session.invalidate();
 		response.sendRedirect("/"); 	
+		return;
 	}
-
 %>
 
 <html>
