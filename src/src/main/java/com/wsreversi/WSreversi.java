@@ -173,8 +173,8 @@ public class WSreversi extends ReversiObserver
 				RespuestaWS rActual = new RespuestaWS("TIMEOUT");
 				RespuestaWS rAnterior = new RespuestaWS("TIMEOUT");
 									
-				rActual.addAttr("msg", "Tu contrincante perdió su turno. Ahora debes jugar tu.");
-				rAnterior.addAttr("msg", "Epa! se te ha pasado el tiempo");
+				rActual.addAttr("mensaje", "Tu contrincante perdió su turno. Ahora debes jugar tu.");
+				rAnterior.addAttr("mensaje", "Epa! se te ha pasado el tiempo");
 						
 				rActual.addAttr("turno", true);
 				rAnterior.addAttr("turno", false);
