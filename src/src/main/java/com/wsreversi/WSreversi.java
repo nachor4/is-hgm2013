@@ -345,13 +345,13 @@ public class WSreversi extends ReversiObserver
 		 
 		 String error = "";
 		 
-		 if (posX.matches("1|2|3|4|5|6|7|8") && posY.matches("1|2|3|4|5|6|7|8")){
+		 if (posX.matches("0|1|2|3|4|5|6|7") && posY.matches("0|1|2|3|4|5|6|7")){
 			Jugador jugador = indiceSesiones.get(session.getId());
 			
 			if (jugador.partida.jugadorActual() == jugador.userId){
 				
 				ResultadoMovimiento resultado = jugador.partida.mover(
-					new Ficha(Integer.parseInt(posX) - 1,Integer.parseInt(posY) - 1),
+					new Ficha(Integer.parseInt(posX),Integer.parseInt(posY)),
 					jugador.userId
 				);
 				
@@ -444,4 +444,3 @@ public class WSreversi extends ReversiObserver
 		 System.out.println("Ya no quedan muertitos en el placard!");
 	}
 }
-
