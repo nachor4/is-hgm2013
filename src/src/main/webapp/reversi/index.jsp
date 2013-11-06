@@ -31,7 +31,7 @@
 		<p>Hola <%= userName %>! | <a href="/logout.jsp">LogOut</a></p>
 		<h1>REVERSI!</h1>
 		<h2>Nuevo Juego</h2>
-		<form action="" method="post">
+		<form action="play" method="post">
 			<p>
 				<label for="nivel">Nivel: </label>
 				<select name="nivel">
