@@ -72,7 +72,7 @@ a img{
 		}
 		
 		#tablero.playing{opacity: 1}
-		#tablero.waiting{opacity: .7}
+		#tablero.waiting, #tablero.finalizada{opacity: .7}
 		
 		#tablero li{
 			width:12.5%;

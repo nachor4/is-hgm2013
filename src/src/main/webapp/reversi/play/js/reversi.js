@@ -34,7 +34,7 @@ var tablero, color, colorAdversario, webSocket; //Variables  globales :s
 			case "CANCEL":
 			case "END":
 			case "QUIT":
-				$(tablero).attr('class','finalizado');
+				$(tablero).attr('class','finalizada');
 				showScoring(data.data);
 			break;
 			
@@ -135,6 +135,7 @@ var tablero, color, colorAdversario, webSocket; //Variables  globales :s
 		e.preventDefault();
 		celda = e.target.parentElement.parentElement; //li
 		
+		if ($(tablero).hasClass('finalizada')) return false; //La partida esta finalizada
 		if ($(tablero).hasClass('waiting')) return false; //no es su turno
 		if ($(celda).hasClass('blanca') || $(celda).hasClass('negra')) return; //La celda esta ocupada
 		
@@ -176,7 +177,7 @@ $(document).ready(function(){ //Espero a que el DOM este generado
 	$(tablero).addClass('waiting');
 	
 	//Conexion con el websocket
-	webSocket = new WebSocket('ws://localhost:8080/wsreversi');
+	webSocket = new WebSocket('ws://'+window.location.hostname+':8080/wsreversi');
 
 	//Binding de eventos del websocket
 	webSocket.onerror 	= function(event) {wsError(event);};
