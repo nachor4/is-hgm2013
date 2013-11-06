@@ -8,8 +8,8 @@ ReversiWS: Mensajes I/O
 	nivel : String (facil|medio|dificil)
 
 	operacion : MOVE
-	posx : String (1|2|3|4|5|6|7|8)
-	posy : String (1|2|3|4|5|6|7|8)
+	posx : String (0|1|2|3|4|5|6|7)
+	posy : String (0|1|2|3|4|5|6|7)
 
 	operacion : QUIT
 
