@@ -15,6 +15,7 @@ public class UsuarioApp extends Users
     private String id;
 
     public UsuarioApp(String uid) {
+		// Constructor de la clase UsuarioApp
 		
 		connect();		
 		User user = new User();
@@ -29,7 +30,7 @@ public class UsuarioApp extends Users
     
     
 	public String getID() {
-		// Retorna el ID del Usuario
+		// Retorno el ID del Usuario
 		
 		connect();        
 		User user = new User();	
@@ -113,7 +114,8 @@ public class UsuarioApp extends Users
 	    }else{	
 							    
 			switch (resultado){
-  	
+                
+                //Si el usuario Gano una partida  	
 				case GANO:
 					int g = u.getInteger("won");
 					g++;          
@@ -123,7 +125,8 @@ public class UsuarioApp extends Users
 					System.out.println("Se han actualizado las partidas GANADAS");
 					resul = true;
 				break;		  
-		  
+
+                //Si el usuario Perdio una partida		  
 				case PERDIO:
 					int p = u.getInteger("lost");
 					p++;
@@ -134,6 +137,7 @@ public class UsuarioApp extends Users
 					resul = true;		
 				break;
 		  
+                //Si el usuario Abandono una partida		  
 				case ABANDONO:
 					int a = u.getInteger("abandoned");
 					a++;
