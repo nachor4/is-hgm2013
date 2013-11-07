@@ -23,11 +23,7 @@ import javax.websocket.Session;
 
 //GSON: Librería JSON (comunicacion con los websocket clients)
 import com.google.gson.Gson;
-/*
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-*/
+
 
 @ServerEndpoint("/wsreversi")
 public class WSreversi extends ReversiObserver
@@ -135,7 +131,6 @@ public class WSreversi extends ReversiObserver
 	@OnClose
 	public void onClose(Session session)
 	throws IOException, InterruptedException {				
-		System.out.println("On Close");
 		doQuit(session);
 	}
 	
@@ -289,6 +284,17 @@ public class WSreversi extends ReversiObserver
 	throws IOException, InterruptedException {
 		//reviso las colas. Si algujna tiene 2 o más elementos, los quito y les inicio la partida
 		
+		boolean ok = true;
+		Session s;
+		
+		do{
+			s = (Session)cola.peek();
+			ok = s.isOpen();
+			if (!ok) cola.remove();
+			
+		}while (!ok && cola.size() > 0);
+		
+		
 		if (cola.size() > 1){ //Proceso la cola solo si tiene dos o mas elementos
 			Session sessionNegro = (Session)cola.poll();
 			Session sessionBlanco = (Session)cola.poll();
@@ -408,53 +414,77 @@ public class WSreversi extends ReversiObserver
 		* cierro las conexiones
 		* Nota: idem onClose()
 		*/		
+
+		if (idUsers.containsKey(session.getId())){
+			//Aún no inicio la partida -- Jugadores Temporales
+			String userId = idUsers.get(session.getId());
+			jugadores.remove(userId);
+			idUsers.remove(session.getId());
+		}else{
 		 
-		//Obtengo los jugadores
-		Jugador jugador = indiceSesiones.get(session.getId());
-		Jugador contrincante = indiceSesiones.get(jugador.pear.getId()); //para obtener el Id del Contrincante
-		 
-		//Termino la partida
-			jugador.partida.finalizar(jugador.userId);
-			 
-			UserScoring resJugador = jugador.partida.scoring(jugador.userId);
-			UserScoring resContrincante = jugador.partida.scoring(contrincante.userId);
-					
-			RespuestaWS rJ = new RespuestaWS("QUIT");
-			RespuestaWS rC = new RespuestaWS("QUIT");
-								
-			rJ.addAttr("data", resJugador);
-			rC.addAttr("data", resContrincante);
-		
-		try{					
-			session.getBasicRemote().sendText(rJ.toString());						 
-			jugador.pear.getBasicRemote().sendText(rC.toString());					
-		}catch(Exception e){}
-		
-		cleanSessions(
-			jugador.userId,
-			contrincante.userId,
+			//Obtengo los jugadores
 			
-			session,
-			jugador.pear,
+				Jugador jugador = indiceSesiones.get(session.getId());
+				Jugador contrincante = indiceSesiones.get(jugador.pear.getId()); //para obtener el Id del Contrincante
+				
+			//Termino la partida
 			
-			jugador.partida.getId()
-		);
+				jugador.partida.finalizar(jugador.userId);
+				 
+				UserScoring resJugador = jugador.partida.scoring(jugador.userId);
+				UserScoring resContrincante = jugador.partida.scoring(contrincante.userId);
+						
+				RespuestaWS rJ = new RespuestaWS("QUIT");
+				RespuestaWS rC = new RespuestaWS("QUIT");
+									
+				rJ.addAttr("data", resJugador);
+				rC.addAttr("data", resContrincante);
+			
+				System.out.println("Se envian los mensajes");
+			
+				try{	
+					System.out.println("Jugador");
+					session.getBasicRemote().sendText(rJ.toString());						 
+				}catch(Exception e){System.out.println(e);}
+				
+				try{
+					System.out.println("Contrincante");
+					jugador.pear.getBasicRemote().sendText(rC.toString());					
+				}catch(Exception e){System.out.println(e);}
+			
+			System.out.println("Se esta por iniciar la limpieza");
+			
+			cleanSessions(
+				jugador.userId,
+				contrincante.userId,
+				
+				session,
+				jugador.pear,
+				
+				jugador.partida.getId()
+			);
+		}
 	}
 	
 	private void cleanSessions(String j1Id, String j2Id, Session s1, Session s2, String pId)
 	throws IOException, InterruptedException {
-		 jugadores.remove(j1Id);
-		 jugadores.remove(j2Id);
+		jugadores.remove(j1Id);
+		jugadores.remove(j2Id);
 		 
-		 indiceSesiones.remove(s1.getId());
-		 indiceSesiones.remove(s2.getId());
+		indiceSesiones.remove(s1.getId());
+		indiceSesiones.remove(s2.getId());
 		 
-		 indicePartida.remove(pId);
+		indicePartida.remove(pId);
 		 
-		 s2.close();
-		 s1.close();
+		try{
+			s2.close();
+		}catch(Exception e){}			
+		
+		try{
+			s1.close();
+		}catch(Exception e){}
 		 
-		 System.out.println("Ya no quedan muertitos en el placard!");
+		System.out.println("Ya no quedan muertitos en el placard!");
 	}
 }
 
