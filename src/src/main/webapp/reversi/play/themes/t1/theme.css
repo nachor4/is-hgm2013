@@ -25,9 +25,16 @@ body{
 			    text-shadow: 0px 1px 5px rgba(20, 20, 20, 0.3);
 			    
 		line-height: 30px;
+		
+		-webkit-box-shadow: 0px 2px 15px rgba(20, 20, 20, 0.7);
+		   -moz-box-shadow: 0px 2px 15px rgba(20, 20, 20, 0.7);
+			    box-shadow: 0px 2px 15px rgba(20, 20, 20, 0.7);			
 	}
-		#header h1{
-			/*color*/
+		#header h1 a{
+			text-transform:none;
+		}
+		#header h1 a:hover{
+			text-decoration:none;
 		}
 		#header a{
 			color:#FFF;
@@ -54,7 +61,7 @@ body{
 	}
 		#tablero{
 			background-color: #EDE574;
-		}
+		}77
 		
 		#tablero.playing{opacity: 1}
 		#tablero.waiting{opacity: .7}

@@ -36,6 +36,10 @@ var tablero, color, colorAdversario, webSocket; //Variables  globales :s
 			case "QUIT":
 				$(tablero).attr('class','finalizada');
 				showScoring(data.data);
+				
+				//Agrego voton de regresar
+				$("#sec").append('<a href="/reversi/" id="salir">Volver al Inicio</a>');
+				
 			break;
 			
 			case "ERROR":

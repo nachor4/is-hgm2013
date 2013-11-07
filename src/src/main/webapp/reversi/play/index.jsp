@@ -44,7 +44,7 @@
 	<div id="mainwrap" data-user="<%= user %>" data-nivel="<%= nivel %>">
 		<div id="header">
 			<div class="wrapper">
-				<h1>REVERSI!</h1>
+				<h1><a href="/">REVERSI!</a></h1>
 				<a href="/logout.jsp" id="logout">Logout</a>
 			</div>
 		</div>

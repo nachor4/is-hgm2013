@@ -64,6 +64,8 @@ body{
 		
 	}
 	
+	h1 a{text-decoration: none; color:#FFF;}
+	
 
 	#cont{
 		padding:30px;

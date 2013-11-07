@@ -13,7 +13,7 @@
 	</head>
 	<body>
 		<div id="wrapper">
-			<h1>REVERSI!</h1>
+			<h1><a href="/">REVERSI!</a></h1>
 			<div id="cont">
 				<h2>Hasta Pronto!</h2>
 				<p class="center"><a href="/">Volver al home</a></p>

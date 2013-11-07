@@ -49,7 +49,7 @@
 	</head>
 	<body>
 		<div id="wrapper">
-			<h1>REVERSI!</h1>
+			<h1><a href="/">REVERSI!</a></h1>
 			<div id="cont">
 				<h2>Nuevo Usuario</h2>
 				<%

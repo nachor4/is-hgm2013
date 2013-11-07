@@ -34,7 +34,7 @@
 	</head>
 	<body>
 		<div id="wrapper">
-			<h1>REVERSI!</h1>
+			<h1><a href="/">REVERSI!</a></h1>
 			<div id="cont">
 				<p class="right">Hola <%= userName %>! | <a href="/logout.jsp">LogOut</a></p>
 				<form action="/reversi/play/" method="post">
