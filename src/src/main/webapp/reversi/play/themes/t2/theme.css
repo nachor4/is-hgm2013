@@ -121,11 +121,20 @@ body{
 		text-transform: uppercase;
 	}
 
-	#cuenta-fichas .blancas, #cuenta-fichas .negras{
-		/*color*/
+	#cuenta-fichas .blancas{
+		font-weight: bold;
+		color: #C20E0E
+	} 
+	
+	#cuenta-fichas .negras{
+		font-weight: bold;
+		color: #1CB50B
 	}
+		#cuenta-fichas span{
+			font-size:2em;
+		}
 		#cuenta-fichas b{
-			/*color*/
+			display:none;
 		}
 
 	#scoring{

@@ -122,11 +122,15 @@ var tablero, color, colorAdversario, webSocket; //Variables  globales :s
 			case -3:
 				resultado = "cobarde";
 			break;
+			
+			default:
+				resultado = "ganador";
+			break;
 		}
 		
 		$(tablero).addClass(resultado);
 		
-		$("#scoring")
+		if(typeof scoring != undefined)	$("#scoring")
 			.append("<h2>Historial de Juego</h2>")
 			.append("Partidas Ganadas: " + scoring.ganadas)
 			.append("<br>Partidas Perdidas: " + scoring.perdidas)
