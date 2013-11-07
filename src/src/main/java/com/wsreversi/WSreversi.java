@@ -284,9 +284,16 @@ public class WSreversi extends ReversiObserver
 	throws IOException, InterruptedException {
 		//reviso las colas. Si algujna tiene 2 o más elementos, los quito y les inicio la partida
 		
+		/**
+		 * Verifico que los jugadores aún siguen conectados.
+		 * Si bien al momento de recibir un onClose realizo una limpieza
+		 * no me combiene tocar la cola porque solo se puede acceder al elemto
+		 * de la cabeza. Por esta razón puede contener elementos residuales y debo
+		 * verificar la validez de las sesiones.
+		 * */
 		boolean ok = true;
 		Session s;
-		
+
 		do{
 			s = (Session)cola.peek();
 			ok = s.isOpen();
@@ -294,6 +301,8 @@ public class WSreversi extends ReversiObserver
 			
 		}while (!ok && cola.size() > 0);
 		
+		
+		//Continuo con el proceso normal
 		
 		if (cola.size() > 1){ //Proceso la cola solo si tiene dos o mas elementos
 			Session sessionNegro = (Session)cola.poll();
