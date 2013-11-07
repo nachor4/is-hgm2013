@@ -57,7 +57,7 @@
 			
 			<div id="sec">
 				<div id="cuenta-fichas">
-					<i>Fiachas</i>
+					<i>Fichas</i>
 					<div class="blancas"><b>Blancas</b><span>2</span></div>
 					<div class="negras"><b>Negras</b><span>2</span></div>
 				</div>

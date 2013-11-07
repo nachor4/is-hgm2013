@@ -188,7 +188,11 @@ $(document).ready(function(){ //Espero a que el DOM este generado
 	webSocket.onmessage = function(event) {wsOnMessage(event);};
 	
 	//Cleanup 
-	$(window).unload(function() {
+	$(window).on('beforeunload',function() {
+    	wsClose(webSocket);
+	});		
+
+	$("#header a").unload(function() {
     	wsClose(webSocket);
 	});		
 	

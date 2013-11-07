@@ -135,6 +135,7 @@ public class WSreversi extends ReversiObserver
 	@OnClose
 	public void onClose(Session session)
 	throws IOException, InterruptedException {				
+		System.out.println("On Close");
 		doQuit(session);
 	}
 	
@@ -413,20 +414,22 @@ public class WSreversi extends ReversiObserver
 		Jugador contrincante = indiceSesiones.get(jugador.pear.getId()); //para obtener el Id del Contrincante
 		 
 		//Termino la partida
-		jugador.partida.finalizar(jugador.userId);
-		 
-		UserScoring resJugador = jugador.partida.scoring(jugador.userId);
-		UserScoring resContrincante = jugador.partida.scoring(contrincante.userId);
-				
-		RespuestaWS rJ = new RespuestaWS("QUIT");
-		RespuestaWS rC = new RespuestaWS("QUIT");
-							
-		rJ.addAttr("data", resJugador);
-		rC.addAttr("data", resContrincante);
-				
-		session.getBasicRemote().sendText(rJ.toString());						 
-		jugador.pear.getBasicRemote().sendText(rC.toString());					
-		 
+			jugador.partida.finalizar(jugador.userId);
+			 
+			UserScoring resJugador = jugador.partida.scoring(jugador.userId);
+			UserScoring resContrincante = jugador.partida.scoring(contrincante.userId);
+					
+			RespuestaWS rJ = new RespuestaWS("QUIT");
+			RespuestaWS rC = new RespuestaWS("QUIT");
+								
+			rJ.addAttr("data", resJugador);
+			rC.addAttr("data", resContrincante);
+		
+		try{					
+			session.getBasicRemote().sendText(rJ.toString());						 
+			jugador.pear.getBasicRemote().sendText(rC.toString());					
+		}catch(Exception e){}
+		
 		cleanSessions(
 			jugador.userId,
 			contrincante.userId,
