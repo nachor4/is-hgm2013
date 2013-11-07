@@ -41,9 +41,9 @@
 					<p>
 						<label for="nivel">Nivel </label>
 						<select name="nivel">
-							<option value="facil">Fácil</option>
-							<option value="medio">Medio</option>
-							<option value="dificil">Dificil</option>
+							<option value="facil">Fácil - Sin Tiempo</option>
+							<option value="medio">Medio - Movimiento 20 seg</option>
+							<option value="dificil">Dificil - Movimiento 5 seg</option>
 						</select>
 					</p>
 					<p>

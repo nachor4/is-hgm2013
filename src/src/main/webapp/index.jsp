@@ -55,7 +55,7 @@
 					</p>
 					<p>
 						<label for="password">Password </label>
-						<input name="password" type="text">
+						<input name="password" type="password">
 					</p>
 					<p>
 						<input type="submit" value="Ingresar">
