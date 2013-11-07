@@ -75,6 +75,12 @@ public class Partida {
 	public final Ficha dirDownLeft = new Ficha(-1, 1);
 	public final Ficha dirDownRight = new Ficha(1,1);
 	
+	/* Agrupamos todas las direcciones que se chequean en un arreglo para luego utilizar este en los metodos checkMov
+	 * y invertirFichas, para asi verificar mas facilmente todas las direcciones posibles.
+	 */
+	final Ficha checkDirecciones[] = {dirUp , dirDown ,
+		  dirLeft , dirRight , dirUpLeft , dirUpRight ,  dirDownLeft , dirDownRight } ;
+	
 	// Definición de la clase temporizador.
 	private class Temporizador implements ActionListener {
 		private Partida partida;
@@ -166,11 +172,7 @@ public class Partida {
 	}//Fin Partida
 		
 
-	/* Agrupamos todas las direcciones que se chequean en un arreglo para luego utilizar este en los metodos checkMov
-	 * y invertirFichas, para asi verificar mas facilmente todas las direcciones posibles.
-	 */
-	final Ficha checkDirecciones[] = {dirUp , dirDown ,
-		  dirLeft , dirRight , dirUpLeft , dirUpRight ,  dirDownLeft , dirDownRight } ;
+	
 
 	/* Este metodo verifica que el movimiento recibido como parámetro sea válido, teniendo en cuenta para esto
 	 * que jugador lo realiza, en caso de serlo, el metodo retorna true, en caso contrario retorna false.
