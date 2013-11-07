@@ -22,32 +22,45 @@ import java.util.Date;
 public class Partida {
 	// Es la concatenacion de los id de los jugadores con un timeStamp.
 	private String id;
+	
 	// Nivel de dificultad de la partida. 
 	private int dificultad; 
+	
 	// Cada posición del tablero puede estar en 0 (vacía), 1 (hay una ficha negra) o 2 (hay una ficha blanca).
 	private int tablero[][] = new int [8][8]; 
+	
 	// Controla el tiempo que le queda a un jugador para hacer su movimiento.
 	private Timer tiempoUltMov;
+	
 	// Representa el id del jugador Negro.
 	public String elNegro;
+	
 	//Representa las fichas del jugador Blanco. 
 	public String elBlanco;
+	
 	// Lleva la cuenta del total de movimientos realizados hasta el  momento.
 	private int cantMovimientos;
+	
 	// Almacena el estado actual de la partida (INICIADO, JUGANDO, CANCELADO, TERMINADO)
 	private EstadoJuego estado;
+	
 	// Lleva el control de que jugador tiene el turno.
 	public String turnoActual;
+	
 	// Controla que jugador abandona una partida: 0 (Ninguno), 1 (Negro), 2 (Blanco)
 	private int abandono = 0;
+	
 	/* Controla la cantidad de veces que un jugador no hace el movimiento porque se le termina el tiempo.
 	 * si llega a 4, la partida se da por CANCELADA y se considera a ambos jugadores como partida abandonada
 	 */
 	private int cantTimeOut = 0;
+	
 	// Cantidad de fichas Negras que hay en el tablero.
 	private int cantUnos;
+	
 	// Cantidad dde fichas Blancas que hay en el tablero.  
 	private int cantDos; 
+	
 	private ReversiObserver observer;
 	
 	/* Se utilizan para buscar piezas amigas y enemigas alrededor de una determinada posición, 
@@ -61,6 +74,12 @@ public class Partida {
 	public final Ficha dirUpRight = new Ficha(1, -1);
 	public final Ficha dirDownLeft = new Ficha(-1, 1);
 	public final Ficha dirDownRight = new Ficha(1,1);
+	
+	/* Agrupamos todas las direcciones que se chequean en un arreglo para luego utilizar este en los metodos checkMov
+	 * y invertirFichas, para asi verificar mas facilmente todas las direcciones posibles.
+	 */
+	final Ficha checkDirecciones[] = {dirUp , dirDown ,
+		  dirLeft , dirRight , dirUpLeft , dirUpRight ,  dirDownLeft , dirDownRight } ;
 	
 	// Definición de la clase temporizador.
 	private class Temporizador implements ActionListener {
@@ -153,11 +172,7 @@ public class Partida {
 	}//Fin Partida
 		
 
-	/* Agrupamos todas las direcciones que se chequean en un arreglo para luego utilizar este en los metodos checkMov
-	 * y invertirFichas, para asi verificar mas facilmente todas las direcciones posibles.
-	 */
-	final Ficha checkDirecciones[] = {dirUp , dirDown ,
-		  dirLeft , dirRight , dirUpLeft , dirUpRight ,  dirDownLeft , dirDownRight } ;
+	
 
 	/* Este metodo verifica que el movimiento recibido como parámetro sea válido, teniendo en cuenta para esto
 	 * que jugador lo realiza, en caso de serlo, el metodo retorna true, en caso contrario retorna false.
@@ -253,7 +268,7 @@ public class Partida {
 			if (idJugador == this.elNegro) {
 				this.cantDos = result.getBlancas();
 				this.cantUnos = result.getNegras();							
-			}else {
+			}else{
 				this.cantDos = result.getBlancas();
 				this.cantUnos = result.getNegras();
 			}
@@ -346,11 +361,7 @@ public class Partida {
 		return result;
 }
 
-
-	public String getId() {
-		return this.id;	
-	}	
-				
+			
 	public void actualizarTablero() {
 		for (int x = 0; x < this.tablero.length; x++) {
 			for(int y=0; y < this.tablero.length; y++){
@@ -368,10 +379,10 @@ public class Partida {
 		if(idAbandonador == this.elBlanco) {
 			otroJugador = new UsuarioApp(elNegro);
 			abandono = 2;
-		} else {
+		}else{
 			otroJugador = new UsuarioApp(elBlanco);
 			abandono = 1;
-			}		
+		}		
 				
 		ResultadoPartida result = ResultadoPartida.ABANDONO;
 		unJugador.saveResult (result);
@@ -385,40 +396,44 @@ public class Partida {
 	public ArrayList<Ficha> movimientosValidos (String idJugador) {
 		ArrayList<Ficha> arrMovValidos = new ArrayList<Ficha>();
 		
-		for (int y = 0; y < tablero.length; y++) {
+		for (int y = 0; y < tablero.length; y++) 
 			for(int x = 0; x < tablero[y].length; x++){
 				Ficha testFicha = new Ficha(x , y);
 				boolean valido = checkMov(testFicha, idJugador);
-				if(valido == true) {
-					arrMovValidos.add(testFicha);
-				}
+				if(valido == true) arrMovValidos.add(testFicha);
 			}
-		}
-	return arrMovValidos;
-	}
+		
+		return arrMovValidos;
+	} // Fin movimientosValidos.
 	
-	public UserScoring scoring(String idJugador) {
+	public UserScoring scoring(String idJugador){
+		
 		UsuarioApp user = new UsuarioApp(idJugador);
 		UserScoring userScoring = new UserScoring();
 		userScoring.ganadas = user.getGanada();
 		userScoring.perdidas = user.getPerdida();
 		userScoring.abandonadas = user.getAbandonada();
 		
-		if(this.estado == this.estado.TERMINADO && this.cantUnos > this.cantDos && idJugador == elNegro) {
-			userScoring.estaPartida = 3;
-		} else if(this.estado == this.estado.TERMINADO && this.cantUnos > this.cantDos && idJugador == elBlanco){
-				userScoring.estaPartida = -1;	
-			} else if(this.abandono == 1 && idJugador == elNegro) {
-					userScoring.estaPartida = -3;
-					}
-					else {
-						userScoring.estaPartida = 3;
-					}
+		if(this.estado == EstadoJuego.TERMINADO && this.cantUnos > this.cantDos && idJugador == elNegro){
+		   userScoring.estaPartida = 3;
+		}else if(this.estado == EstadoJuego.TERMINADO && this.cantUnos > this.cantDos && idJugador == elBlanco){
+			  userScoring.estaPartida = -1;
+		 }else if(this.estado == EstadoJuego.TERMINADO && this.cantUnos < this.cantDos && idJugador == elBlanco){
+			  userScoring.estaPartida = 3;
+		 }else if(this.estado == EstadoJuego.TERMINADO && this.cantUnos < this.cantDos && idJugador == elNegro){
+			  userScoring.estaPartida = -1;
+		 }else if(this.abandono == 1 && idJugador == this.elNegro) userScoring.estaPartida = -3;
+		  else if(this.abandono == 1 && idJugador == this.elBlanco) userScoring.estaPartida = 3;
+		  else if(this.abandono == 2 && idJugador == this.elBlanco) userScoring.estaPartida = -3;
+		  else if(this.abandono == 1 && idJugador == this.elNegro) userScoring.estaPartida = 3;
+		  else if(this.abandono == 3) userScoring.estaPartida = -3;
+			 
+					
 		
 		userScoring.scoreMas = Math.max(0, (user.getGanada() * 3) - user.getPerdida() - (user.getAbandonada() * 3));
 		
 		return userScoring;
-	}
+	} //Fin scoring.
 	
 	
 	public void timeout(){
@@ -436,6 +451,7 @@ public class Partida {
 				tiempoUltMov.restart();
 			}else{
 				System.out.println("ACTUALIZAR -- CANCELADO");
+				abandono = 3; // indica que ambos jugadores han abandonado la partida.
 				observer.actualizar(MotivoActualizar.CANCELADO, this.id);
 				ResultadoPartida result = ResultadoPartida.ABANDONO;
 				UsuarioApp elBlanquito = new UsuarioApp(elBlanco);
@@ -448,35 +464,39 @@ public class Partida {
 			
 	}
 	
-	public int getCantBlancas() {
+	public String getId(){
+		return this.id;	
+	}
+	
+	public int getCantBlancas(){
 		return cantDos;
 	}
 	
-	public int getCantNegras() {
+	public int getCantNegras(){
 		return cantUnos;
 	}
 	
-	public String whoIsBlancas() {
+	public String whoIsBlancas(){
 		return elBlanco;
 	}
 	
-	public String whoIsNegras() {
+	public String whoIsNegras(){
 		return elNegro;
 	}
 	
-	public void setUnos(int negras) {
+	public void setUnos(int negras){
 			cantUnos = negras;
 	}
 	
-	public void setDos(int blancas) {
+	public void setDos(int blancas){
 			cantDos = blancas;
 	}
 	
-	public String jugadorActual() {
+	public String jugadorActual(){
 		return turnoActual;	
 	}
 	
-	public EstadoJuego estadoJuego() {
+	public EstadoJuego estadoJuego(){
 		return estado;
 	}
 	
