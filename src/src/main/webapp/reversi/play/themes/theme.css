@@ -1,0 +1,88 @@
+body{
+	font-family: 'TelluralRegular';
+}
+
+#mainwrap{
+	/*background*/
+}
+
+	#header{
+		/*background*/
+	}
+		#header h1{
+			/*color*/
+		}
+		#header a{
+			/*color*/
+		}
+		#header a:hover{
+			/*color*/
+		}
+			
+	#footer{
+		/*color*/
+	}
+		#footer a{/*color*/}
+		#footer a:hover{/*color*/}
+	
+	#tablero-wrapper {
+		/*padding | border | background*/
+	}
+		#tablero{
+			/*background*/
+		}
+		
+		#tablero.playing{opacity: 1}
+		#tablero.waiting{opacity: .7}
+		
+		#tablero.finalizada, #tablero.ganador, #tablero.perdedor, #tablero.cobarde{opacity:.7}
+		
+		#tablero li{
+			/*border | background*/
+		}
+		
+		#tablero li a{
+			/*margin*/
+		}
+		
+		#tablero li.blanca{
+			/*background*/
+		}
+		
+		#tablero li.negra{
+			/*background*/
+		}
+		
+		#tablero.waiting li a:hover{}
+		
+		#tablero.playing li a:hover{
+			/*background*/
+		}
+
+		
+	#cuenta-fichas{
+		/*border*/
+	}
+	
+	#cuenta-fichas i{ /*titutlo*/
+		/*color|border*/
+	}
+
+	#cuenta-fichas .blancas, #cuenta-fichas .negras{
+		/*color*/
+	}
+		#cuenta-fichas b{
+			/*color*/
+		}
+
+	#scoring{
+		/*background*/
+	}
+
+	#scoring h2{
+		/*color*/
+	}
+	
+	#scoring b{
+		/*color*/
+	}

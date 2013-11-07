@@ -1,5 +1,26 @@
+.clearfix:after {
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
+ 
+.clearfix {
+	display: inline-block;
+}
+ 
+html[xmlns] .clearfix {
+	display: block;
+}
+ 
+* html .clearfix {
+	height: 1%;
+}
+
 body{
-	font-family: 'TelluralRegular';
+	font-family:Verdana, Geneva, Arial, Helvetica, sans-serif;
 	margin:0;
 	padding:0;
 }
@@ -22,6 +43,7 @@ a img{
 		width:100%;
 		max-width:750px;
 		margin:0 auto;
+		padding:0 15px;
 	}
 
 	#header{
@@ -53,8 +75,7 @@ a img{
 
 	#main{
 		margin: 30px auto 60px auto;
-		display: block;	
-		overflow:auto;	
+		display: block;		
 	}
 	
 	#tablero-wrapper {
@@ -72,7 +93,9 @@ a img{
 		}
 		
 		#tablero.playing{opacity: 1}
-		#tablero.waiting, #tablero.finalizada{opacity: .7}
+		#tablero.waiting{opacity: .7}
+		
+		#tablero.finalizada, #tablero.ganador, #tablero.perdedor, #tablero.cobarde{opacity:.7}
 		
 		#tablero li{
 			width:12.5%;
@@ -134,3 +157,37 @@ a img{
 				display: block;
 				padding-bottom:15px;
 			}
+
+	#scoring{
+		margin-top:30px;
+	}
+
+	#scoring h2{
+		padding:0;
+		margin:0;	
+	}
+	
+	#scoring b{
+		display: block;
+		padding-top: 10px;
+	}
+	
+	
+@media (max-width : 550px) {
+	#tablero-wrapper{
+		float: none;
+		width:100%;
+	}	
+	
+	#sec{
+		margin-top:30px;
+		width: 100%;
+		padding-left:0;
+		float:none;		
+	}
+	
+	#scoring{
+		padding:30px;
+	}
+}
+

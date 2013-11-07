@@ -123,13 +123,14 @@ var tablero, color, colorAdversario, webSocket; //Variables  globales :s
 		$(tablero).addClass(resultado);
 		
 		$("#scoring")
+			.append("<h2>Historial de Juego</h2>")
 			.append("Partidas Ganadas: " + scoring.ganadas)
 			.append("<br>Partidas Perdidas: " + scoring.perdidas)
-			.append("<br>Partidas Abandonadas: " + scoring.abandonadas)
-			.append("<b>Puntaje General: </b>" + scoring.scoreMas);
+			.append("<br>Partidas Aband.: " + scoring.abandonadas)
+			.append("<br><b>Puntaje General: " + scoring.scoreMas + "</b>");
 			
 		if (scoring.estaPartida == 3) alert("Felicitaciones!");
-		else alert("Partida Finalizada");
+		else alert("Partida Finalizada.\nSeguí intentándolo");
 	}
 	
 	function clickCelda(e){

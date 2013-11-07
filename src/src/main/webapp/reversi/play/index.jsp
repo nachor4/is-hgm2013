@@ -38,6 +38,7 @@
 		<link type="text/css" rel="stylesheet" href="themes/base.css" />
 		<link type="text/css" rel="stylesheet" href="themes/<%= tema %>/theme.css" />
 		<link rel="shortcut icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 	</head>
 	<body>
 	<div id="mainwrap" data-user="<%= user %>" data-nivel="<%= nivel %>">
@@ -48,7 +49,7 @@
 			</div>
 		</div>
 		
-		<div id="main" class="wrapper">
+		<div id="main" class="wrapper clearfix">
 			<div id="tablero-wrapper">
 				<ul id="tablero" class=""> <!-- playing | waiting -->
 				</ul>
