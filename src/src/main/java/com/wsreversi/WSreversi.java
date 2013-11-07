@@ -350,10 +350,16 @@ public class WSreversi extends ReversiObserver
 			
 			if (jugador.partida.jugadorActual() == jugador.userId){
 				
-				ResultadoMovimiento resultado = jugador.partida.mover(
-					new Ficha(Integer.parseInt(posX), Integer.parseInt(posY)),
-					jugador.userId
-				);
+				ResultadoMovimiento resultado = null;
+				
+				try{
+					resultado = jugador.partida.mover(
+						new Ficha(Integer.parseInt(posX), Integer.parseInt(posY)),
+						jugador.userId
+					);
+				}catch(Exception e){
+					System.out.println(e);
+				}
 				
 				if (resultado != null){
 					//Enviar actualizaciones de tablero - Notificar que tiene el turno
@@ -369,6 +375,9 @@ public class WSreversi extends ReversiObserver
 
 					rJ.addAttr("data", resultado);
 					rC.addAttr("data", resultado);
+				
+					System.out.println(rJ.toString());
+					System.out.println(rC.toString());
 							
 					session.getBasicRemote().sendText(rJ.toString());						 
 					jugador.pear.getBasicRemote().sendText(rC.toString());					

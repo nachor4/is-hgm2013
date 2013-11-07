@@ -49,7 +49,8 @@ var tablero, color, colorAdversario, webSocket; //Variables  globales :s
 						
 						//Movimiento válido
 						actualizarTablero(data.data, color);
-						$(tablero).removeClass('class','turno'); 
+						$(tablero).attr('class','waiting');
+						 
 																		
 					}else{ 
 						
@@ -99,8 +100,8 @@ var tablero, color, colorAdversario, webSocket; //Variables  globales :s
 		});
 		
 		//Actualizo el contador		
-		$("#cuenta-fichas .blancas").innerHTML(data.cantBlancas);
-		$("#cuenta-fichas .negras").innerHTML(data.cantNegras);
+		$("#cuenta-fichas .blancas span").html(data.cantBlancas);
+		$("#cuenta-fichas .negras span").html(data.cantNegras);
 		
 	}
 	
