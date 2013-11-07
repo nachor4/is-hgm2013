@@ -158,8 +158,8 @@ public class Partida {
 			
 			switch (dificultad){
 				//case 0: tiempo = 0; break;
-				case 1: tiempo = 60000; break;
-				case 2: tiempo = 30000; break;
+				case 1: tiempo = 20000; break;
+				case 2: tiempo = 5000; break;
 			}
 						
 			if (tiempo > 0){
