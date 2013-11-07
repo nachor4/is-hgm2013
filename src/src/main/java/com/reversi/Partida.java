@@ -230,7 +230,7 @@ public class Partida {
 		}else if (this.checkMov (ficha, idJugador) == false){
 			return null;			
 		}else{
-			tiempoUltMov.stop(); //detenemos el temporizador.
+			if(tiempoUltMov != null) tiempoUltMov.stop(); //detenemos el temporizador.
 			cantMovimientos++; // actualizamos la cantidad de movimientos realizados en la partida.
 			System.out.println("La cantidad de movimientos hechos es: "+cantMovimientos);
 			cantTimeOut = 0;
@@ -243,7 +243,7 @@ public class Partida {
 					System.out.println("ACTUALIZAR -- END");
 					try{
 						estado = EstadoJuego.TERMINADO;
-						tiempoUltMov.stop();
+						if(tiempoUltMov != null) tiempoUltMov.stop();
 						observer.actualizar(MotivoActualizar.END, this.id);
 					}catch(Exception e){System.out.println(e);}
 			} 
@@ -262,7 +262,7 @@ public class Partida {
 			else turnoActual = elNegro;
 			
 			this.actualizarTablero();
-			tiempoUltMov.restart();
+			if(tiempoUltMov != null) tiempoUltMov.restart();
 				
 			return result;
 				} //Fin else.
@@ -378,7 +378,7 @@ public class Partida {
 		ResultadoPartida result2 = ResultadoPartida.GANO;
 		otroJugador.saveResult (result2);
 		estado = EstadoJuego.CANCELADO;
-		tiempoUltMov.stop();
+		if(tiempoUltMov != null) tiempoUltMov.stop();
 		
 	} 
 	
