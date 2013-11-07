@@ -160,8 +160,9 @@ a img{
 			#cuenta-fichas b{
 				width: 100%;
 				display: block;
-				padding-bottom:15px;
+				padding-bottom:5px;
 			}
+			#cuenta-fichas span{font-size:1.5em;}
 
 	#scoring{
 		margin-top:30px;
