@@ -1,6 +1,5 @@
 package com.wsreversi;
-import com.wsreversi.Juego;
-import com.wsreversi.Jugador;
+import com.wsreversi.*;
 
 //Reversi
 import com.reversi.*;
@@ -89,17 +88,17 @@ public class WSreversi extends ReversiObserver
 		try{
 			jMessage = gson.fromJson(message, Properties.class);
 		}catch (Exception e){ //envio mensaje error -- No se pudo parsear el json
-			System.out.println("Error al procesar el JSON:" + e.getMessage());
+			//System.out.println("Error al procesar el JSON:" + e.getMessage());
 			msgError(session, "mx0", "JSON no válido");
 			return;
 		}
 
 		//:TEST
-		System.out.println("Operacion: " + jMessage.getProperty("operacion").toLowerCase());
-	   
+		System.out.println("Operacion: " + jMessage.getProperty("operacion").toUpperCase());
+
 		//Proceso las opciones
-		switch(jMessage.getProperty("operacion").toLowerCase()){
-			case "init": //{id,nivel}
+		switch(jMessage.getProperty("operacion").toUpperCase()){
+			case "INIT": //{id,nivel}
 				
 				String userId = jMessage.getProperty("id");
 				String nivel  = jMessage.getProperty("nivel");
@@ -110,7 +109,7 @@ public class WSreversi extends ReversiObserver
 				
 			break;
 			
-			case "move":
+			case "MOVE":
 				
 				String posX = jMessage.getProperty("posx");
 				String posY  = jMessage.getProperty("posy");
@@ -121,7 +120,7 @@ public class WSreversi extends ReversiObserver
 				
 			break;
 			
-			case "quit":
+			case "QUIT":
 				doQuit(session);
 			break;
 			
@@ -143,7 +142,6 @@ public class WSreversi extends ReversiObserver
 	public void actualizar(MotivoActualizar motivo, String partidaId)
 	throws IOException, InterruptedException {				
 		/**
-		 * TODO:
 		 * 
 		 * Escenarios: 
 		 * 		- Cambio de turno por timeout: notifico a las interfases
@@ -172,26 +170,44 @@ public class WSreversi extends ReversiObserver
 					turnoAtenrior = juego.blancas;
 				}
 				
-				turnoAcutal.getBasicRemote().sendText("Tu contrincante perdió su turno. Ahora debes jugar tu.");
-				turnoAtenrior.getBasicRemote().sendText("Epa! se te ha pasado el tiempo");
+				RespuestaWS rActual = new RespuestaWS("TIMEOUT");
+				RespuestaWS rAnterior = new RespuestaWS("TIMEOUT");
+									
+				rActual.addAttr("mensaje", "Tu contrincante perdió su turno. Ahora debes jugar tu.");
+				rAnterior.addAttr("mensaje", "Epa! se te ha pasado el tiempo");
+						
+				rActual.addAttr("turno", true);
+				rAnterior.addAttr("turno", false);
+
+				turnoAcutal.getBasicRemote().sendText(rActual.toString());						 
+				turnoAtenrior.getBasicRemote().sendText(rAnterior.toString());					
 				
 			break;
 			
-			case CANCELADO:
-				//La partida se cancelo porque los jugadores no estaba jugando.
-				juego = indicePartida.get(partidaId);
-				
-				juego.blancas.getBasicRemote().sendText("Juego Cancelado");
-				juego.negras.getBasicRemote().sendText("Juego Cancelado");
-				
-				clean = true;
-			break;
-			
+			case CANCELADO: //Unifico los casos
 			case END:
+				//Obtengo el Juego
 				juego = indicePartida.get(partidaId);
-				
-				juego.blancas.getBasicRemote().sendText("Juego Terminado");
-				juego.negras.getBasicRemote().sendText("Juego Terminado");
+
+				//Defino los objetos Respuesta
+				RespuestaWS jBlancas;
+				RespuestaWS jNegras;				
+			
+				if (motivo == MotivoActualizar.CANCELADO){
+					//La partida se cancelo porque los jugadores no estaba jugando.
+					jBlancas = new RespuestaWS("CANCEL");
+					jNegras = new RespuestaWS("CANCEL");				
+				}else{
+					//La partida finalizó porque no hay movimientos dispobibles
+					jBlancas = new RespuestaWS("END");
+					jNegras = new RespuestaWS("END");
+				}
+													
+				jBlancas.addAttr("data", juego.partida.scoring(juego.partida.whoIsBlancas()));
+				jNegras.addAttr("data",  juego.partida.scoring(juego.partida.whoIsNegras()));
+
+				juego.blancas.getBasicRemote().sendText(jBlancas.toString());						 
+				juego.negras.getBasicRemote().sendText(jNegras.toString());
 				
 				clean = true;				
 			break;
@@ -209,11 +225,10 @@ public class WSreversi extends ReversiObserver
 	
 	private void msgError(Session session, String id, String mensaje)
 	throws IOException, InterruptedException {
-		//TODO : Enviar mensaje de error
-		//:TEST
-		System.out.println("\nmsgError: id: "+id+" | mensaje: "+mensaje);		
-		
-		session.getBasicRemote().sendText("{\"status\":\"error\",\"data\":\"("+id+") "+mensaje+"\"}");		
+		RespuestaWS j = new RespuestaWS("ERROR");
+		j.addAttr("data", "(" + id + ") " + mensaje);
+				
+		session.getBasicRemote().sendText(j.toString());		
 	}
 
 
@@ -296,11 +311,25 @@ public class WSreversi extends ReversiObserver
 			idUsers.remove(sessionNegro.getId());
 			idUsers.remove(sessionBlanco.getId());
 	
-			//TODO: definir
-			sessionBlanco.getBasicRemote().sendText("Juego Iniciado! Espera a que tu compañero juegue");
-			sessionNegro.getBasicRemote().sendText("Juego Iniciado! Hace tu movida");
+			//Aviso a los jugadores que inicio la partida
+			RespuestaWS rBlanco = new RespuestaWS("INIT");
+			RespuestaWS rNegro = new RespuestaWS("INIT");
+								
+			rBlanco.addAttr("mensaje", "Juego Iniciado! Espera a que tu compañero juegue");
+			rBlanco.addAttr("turno", false);
+			
+			rNegro.addAttr("mensaje", "Juego Iniciado! Hace tu movida");
+			rNegro.addAttr("turno", true);
+						
+			sessionBlanco.getBasicRemote().sendText(rBlanco.toString());
+			sessionNegro.getBasicRemote().sendText(rNegro.toString());
+			
 		}else{
-			//session.getBasicRemote().sendText("Te has conectado. Espera que se conecte otro jugador");
+			//Esperando que otro jugador se conecte
+			RespuestaWS espera = new RespuestaWS("MSG");
+			espera.addAttr("data", "Ya estas online, espera que se conecte otro jugador");
+			
+			session.getBasicRemote().sendText(espera.toString());
 		}
 	}
 
@@ -314,29 +343,60 @@ public class WSreversi extends ReversiObserver
 		 * Hago el movimiento. Envio resultado y notifico al contrincante
 		 */
 		 
+		 String error = "";
+		 
 		 if (posX.matches("0|1|2|3|4|5|6|7") && posY.matches("0|1|2|3|4|5|6|7")){
 			Jugador jugador = indiceSesiones.get(session.getId());
 			
 			if (jugador.partida.jugadorActual() == jugador.userId){
 				
-				ResultadoMovimiento resultado = jugador.partida.mover(
-					new Ficha(Integer.parseInt(posX),Integer.parseInt(posY)),
-					jugador.userId
-				);
+				ResultadoMovimiento resultado = null;
+				
+				try{
+					resultado = jugador.partida.mover(
+						new Ficha(Integer.parseInt(posX), Integer.parseInt(posY)),
+						jugador.userId
+					);
+				}catch(Exception e){
+					System.out.println(e);
+				}
 				
 				if (resultado != null){
-//TODO :
-					/**
-					 * Enviar actualizaciones de tablero.
-					 * Notificar que tiene el turno
-					 */
-					 
-				}else msgError(session,"dm3","No se puede realizar este movimiento");
+					//Enviar actualizaciones de tablero - Notificar que tiene el turno
+
+					RespuestaWS rJ = new RespuestaWS("MOVER");
+					RespuestaWS rC = new RespuestaWS("MOVER");
+										
+					rJ.addAttr("turno", jugador.partida.jugadorActual() == jugador.userId);
+					rC.addAttr("turno", jugador.partida.jugadorActual() != jugador.userId);
+
+					rJ.addAttr("hecho", true);
+					rC.addAttr("hecho", true);
+
+					rJ.addAttr("data", resultado);
+					rC.addAttr("data", resultado);
 				
-			}else msgError(session,"dm2","No es tuturno!");
+					System.out.println(rJ.toString());
+					System.out.println(rC.toString());
+							
+					session.getBasicRemote().sendText(rJ.toString());						 
+					jugador.pear.getBasicRemote().sendText(rC.toString());					
+						 
+				}else error = "No se puede realizar este movimiento";
+				
+			}else error = "No es tuturno!";
 			
-		 }else msgError(session,"dm1","Posición no válida");
+		 }else error = "Posición no válida";
 		 
+		 if (error != ""){
+			RespuestaWS rtaError = new RespuestaWS("MOVER");
+								
+			rtaError.addAttr("hecho", false);
+			rtaError.addAttr("data", error);
+			rtaError.addAttr("ficha", new Ficha(Integer.parseInt(posX),Integer.parseInt(posY)));
+					
+			session.getBasicRemote().sendText(rtaError.toString());						 
+		 }
 	}
 	
 	private void doQuit(Session session)
@@ -350,15 +410,22 @@ public class WSreversi extends ReversiObserver
 		 
 		//Obtengo los jugadores
 		Jugador jugador = indiceSesiones.get(session.getId());
-		Jugador contrincante = indiceSesiones.get(jugador.pear.getId());
+		Jugador contrincante = indiceSesiones.get(jugador.pear.getId()); //para obtener el Id del Contrincante
 		 
 		//Termino la partida
 		jugador.partida.finalizar(jugador.userId);
 		 
-		//Scoring resJugador = jugador.partida.scoring(jugador.idUsers);
-		//Scoring resContrincante = jugador.partida.scoring(contrincate.idUsers);
-		 
-//TODO : Envair Resultados  
+		UserScoring resJugador = jugador.partida.scoring(jugador.userId);
+		UserScoring resContrincante = jugador.partida.scoring(contrincante.userId);
+				
+		RespuestaWS rJ = new RespuestaWS("QUIT");
+		RespuestaWS rC = new RespuestaWS("QUIT");
+							
+		rJ.addAttr("data", resJugador);
+		rC.addAttr("data", resContrincante);
+				
+		session.getBasicRemote().sendText(rJ.toString());						 
+		jugador.pear.getBasicRemote().sendText(rC.toString());					
 		 
 		cleanSessions(
 			jugador.userId,

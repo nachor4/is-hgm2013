@@ -32,17 +32,17 @@ public class LoginTest {
     @Test
     public void testTest(){
 		
-//AUX Vars
+//Variables Auxiliares
         String id;
         
 
 ////////TEST Login  
 		System.out.println("\n\n**********TEST Login**********\n\n");
 		
-		//Creaccion de Usuario Login
+		//Creacion de un Usuario Login
 	    Login login = new Login();	
 	    
-        //getName
+        //Funcion getName
 		System.out.println("\n\nTEST getName");        
 		try{
 		    System.out.println("\nEl NOMBRE del Usuario es: "+login.getName("nico"));
@@ -51,21 +51,21 @@ public class LoginTest {
 		}  	
 		    				
 
-	//newUsuario
+	    //Funcion newUsuario Valido
 		System.out.println("\n\nTEST newUsuario valido");
 		try{
 			int res = login.newUsuario("Jaja", "12345", "John2", "algo@algo.com");
 			switch (res){
 				case 0:
-					System.out.println("Se agrego un nuevo Usuario"); 
+					System.out.println("\nSe agrego un nuevo Usuario"); 
 				break;
 				
 				case 1:
-					System.out.println("Usuario Duplicado"); 
+					System.out.println("\nUsuario Duplicado"); 
 				break;
 				
 				case 2:
-					System.out.println("Error Inesperado"); 
+					System.out.println("\nError Inesperado"); 
 				break;
 				
 				default:
@@ -76,20 +76,21 @@ public class LoginTest {
 			System.out.println(e.getMessage());
 		}
 		
+	    //Funcion newUsuario Repetido		
 		System.out.println("\n\nTEST newUsuario - Repetido");
 		try{
 			int res = login.newUsuario("Jaja", "12345", "John2", "algo@algo.com");
 			switch (res){
 				case 0:
-					System.out.println("Se agrego un nuevo Usuario"); 
+					System.out.println("\nSe agrego un nuevo Usuario"); 
 				break;
 				
 				case 1:
-					System.out.println("Usuario Duplicado"); 
+					System.out.println("\nUsuario Duplicado"); 
 				break;
 				
 				case 2:
-					System.out.println("Error Inesperado"); 
+					System.out.println("\nError Inesperado"); 
 				break;
 				
 				default:
@@ -101,7 +102,7 @@ public class LoginTest {
 		}
 
 
-		//checkPassword
+		//Funcion checkPassword
 		System.out.println("\n\nTEST checkPassword");		
 		try{
 			if (login.checkPassword("nico", "13588") == true) {
@@ -111,7 +112,7 @@ public class LoginTest {
 		}
 		
 		
-		//resetPassword
+		//Funcion resetPassword
 		System.out.println("\n\nTEST resetPassword");		
 		System.out.println("\nReset PASSWORD existente: "+login.resetPassword("nico"));
 		System.out.println("\nReset PASSWORD inexistente: "+login.resetPassword("qwerty"));		

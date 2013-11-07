@@ -4,13 +4,18 @@
 %>
 
 <html>
-	<head>
-		<meta charset="utf-8">
-		<title>Testing Websockets</title>
+		<title>Reversi</title>
+		<meta charset="UTF-8">
+		<link type="text/css" rel="stylesheet" href="/css/normalize.css" />
+		<link type="text/css" rel="stylesheet" href="/css/base.css" />
 	</head>
 	<body>
-		<h1>REVERSI!</h1>
-		<h2>Hasta Pronto!</h2>
-		<p><a href="/">Volver al home</a></p>
+		<div id="wrapper">
+			<h1>REVERSI!</h1>
+			<div id="cont">
+				<h2>Hasta Pronto!</h2>
+				<p class="center"><a href="/">Volver al home</a></p>
+			</div>
+		</div>
 	</body>
 </html>

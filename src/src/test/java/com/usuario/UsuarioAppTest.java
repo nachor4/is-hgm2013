@@ -32,18 +32,18 @@ public class UsuarioAppTest {
     @Test
     public void testTest(){
 		
-//AUX Vars
+//Variables Auxiliares
         String id;
         
         
 ////////TEST UsuarioApp
 		System.out.println("\n\n**********TEST UsuarioApp**********\n\n");
 		
-		//Creacion de Usuario UsuarioApp
+		//Creacion de un usuario UsuarioApp
 	    UsuarioApp usu = new UsuarioApp("nico");
 	    
         
-        //getID
+        //Funcion getID
 		System.out.println("\n\nTEST getID");        
 		try{
 			System.out.println("\nEl ID del Usuario es: "+usu.getID());        
@@ -52,7 +52,7 @@ public class UsuarioAppTest {
 		}   
 		     
         
-        //getName
+        //Funcion getName
 		System.out.println("\n\nTEST getName");         
 		try{
 		    System.out.println("\nEl NOMBRE del Usuario es: "+usu.getName());
@@ -61,7 +61,7 @@ public class UsuarioAppTest {
 		}       
 		
         
-        //getGananada
+        //Funcion getGananada
 		System.out.println("\n\nTEST getGanada");         
 		try{
 		    System.out.println("\nLa cantidad de partidas GANADAS es: "+usu.getGanada());
@@ -70,7 +70,7 @@ public class UsuarioAppTest {
 		}          
 		 
         
-        //getPerdida  
+        //Funcion getPerdida  
 		System.out.println("\n\nTEST getPerdida");         
 		try{
 		    System.out.println("\nLa cantidad de partidas PERDIDAS es: "+usu.getPerdida()); 
@@ -79,7 +79,7 @@ public class UsuarioAppTest {
 		}       
 		            
         
-        //getAbandonada
+        //Funcion getAbandonada
 		System.out.println("\n\nTEST getAbandonada");         
 		try{
 		    System.out.println("\nLa cantidad de partidas ABANDONADAS es: "+usu.getAbandonada()); 
@@ -88,7 +88,7 @@ public class UsuarioAppTest {
 		}                           
 		    	
         
-        //saveResult                
+        //Funcion saveResult                
 		System.out.println("\n\nTEST saveResult\n");         
         ResultadoPartida resultado = ResultadoPartida.GANO;   
 		try{
