@@ -68,7 +68,7 @@ body{
 		border-color: #7C807F;		
 	}
 		#tablero{
-			background-color: #EDE574;
+			background-color: #E7E8E1;
 			border: 1px solid #1E2423
 		}
 		
@@ -94,17 +94,17 @@ body{
 		}
 		
 		#tablero li.blanca a, #tablero.playing li.blanca a:hover{
-			background-color: #C20E0E;
+			background-color: #17176E;
 		}
 		
 		#tablero li.negra a, #tablero.playing li.negra a:hover{
-			background-color: #1CB50B;
+			background-color: #C7D63A;
 		}
 		
 		#tablero.waiting li a:hover{}
 		
 		#tablero.playing li a:hover{
-			background-color:#EBEBEB;
+			background-color:#B7C7C6;
 		}
 
 		

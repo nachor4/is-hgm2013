@@ -113,11 +113,13 @@ a img{
 			margin: 1px;
 		}
 		
-		#tablero li.blanca{
+		#tablero li.blanca, #tablero.playing li.blanca a:hover{
+			cursor:default;
 			background-color: #FFF;
 		}
 		
-		#tablero li.negra{
+		#tablero li.negra, #tablero.playing li.negra a:hover{
+			cursor:default;
 			background-color: #000;
 		}
 		
