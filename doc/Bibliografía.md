@@ -12,6 +12,9 @@ Fuentes consultadas
 - http://www.byteslounge.com/tutorials/java-ee-html5-websocket-example
 - https://javaee-spec.java.net/nonav/javadocs/javax/websocket/class-use/Session.html#javax.websocket
 
+## App Prototipo para el testing de WebSockets
+- https://github.com/nachor4/ING-prototipo
+
 ## JSP
 - http://javabeginnerstutorial.com/jsp-tutorial/jsp-basics/
 - http://www.tutorialspoint.com/jsp/jsp_session_tracking.htm
